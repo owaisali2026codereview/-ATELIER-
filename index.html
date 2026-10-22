@@ -1,0 +1,2175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Fashion E-Commerce Platform — Interactive Wireframes & Prototype</title>
+<style>
+  /* ================= RESET & DESIGN SYSTEM ================= */
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --bg-main: #f4f5f7;
+    --bg-card: #ffffff;
+    --bg-surface: #f9fafb;
+    --border-dark: #121316;
+    --border-subtle: #d1d5db;
+    --border-dashed: #9ca3af;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-muted: #6b7280;
+    --accent-dark: #111827;
+    --accent-light: #ffffff;
+    --highlight: #e5e7eb;
+    --success: #059669;
+    --warning: #d97706;
+    --info: #2563eb;
+    --font-mono: 'SFMono-Regular', Menlo, Monaco, Consolas, 'Courier New', monospace;
+    --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --shadow-wire: 3px 3px 0px #121316;
+    --shadow-wire-sm: 2px 2px 0px #121316;
+    --shadow-wire-lg: 5px 5px 0px #121316;
+  }
+
+  body {
+    font-family: var(--font-ui);
+    background: var(--bg-main);
+    color: var(--text-primary);
+    display: flex;
+    min-height: 100vh;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* ================= SIDEBAR ================= */
+  .sidebar {
+    width: 280px;
+    background: #0f1115;
+    color: #e5e7eb;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    border-right: 2px solid var(--border-dark);
+    transition: transform 0.25s ease;
+  }
+
+  .sidebar-header {
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid #262930;
+  }
+
+  .sidebar-header h2 {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    font-family: var(--font-mono);
+  }
+
+  .sidebar-header .tagline {
+    font-size: 10.5px;
+    color: #8b92a0;
+    margin-top: 4px;
+    font-family: var(--font-mono);
+  }
+
+  .mode-toggle {
+    display: flex;
+    margin: 14px 16px 8px;
+    background: #050608;
+    border: 1.5px solid #2c313a;
+    border-radius: 6px;
+    padding: 3px;
+  }
+
+  .mode-toggle button {
+    flex: 1;
+    padding: 8px;
+    background: transparent;
+    color: #9ca3af;
+    border: none;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .mode-toggle button.active {
+    background: #ffffff;
+    color: #0f1115;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0 30px;
+  }
+
+  .sidebar-nav::-webkit-scrollbar {
+    width: 5px;
+  }
+  .sidebar-nav::-webkit-scrollbar-thumb {
+    background: #2a2e37;
+    border-radius: 4px;
+  }
+
+  .section-title {
+    padding: 14px 20px 6px;
+    font-size: 9.5px;
+    text-transform: uppercase;
+    color: #636b78;
+    letter-spacing: 1.8px;
+    font-weight: 800;
+    font-family: var(--font-mono);
+  }
+
+  .sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px;
+    color: #b0b7c3;
+    text-decoration: none;
+    font-size: 12.5px;
+    border-left: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: var(--font-ui);
+    font-weight: 500;
+  }
+
+  .sidebar a:hover {
+    background: #1c2027;
+    color: #ffffff;
+  }
+
+  .sidebar a.active {
+    background: #212631;
+    color: #ffffff;
+    border-left-color: #ffffff;
+    font-weight: 700;
+  }
+
+  .sidebar a .nav-badge {
+    margin-left: auto;
+    font-size: 9px;
+    background: #2b303c;
+    color: #ffffff;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: var(--font-mono);
+  }
+
+  /* ================= MAIN WRAPPER (CENTERED & BALANCED) ================= */
+  .main {
+    margin-left: 280px;
+    flex: 1;
+    padding: 30px 40px 60px;
+    width: calc(100% - 280px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .page {
+    display: none;
+    width: 100%;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeIn 0.2s ease forwards;
+  }
+
+  .page.active {
+    display: block;
+  }
+
+  .mobile-header {
+    display: none;
+    background: #0f1115;
+    color: #ffffff;
+    padding: 14px 20px;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 150;
+    width: 100%;
+    border-bottom: 2px solid var(--border-dark);
+  }
+
+  .mobile-header button {
+    background: #ffffff;
+    color: #0f1115;
+    border: 2px solid var(--border-dark);
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 12px;
+  }
+
+  /* Page Headers */
+  .page-header-row {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto 20px auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--border-dark);
+    padding-bottom: 14px;
+    gap: 16px;
+  }
+
+  .page-title {
+    font-size: 22px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-ui);
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+  }
+
+  .page-sub {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    font-family: var(--font-mono);
+  }
+
+  .scope-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #ffffff;
+    border: 1.5px solid var(--border-dark);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    box-shadow: var(--shadow-wire-sm);
+    font-family: var(--font-mono);
+  }
+
+  /* ================= WIREFRAME CONTAINER ================= */
+  .wire {
+    background: var(--bg-card);
+    border: 2px solid var(--border-dark);
+    border-radius: 6px;
+    padding: 24px;
+    margin: 0 auto 24px auto;
+    width: 100%;
+    max-width: 1100px;
+    box-shadow: var(--shadow-wire);
+    position: relative;
+  }
+
+  .wire-watermark {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 9px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    color: #9ca3af;
+    letter-spacing: 1px;
+    pointer-events: none;
+  }
+
+  .wire-header {
+    background: #f1f3f5;
+    height: 58px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin-bottom: 22px;
+    font-size: 12px;
+    border: 2px solid var(--border-dark);
+    font-family: var(--font-ui);
+  }
+
+  .wire-header .logo {
+    font-weight: 900;
+    color: var(--text-primary);
+    font-size: 16px;
+    letter-spacing: 2px;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .wire-header .nav-links {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .wire-header .nav-links span {
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+    font-weight: 600;
+    font-size: 11.5px;
+    border: 1.5px solid transparent;
+  }
+
+  .wire-header .nav-links span:hover {
+    background: var(--accent-dark);
+    color: var(--accent-light);
+    border-color: var(--border-dark);
+  }
+
+  /* Banners */
+  .banner {
+    background: repeating-linear-gradient(45deg, #eef0f3, #eef0f3 12px, #e2e5e9 12px, #e2e5e9 24px);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    font-size: 14px;
+    margin: 0 auto 22px auto;
+    border: 2px solid var(--border-dark);
+    padding: 24px;
+    text-align: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+  }
+
+  /* Grid Layouts */
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 18px; width: 100%; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 18px; width: 100%; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-bottom: 18px; width: 100%; }
+
+  /* Cards */
+  .card {
+    background: #ffffff;
+    border: 2px solid var(--border-dark);
+    border-radius: 5px;
+    padding: 14px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    gap: 8px;
+    box-shadow: 2px 2px 0px var(--border-dark);
+    position: relative;
+  }
+
+  .card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0px var(--border-dark);
+  }
+
+  .card .card-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #111;
+    color: #fff;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .card .name { font-weight: 700; font-size: 13px; margin-top: 4px; }
+  .card .price { color: var(--text-primary); font-weight: 800; font-size: 13.5px; font-family: var(--font-mono); }
+  .card .small { font-size: 11px; color: var(--text-muted); }
+
+  /* Pattern Placeholder for Wireframe Graphics */
+  .pattern {
+    width: 100%;
+    height: 90px;
+    border: 1.5px solid var(--border-dark);
+    border-radius: 4px;
+    background-color: #eaedf0;
+    background-image:
+      repeating-linear-gradient(45deg, #d3d7de 0, #d3d7de 1px, transparent 1px, transparent 10px),
+      repeating-linear-gradient(-45deg, #d3d7de 0, #d3d7de 1px, transparent 1px, transparent 10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #4b5563;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+  }
+  .pattern-sm { height: 50px; }
+  .pattern-lg { height: 140px; }
+  .pattern-xl { height: 260px; }
+
+  /* Buttons */
+  .btn {
+    padding: 9px 16px;
+    background: var(--accent-dark);
+    color: #ffffff;
+    border: 2px solid var(--border-dark);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+    box-shadow: var(--shadow-wire-sm);
+    font-family: var(--font-ui);
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    background: #2b303a;
+    transform: translate(-1px, -1px);
+    box-shadow: var(--shadow-wire);
+  }
+
+  .btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px var(--border-dark);
+  }
+
+  .btn-outline {
+    background: #ffffff;
+    border: 2px solid var(--border-dark);
+    color: var(--text-primary);
+  }
+
+  .btn-outline:hover {
+    background: var(--accent-dark);
+    color: #ffffff;
+  }
+
+  .btn-gray {
+    background: #e5e7eb;
+    border-color: var(--border-dark);
+    color: var(--text-primary);
+  }
+
+  .btn-gray:hover {
+    background: #d1d5db;
+  }
+
+  .btn-danger {
+    background: #fee2e2;
+    border-color: #b91c1c;
+    color: #b91c1c;
+  }
+
+  .btn-danger:hover {
+    background: #b91c1c;
+    color: #ffffff;
+  }
+
+  .btn-sm { padding: 5px 10px; font-size: 11px; }
+  .btn-lg { padding: 12px 22px; font-size: 13.5px; }
+  .btn-block { width: 100%; }
+
+  /* Input Elements */
+  .row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .input-box {
+    padding: 9px 12px;
+    border: 2px solid var(--border-dark);
+    border-radius: 4px;
+    font-size: 12px;
+    background: #ffffff;
+    width: 100%;
+    font-family: var(--font-ui);
+    transition: all 0.15s ease;
+    box-shadow: 1px 1px 0px var(--border-dark);
+  }
+
+  .input-box:focus {
+    outline: none;
+    border-color: #000;
+    box-shadow: 2px 2px 0px var(--border-dark);
+    background: #fff;
+  }
+
+  .label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-family: var(--font-mono);
+  }
+
+  .section { margin-bottom: 24px; width: 100%; }
+  .section h3 {
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border-dark);
+    padding-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-ui);
+    font-weight: 800;
+  }
+
+  /* Tables */
+  .table-responsive {
+    overflow-x: auto;
+    border: 2px solid var(--border-dark);
+    border-radius: 4px;
+    box-shadow: var(--shadow-wire-sm);
+    margin: 0 auto 16px auto;
+    width: 100%;
+  }
+
+  .table-wire {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    background: #ffffff;
+  }
+
+  .table-wire th, .table-wire td {
+    border: 1px solid var(--border-dark);
+    padding: 10px 14px;
+    text-align: left;
+  }
+
+  .table-wire th {
+    background: #f1f3f5;
+    font-weight: 800;
+    color: var(--text-primary);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-family: var(--font-mono);
+  }
+
+  .table-wire tr:hover { background: #f9fafb; }
+
+  /* Badges & Pills */
+  .badge {
+    display: inline-block;
+    padding: 4px 9px;
+    border-radius: 3px;
+    font-size: 10.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: 1.5px solid var(--border-dark);
+    background: #ffffff;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+  }
+
+  .badge:hover { background: var(--border-dark); color: #ffffff; }
+  .badge.active { background: var(--border-dark); color: #ffffff; }
+  .badge-success { background: #d1fae5; color: #065f46; border-color: #059669; }
+  .badge-warning { background: #fef3c7; color: #92400e; border-color: #d97706; }
+  .badge-info { background: #dbeafe; color: #1e40af; border-color: #2563eb; }
+
+  /* Stats Card */
+  .stat-card {
+    background: #ffffff;
+    border: 2px solid var(--border-dark);
+    border-radius: 5px;
+    padding: 18px;
+    text-align: center;
+    transition: all 0.15s ease;
+    box-shadow: var(--shadow-wire-sm);
+  }
+
+  .stat-card:hover { transform: translate(-2px, -2px); box-shadow: var(--shadow-wire); }
+  .stat-card .num {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+  }
+  .stat-card .lbl {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+  }
+
+  /* Charts */
+  .chart-box {
+    background: #ffffff;
+    height: 180px;
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding: 18px 12px 10px;
+    border: 2px solid var(--border-dark);
+    position: relative;
+    width: 100%;
+  }
+
+  .chart-grid-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    border-top: 1px dashed #d1d5db;
+    pointer-events: none;
+  }
+
+  .bar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+    justify-content: flex-end;
+    flex: 1;
+  }
+
+  .bar {
+    width: 34px;
+    background: var(--border-dark);
+    border-radius: 3px 3px 0 0;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .bar:hover { background: #3b82f6; }
+
+  /* Step Flow */
+  .flow-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: #ffffff;
+    border: 2px solid var(--border-dark);
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    box-shadow: var(--shadow-wire-sm);
+  }
+
+  .flow-step:hover {
+    background: #f9fafb;
+    transform: translateX(4px);
+    box-shadow: var(--shadow-wire);
+  }
+
+  .flow-step .num {
+    background: var(--border-dark);
+    color: #ffffff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+  }
+
+  /* Icons */
+  .ico {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1.5px solid currentColor;
+    border-radius: 3px;
+    position: relative;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+  .ico::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+    height: 4px;
+    background: currentColor;
+    border-radius: 50%;
+  }
+  .ico-sm { width: 11px; height: 11px; }
+  .ico-sm::after { width: 2.5px; height: 2.5px; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive Rules */
+  @media (max-width: 950px) {
+    .sidebar { transform: translateX(-100%); width: 270px; }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; width: 100%; padding: 18px; }
+    .mobile-header { display: flex; }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .grid-2 { grid-template-columns: 1fr !important; }
+  }
+
+  @media (max-width: 550px) {
+    .grid-4, .grid-3 { grid-template-columns: 1fr; }
+    .wire-header { flex-direction: column; height: auto; padding: 12px; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= MOBILE HEADER ================= -->
+<div class="mobile-header">
+  <div style="font-weight:800; font-family:var(--font-mono); font-size:13px;">
+    <span class="ico ico-sm"></span> AI FASHION WIREFRAMES
+  </div>
+  <button onclick="toggleSidebar()">MENU</button>
+</div>
+
+<!-- ================= SIDEBAR ================= -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h2><span class="ico"></span> WIREFRAMES</h2>
+    <div class="tagline">MERN Stack • SOW Scope Prototype</div>
+  </div>
+
+  <div class="mode-toggle">
+    <button id="btnUser" class="active" onclick="switchMode('user')">Storefront</button>
+    <button id="btnAdmin" onclick="switchMode('admin')">Admin Panel</button>
+  </div>
+
+  <div class="sidebar-nav">
+    <!-- USER STOREFRONT NAVIGATION -->
+    <div id="userNav">
+      <div class="section-title">Catalog & Store</div>
+      <a onclick="showPage('home')" class="active" data-page="home"><span class="ico ico-sm"></span> Homepage</a>
+      <a onclick="showPage('category')" data-page="category"><span class="ico ico-sm"></span> Categories</a>
+      <a onclick="showPage('listing')" data-page="listing"><span class="ico ico-sm"></span> Product Search & Filters</a>
+      <a onclick="showPage('detail')" data-page="detail"><span class="ico ico-sm"></span> Product Details</a>
+      <a onclick="showPage('favorites')" data-page="favorites"><span class="ico ico-sm"></span> Wishlist / Favorites</a>
+      <a onclick="showPage('cart')" data-page="cart"><span class="ico ico-sm"></span> Shopping Cart</a>
+
+      <div class="section-title">Checkout & Orders</div>
+      <a onclick="showPage('checkout')" data-page="checkout"><span class="ico ico-sm"></span> Multi-Step Checkout</a>
+      <a onclick="showPage('confirmation')" data-page="confirmation"><span class="ico ico-sm"></span> Order Confirmation</a>
+
+      <div class="section-title">Customer Account</div>
+      <a onclick="showPage('login')" data-page="login"><span class="ico ico-sm"></span> Authentication (Sign In/Up)</a>
+      <a onclick="showPage('profile')" data-page="profile"><span class="ico ico-sm"></span> Profile & Addresses</a>
+      <a onclick="showPage('orders')" data-page="orders"><span class="ico ico-sm"></span> Order History</a>
+
+      <div class="section-title">AI Custom Studio</div>
+      <a onclick="showPage('ai-studio')" data-page="ai-studio"><span class="ico ico-sm"></span> Custom Design Studio</a>
+      <a onclick="showPage('ai-request')" data-page="ai-request"><span class="ico ico-sm"></span> Custom Design Requests</a>
+
+      <div class="section-title">Support & Journeys</div>
+      <a onclick="showPage('contact')" data-page="contact"><span class="ico ico-sm"></span> Contact Support</a>
+      <a onclick="showPage('flow-user')" data-page="flow-user"><span class="ico ico-sm"></span> User Journey Flows</a>
+    </div>
+
+    <!-- ADMIN BACK-OFFICE NAVIGATION -->
+    <div id="adminNav" style="display:none;">
+      <div class="section-title">Overview</div>
+      <a onclick="showPage('admin-login')" data-page="admin-login"><span class="ico ico-sm"></span> Admin Login Portal</a>
+      <a onclick="showPage('admin-dash')" data-page="admin-dash"><span class="ico ico-sm"></span> Dashboard & Metrics</a>
+
+      <div class="section-title">Store Management</div>
+      <a onclick="showPage('admin-products')" data-page="admin-products"><span class="ico ico-sm"></span> Products Catalog</a>
+      <a onclick="showPage('admin-add-product')" data-page="admin-add-product"><span class="ico ico-sm"></span> Add Product</a>
+      <a onclick="showPage('admin-orders')" data-page="admin-orders"><span class="ico ico-sm"></span> Orders & Invoices</a>
+      <a onclick="showPage('admin-custom')" data-page="admin-custom"><span class="ico ico-sm"></span> AI Custom Requests</a>
+      <a onclick="showPage('admin-users')" data-page="admin-users"><span class="ico ico-sm"></span> Customers & Accounts</a>
+      <a onclick="showPage('admin-categories')" data-page="admin-categories"><span class="ico ico-sm"></span> Categories</a>
+      <a onclick="showPage('admin-coupons')" data-page="admin-coupons"><span class="ico ico-sm"></span> Coupons & Discounts</a>
+      <a onclick="showPage('admin-reports')" data-page="admin-reports"><span class="ico ico-sm"></span> Reports</a>
+      <a onclick="showPage('admin-settings')" data-page="admin-settings"><span class="ico ico-sm"></span> Settings</a>
+
+      <div class="section-title">Workflows</div>
+      <a onclick="showPage('flow-admin')" data-page="flow-admin"><span class="ico ico-sm"></span> Admin Operational Flows</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MAIN CONTENT (CENTERED) ================= -->
+<div class="main">
+
+  <!-- ========================================================= -->
+  <!-- 1. HOMEPAGE                                               -->
+  <!-- ========================================================= -->
+  <div id="home" class="page active">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Storefront Homepage</div>
+        <div class="page-sub">Promotional banners, collections, and featured products</div>
+      </div>
+      <span class="scope-pill">Customer Facing</span>
+    </div>
+
+    <div class="wire">
+      <div class="wire-header">
+        <div class="logo" onclick="showPage('home')">
+          <span class="ico"></span> FASHION.AI
+        </div>
+        <div class="nav-links">
+          <span onclick="showPage('category')">Men</span>
+          <span onclick="showPage('category')">Women</span>
+          <span onclick="showPage('category')">Kids</span>
+          <span onclick="showPage('ai-studio')" style="border-bottom: 2px solid #111;">Custom Studio</span>
+          <span onclick="showPage('favorites')">Wishlist</span>
+          <span onclick="showPage('cart')">Cart</span>
+          <span onclick="showPage('login')">Account</span>
+        </div>
+      </div>
+
+      <div class="banner" style="min-height:160px;">
+        <div style="max-width:600px; margin:0 auto;">
+          <span class="badge" style="margin-bottom:8px;">Summer 2026 Collection</span>
+          <div style="font-size:22px; font-weight:900;">READY-TO-WEAR & AI-CUSTOM CLOTHING</div>
+          <div style="font-size:12px; margin:8px 0 14px; color:var(--text-secondary);">
+            Browse our hand-stitched collections or use our AI Studio to design your personal couture outfit.
+          </div>
+          <div class="row" style="justify-content:center; gap:10px;">
+            <button class="btn" onclick="showPage('listing')">Shop Ready-Made</button>
+            <button class="btn btn-outline" onclick="showPage('ai-studio')">Open AI Studio ✨</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Shop by Category</h3>
+        <div class="grid-3">
+          <div class="card" onclick="showPage('category')">
+            <div class="pattern">MEN'S COLLECTION</div>
+            <div class="name">Men</div>
+            <div class="small">Shirts, Kurtas, Trousers & Jackets</div>
+          </div>
+          <div class="card" onclick="showPage('category')">
+            <div class="pattern">WOMEN'S COLLECTION</div>
+            <div class="name">Women</div>
+            <div class="small">Dresses, Kurtis, Suits & Tops</div>
+          </div>
+          <div class="card" onclick="showPage('category')">
+            <div class="pattern">KIDS' COLLECTION</div>
+            <div class="name">Kids</div>
+            <div class="small">Boys & Girls Casual & Festive</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Featured Products</h3>
+        <div class="grid-4">
+          <div class="card" onclick="showPage('detail')">
+            <div class="pattern">OXFORD_SHIRT</div>
+            <div class="name">Cotton Oxford Shirt</div>
+            <div class="price">Rs. 2,500</div>
+            <button class="btn btn-sm btn-block" onclick="event.stopPropagation(); showPage('cart')">Add to Cart</button>
+          </div>
+          <div class="card" onclick="showPage('detail')">
+            <div class="pattern">LAWN_DRESS</div>
+            <div class="name">Embroidered Lawn Dress</div>
+            <div class="price">Rs. 3,800</div>
+            <button class="btn btn-sm btn-block" onclick="event.stopPropagation(); showPage('cart')">Add to Cart</button>
+          </div>
+          <div class="card" onclick="showPage('detail')">
+            <div class="pattern">DENIM_PANTS</div>
+            <div class="name">Slim Fit Stretch Denim</div>
+            <div class="price">Rs. 2,200</div>
+            <button class="btn btn-sm btn-block" onclick="event.stopPropagation(); showPage('cart')">Add to Cart</button>
+          </div>
+          <div class="card" onclick="showPage('detail')">
+            <div class="pattern">KIDS_KURTA</div>
+            <div class="name">Boys Festive Kurta</div>
+            <div class="price">Rs. 1,800</div>
+            <button class="btn btn-sm btn-block" onclick="event.stopPropagation(); showPage('cart')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 2. CATEGORY PAGE                                          -->
+  <!-- ========================================================= -->
+  <div id="category" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Category Collections</div>
+        <div class="page-sub">Men / Women / Kids segregated shopping aisles</div>
+      </div>
+      <span class="scope-pill">Catalog</span>
+    </div>
+
+    <div class="wire">
+      <div class="row" style="margin-bottom:18px;">
+        <span class="badge active" onclick="setActiveBadge(this)">All Categories</span>
+        <span class="badge" onclick="setActiveBadge(this)">Men</span>
+        <span class="badge" onclick="setActiveBadge(this)">Women</span>
+        <span class="badge" onclick="setActiveBadge(this)">Kids</span>
+      </div>
+
+      <div class="grid-4">
+        <div class="card" onclick="showPage('detail')">
+          <div class="pattern">LINEN_SHIRT</div>
+          <div class="name">Casual Linen Shirt</div>
+          <div class="price">Rs. 2,600</div>
+        </div>
+        <div class="card" onclick="showPage('detail')">
+          <div class="pattern">FORMAL_PANTS</div>
+          <div class="name">Formal Pleated Trousers</div>
+          <div class="price">Rs. 2,900</div>
+        </div>
+        <div class="card" onclick="showPage('detail')">
+          <div class="pattern">WOMEN_DRESS</div>
+          <div class="name">Floral Anarkali Dress</div>
+          <div class="price">Rs. 4,500</div>
+        </div>
+        <div class="card" onclick="showPage('detail')">
+          <div class="pattern">KIDS_TEE</div>
+          <div class="name">Kids Graphic Tee</div>
+          <div class="price">Rs. 1,100</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 3. PRODUCT LISTING                                        -->
+  <!-- ========================================================= -->
+  <div id="listing" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Product Catalog & Search</div>
+        <div class="page-sub">Live filters: Category, Price Range, Sizes, Colors</div>
+      </div>
+      <span class="scope-pill">Discovery</span>
+    </div>
+
+    <div class="wire">
+      <div class="row" style="gap:10px;">
+        <input class="input-box" style="flex:1;" placeholder="Search by name, fabric, style...">
+        <select class="input-box" style="width:170px;">
+          <option>Sort: Newest First</option>
+          <option>Price: Low to High</option>
+          <option>Price: High to Low</option>
+        </select>
+      </div>
+
+      <div class="grid-2" style="grid-template-columns: 240px 1fr; align-items:start;">
+        <div style="background:#ffffff; border:2px solid var(--border-dark); padding:16px; border-radius:4px;">
+          <label class="label">Department</label>
+          <div style="font-size:12px; line-height:2.1; margin-bottom:12px;">
+            <label><input type="checkbox" checked> Men</label><br>
+            <label><input type="checkbox" checked> Women</label><br>
+            <label><input type="checkbox" checked> Kids</label>
+          </div>
+          <hr style="margin:12px 0; border:1px solid #e5e7eb;">
+          <label class="label">Sizes</label>
+          <div class="row" style="gap:6px;">
+            <span class="badge">S</span>
+            <span class="badge active">M</span>
+            <span class="badge">L</span>
+            <span class="badge">XL</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="grid-3">
+            <div class="card" onclick="showPage('detail')">
+              <div class="pattern">IMG</div>
+              <div class="name">Cotton Oxford Shirt</div>
+              <div class="price">Rs. 2,500</div>
+              <button class="btn btn-sm btn-block" onclick="event.stopPropagation(); showPage('cart')">Add to Cart</button>
+            </div>
+            <div class="card" onclick="showPage('detail')">
+              <div class="pattern">IMG</div>
+              <div class="name">Embroidered Dress</div>
+              <div class="price">Rs. 3,800</div>
+              <button class="btn btn-sm btn-block" onclick="event.stopPropagation(); showPage('cart')">Add to Cart</button>
+            </div>
+            <div class="card" onclick="showPage('detail')">
+              <div class="pattern">IMG</div>
+              <div class="name">Stretch Denim</div>
+              <div class="price">Rs. 2,200</div>
+              <button class="btn btn-sm btn-block" onclick="event.stopPropagation(); showPage('cart')">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 4. PRODUCT DETAIL                                         -->
+  <!-- ========================================================= -->
+  <div id="detail" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Product Detail & Variants</div>
+        <div class="page-sub">Variant selectors (Size, Color), stock status, and reviews</div>
+      </div>
+      <button class="btn btn-outline" onclick="showPage('listing')">← Back to Catalog</button>
+    </div>
+
+    <div class="wire">
+      <div class="grid-2" style="grid-template-columns: 1fr 1fr; gap:26px;">
+        <div>
+          <div class="pattern pattern-xl">MAIN PRODUCT PREVIEW</div>
+          <div class="grid-3" style="margin-top:12px;">
+            <div class="pattern pattern-sm">FRONT VIEW</div>
+            <div class="pattern pattern-sm">FABRIC CLOSEUP</div>
+            <div class="pattern pattern-sm">BACK VIEW</div>
+          </div>
+        </div>
+
+        <div>
+          <span class="badge badge-info">Men's Apparel</span>
+          <h2 style="font-size:22px; font-weight:900; margin:6px 0;">Cotton Oxford Casual Shirt</h2>
+          <div style="font-size:24px; font-weight:900; font-family:var(--font-mono); margin:12px 0;">Rs. 2,500</div>
+
+          <label class="label">Select Color</label>
+          <div class="row" style="gap:8px; margin-bottom:14px;">
+            <span class="badge active" onclick="setActiveBadge(this)">White</span>
+            <span class="badge" onclick="setActiveBadge(this)">Black</span>
+            <span class="badge" onclick="setActiveBadge(this)">Navy</span>
+          </div>
+
+          <label class="label">Select Size</label>
+          <div class="row" style="gap:8px; margin-bottom:16px;">
+            <span class="badge" onclick="setActiveBadge(this)">S</span>
+            <span class="badge active" onclick="setActiveBadge(this)">M</span>
+            <span class="badge" onclick="setActiveBadge(this)">L</span>
+            <span class="badge" onclick="setActiveBadge(this)">XL</span>
+          </div>
+
+          <div class="row" style="gap:10px; margin-top:20px;">
+            <button class="btn btn-lg" style="flex:2;" onclick="showPage('cart')">Add to Shopping Cart</button>
+            <button class="btn btn-outline btn-lg" style="flex:1;" onclick="showPage('favorites')">Save to Wishlist</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 5. FAVORITES / WISHLIST                                   -->
+  <!-- ========================================================= -->
+  <div id="favorites" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Wishlist & Saved Products</div>
+        <div class="page-sub">Saved products for later</div>
+      </div>
+      <button class="btn btn-outline" onclick="showPage('listing')">Browse More Products</button>
+    </div>
+
+    <div class="wire">
+      <div class="grid-3">
+        <div class="card">
+          <div class="pattern">SHIRT</div>
+          <div class="name">Cotton Oxford Shirt</div>
+          <div class="price">Rs. 2,500</div>
+          <button class="btn btn-sm" onclick="showPage('cart')">Move to Cart</button>
+          <button class="btn btn-outline btn-sm" onclick="this.closest('.card').remove()">Remove</button>
+        </div>
+        <div class="card">
+          <div class="pattern">DRESS</div>
+          <div class="name">Embroidered Lawn Dress</div>
+          <div class="price">Rs. 3,800</div>
+          <button class="btn btn-sm" onclick="showPage('cart')">Move to Cart</button>
+          <button class="btn btn-outline btn-sm" onclick="this.closest('.card').remove()">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 6. SHOPPING CART                                          -->
+  <!-- ========================================================= -->
+  <div id="cart" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Shopping Cart</div>
+        <div class="page-sub">Review items before checkout</div>
+      </div>
+      <button class="btn btn-outline" onclick="showPage('listing')">Continue Shopping</button>
+    </div>
+
+    <div class="wire">
+      <div class="grid-2" style="grid-template-columns: 2fr 1fr; gap:20px;">
+        <div>
+          <div class="table-responsive">
+            <table class="table-wire" id="cartTable">
+              <thead>
+                <tr>
+                  <th>Product Details</th>
+                  <th>Variant</th>
+                  <th>Unit Price</th>
+                  <th>Qty</th>
+                  <th>Subtotal</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Cotton Oxford Casual Shirt</b></td>
+                  <td>M / White</td>
+                  <td>Rs. 2,500</td>
+                  <td>1</td>
+                  <td>Rs. 2,500</td>
+                  <td><button class="btn btn-danger btn-sm" onclick="directDeleteRow(this)">Remove</button></td>
+                </tr>
+                <tr>
+                  <td><b>Embroidered Lawn Dress</b></td>
+                  <td>L / Peach</td>
+                  <td>Rs. 3,800</td>
+                  <td>1</td>
+                  <td>Rs. 3,800</td>
+                  <td><button class="btn btn-danger btn-sm" onclick="directDeleteRow(this)">Remove</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <div class="stat-card" style="text-align:left;">
+            <h3 style="font-size:15px; margin-bottom:12px; border-bottom:1.5px solid var(--border-dark); padding-bottom:6px;">Order Summary</h3>
+            <div style="font-size:12.5px; line-height:2.2;">
+              <div style="display:flex; justify-content:space-between;"><span>Subtotal:</span> <b>Rs. 6,300</b></div>
+              <div style="display:flex; justify-content:space-between;"><span>Shipping:</span> <span>Rs. 200</span></div>
+              <hr style="margin:10px 0; border:1px solid var(--border-dark);">
+              <div style="display:flex; justify-content:space-between; font-size:16px;"><span>Total:</span> <b style="font-family:var(--font-mono);">Rs. 6,500</b></div>
+            </div>
+            <button class="btn btn-block btn-lg" style="margin-top:18px;" onclick="showPage('checkout')">Proceed to Checkout →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 7. CHECKOUT                                               -->
+  <!-- ========================================================= -->
+  <div id="checkout" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Checkout Flow</div>
+        <div class="page-sub">Shipping address and payment options</div>
+      </div>
+      <button class="btn btn-outline" onclick="showPage('cart')">← Edit Cart</button>
+    </div>
+
+    <div class="wire">
+      <div class="grid-2" style="grid-template-columns: 2fr 1fr; gap:22px;">
+        <div>
+          <div class="section">
+            <h3>Shipping Address</h3>
+            <div class="row">
+              <div style="flex:1;">
+                <label class="label">Full Name</label>
+                <input class="input-box" value="Muhammad Ali Khan">
+              </div>
+              <div style="flex:1;">
+                <label class="label">Phone</label>
+                <input class="input-box" value="0300-1234567">
+              </div>
+            </div>
+            <label class="label">Street Address</label>
+            <input class="input-box" value="Apartment 4B, Clifton Block 5, Karachi">
+          </div>
+
+          <div class="section">
+            <h3>Payment Option</h3>
+            <div style="border:2px solid var(--border-dark); border-radius:4px; padding:14px; background:#fff;">
+              <label style="display:block; margin-bottom:8px;"><input type="radio" name="pay" checked> Cash on Delivery (COD)</label>
+              <label style="display:block; margin-bottom:8px;"><input type="radio" name="pay"> Credit / Debit Card</label>
+              <label style="display:block;"><input type="radio" name="pay"> JazzCash / EasyPaisa</label>
+            </div>
+          </div>
+
+          <button class="btn btn-block btn-lg" onclick="showPage('confirmation')">Place Order</button>
+        </div>
+
+        <div>
+          <div class="stat-card" style="text-align:left;">
+            <h3 style="font-size:14px; margin-bottom:10px;">Summary</h3>
+            <div style="font-size:12px; line-height:2;">
+              Subtotal: Rs. 6,300<br>
+              Shipping: Rs. 200<br>
+              <b>Total: Rs. 6,500</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 8. ORDER CONFIRMATION                                     -->
+  <!-- ========================================================= -->
+  <div id="confirmation" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Order Confirmation</div>
+        <div class="page-sub">Order placed successfully</div>
+      </div>
+      <button class="btn btn-outline" onclick="showPage('orders')">View Orders</button>
+    </div>
+
+    <div class="wire" style="text-align:center; padding:36px 20px;">
+      <h2 style="font-size:22px; font-weight:900;">Order Confirmed Successfully!</h2>
+      <p style="font-size:13px; color:var(--text-secondary); margin-top:6px;">
+        Order reference: <b style="font-family:var(--font-mono);">#ORD-1024</b>
+      </p>
+      <div class="row" style="justify-content:center; gap:12px; margin-top:20px;">
+        <button class="btn" onclick="showPage('orders')">View Order History</button>
+        <button class="btn btn-outline" onclick="showPage('home')">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 9. AUTHENTICATION                                         -->
+  <!-- ========================================================= -->
+  <div id="login" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Customer Authentication</div>
+        <div class="page-sub">Sign in or create account</div>
+      </div>
+      <span class="scope-pill">Auth</span>
+    </div>
+
+    <div class="wire" style="max-width:440px; margin:20px auto;">
+      <label class="label">Email Address</label>
+      <input class="input-box" value="ali@example.com" style="margin-bottom:12px;">
+      <label class="label">Password</label>
+      <input class="input-box" type="password" value="••••••••" style="margin-bottom:14px;">
+      <button class="btn btn-block btn-lg" onclick="showPage('home')">Sign In</button>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 10. PROFILE                                               -->
+  <!-- ========================================================= -->
+  <div id="profile" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Customer Profile</div>
+        <div class="page-sub">Personal details and saved addresses</div>
+      </div>
+    </div>
+
+    <div class="wire">
+      <div class="grid-2" style="grid-template-columns: 220px 1fr; gap:24px;">
+        <div>
+          <div style="font-weight:800; font-size:14px; margin-bottom:12px;">Ali Khan</div>
+          <div style="font-size:12.5px; line-height:2.6;">
+            <div style="font-weight:700; text-decoration:underline;">Profile</div>
+            <div style="cursor:pointer;" onclick="showPage('orders')">My Orders</div>
+            <div style="cursor:pointer;" onclick="showPage('login')">Logout</div>
+          </div>
+        </div>
+        <div>
+          <label class="label">Full Name</label>
+          <input class="input-box" value="Muhammad Ali Khan" style="margin-bottom:10px;">
+          <label class="label">Email</label>
+          <input class="input-box" value="ali@example.com" style="margin-bottom:10px;">
+          <button class="btn" onclick="this.textContent='Saved ✓'">Save Profile</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 11. ORDERS                                                -->
+  <!-- ========================================================= -->
+  <div id="orders" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Order History</div>
+        <div class="page-sub">Past orders and tracking</div>
+      </div>
+      <button class="btn btn-outline" onclick="showPage('home')">Shop Again</button>
+    </div>
+
+    <div class="wire">
+      <div class="table-responsive">
+        <table class="table-wire">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Date</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>#ORD-1024</b></td>
+              <td>12 Oct 2026</td>
+              <td>2 Items</td>
+              <td>Rs. 6,500</td>
+              <td><span class="badge badge-info">Shipped</span></td>
+            </tr>
+            <tr>
+              <td><b>#ORD-1023</b></td>
+              <td>05 Oct 2026</td>
+              <td>1 Item</td>
+              <td>Rs. 3,200</td>
+              <td><span class="badge badge-success">Delivered</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 12. AI CUSTOM DESIGN STUDIO                               -->
+  <!-- ========================================================= -->
+  <div id="ai-studio" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> AI Custom Design Studio</div>
+        <div class="page-sub">Custom garment design with AI synthesis</div>
+      </div>
+    </div>
+
+    <div class="wire">
+      <div class="section">
+        <h3>1. Select Silhouette</h3>
+        <div class="row">
+          <span class="badge active" onclick="setActiveBadge(this)">Oxford Shirt</span>
+          <span class="badge" onclick="setActiveBadge(this)">Kurta</span>
+          <span class="badge" onclick="setActiveBadge(this)">Evening Gown</span>
+          <span class="badge" onclick="setActiveBadge(this)">Hoodie</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>2. Upload Reference</h3>
+        <div class="banner" style="min-height:90px; border-style:dashed;">
+          <div>Drag & drop sketches or click to attach reference photos</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>3. Prompt Description</h3>
+        <textarea class="input-box" style="height:80px;" placeholder="Describe your design (e.g., Black shirt with white stripes, full sleeves, cotton fabric)..."></textarea>
+      </div>
+
+      <button class="btn btn-block btn-lg" onclick="document.getElementById('aiCardsBox').style.display='grid'">Generate AI Concepts</button>
+
+      <div class="grid-3" id="aiCardsBox" style="display:none; margin-top:20px;">
+        <div class="card">
+          <div class="pattern pattern-lg">CONCEPT 1</div>
+          <div class="name">Concept 1</div>
+          <button class="btn btn-outline btn-sm" onclick="showPage('ai-request')">Select</button>
+        </div>
+        <div class="card">
+          <div class="pattern pattern-lg">CONCEPT 2</div>
+          <div class="name">Concept 2</div>
+          <button class="btn btn-outline btn-sm" onclick="showPage('ai-request')">Select</button>
+        </div>
+        <div class="card">
+          <div class="pattern pattern-lg">CONCEPT 3</div>
+          <div class="name">Concept 3</div>
+          <button class="btn btn-outline btn-sm" onclick="showPage('ai-request')">Select</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 13. CUSTOM REQUEST STATUS                                 -->
+  <!-- ========================================================= -->
+  <div id="ai-request" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Custom Request Status</div>
+        <div class="page-sub">Track submitted design requests</div>
+      </div>
+      <button class="btn" onclick="showPage('ai-studio')">+ New Design</button>
+    </div>
+
+    <div class="wire">
+      <div class="table-responsive">
+        <table class="table-wire">
+          <thead>
+            <tr>
+              <th>Request #</th>
+              <th>Garment Concept</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>#DR-5001</b></td>
+              <td>Black shirt with white stripes</td>
+              <td>12 Oct 2026</td>
+              <td><span class="badge badge-warning">New</span></td>
+            </tr>
+            <tr>
+              <td><b>#DR-5000</b></td>
+              <td>Summer dress, floral pattern</td>
+              <td>05 Oct 2026</td>
+              <td><span class="badge badge-info">In Progress</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 14. CONTACT                                               -->
+  <!-- ========================================================= -->
+  <div id="contact" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Customer Support</div>
+        <div class="page-sub">Get in touch with our team</div>
+      </div>
+    </div>
+
+    <div class="wire" style="max-width:560px; margin:0 auto;">
+      <label class="label">Name</label>
+      <input class="input-box" value="Ali Khan" style="margin-bottom:10px;">
+      <label class="label">Message</label>
+      <textarea class="input-box" style="height:100px; margin-bottom:14px;" placeholder="Your message..."></textarea>
+      <button class="btn btn-block btn-lg" onclick="this.textContent='Message Sent ✓'">Send Message</button>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 15. USER FLOWS                                            -->
+  <!-- ========================================================= -->
+  <div id="flow-user" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Customer Flows</div>
+        <div class="page-sub">Step-by-step customer journeys</div>
+      </div>
+    </div>
+
+    <div class="wire">
+      <h3>Flow A: Ready-Made Clothing Purchase</h3>
+      <div class="flow-step" onclick="showPage('home')"><div class="num">1</div> Visit Website Homepage</div>
+      <div class="flow-step" onclick="showPage('category')"><div class="num">2</div> Select Category</div>
+      <div class="flow-step" onclick="showPage('listing')"><div class="num">3</div> Search / Filter Catalog</div>
+      <div class="flow-step" onclick="showPage('detail')"><div class="num">4</div> Select Variants</div>
+      <div class="flow-step" onclick="showPage('cart')"><div class="num">5</div> Add to Cart & Checkout</div>
+      <div class="flow-step" onclick="showPage('confirmation')"><div class="num">6</div> Order Confirmation</div>
+    </div>
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- ========================================================= -->
+  <!-- ADMIN PORTAL PAGES                                        -->
+  <!-- ========================================================= -->
+  <!-- ========================================================= -->
+
+  <!-- ADMIN LOGIN -->
+  <div id="admin-login" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Admin Login</div>
+        <div class="page-sub">Authorized store management access</div>
+      </div>
+      <span class="scope-pill">Staff Only</span>
+    </div>
+
+    <div class="wire" style="max-width:420px; margin:30px auto;">
+      <label class="label">Admin Email</label>
+      <input class="input-box" value="admin@fashion.com" style="margin-bottom:12px;">
+      <label class="label">Password</label>
+      <input class="input-box" type="password" value="admin123" style="margin-bottom:16px;">
+      <button class="btn btn-block btn-lg" onclick="showPage('admin-dash')">Authenticate Admin</button>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD -->
+  <div id="admin-dash" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Dashboard Overview</div>
+        <div class="page-sub">Analytics and recent activity</div>
+      </div>
+    </div>
+
+    <div class="wire">
+      <div class="grid-4">
+        <div class="stat-card"><div class="num">Rs. 5.42L</div><div class="lbl">Total Sales</div></div>
+        <div class="stat-card"><div class="num">124</div><div class="lbl">Orders</div></div>
+        <div class="stat-card"><div class="num">468</div><div class="lbl">Users</div></div>
+        <div class="stat-card"><div class="num">19</div><div class="lbl">Custom Requests</div></div>
+      </div>
+
+      <div class="section" style="margin-top:20px;">
+        <h3>Weekly Revenue Breakdown</h3>
+        <div class="chart-box">
+          <div class="chart-grid-line" style="bottom:50%;"></div>
+          <div class="bar-container"><div class="bar" style="height:45%;"></div><span>Mon</span></div>
+          <div class="bar-container"><div class="bar" style="height:62%;"></div><span>Tue</span></div>
+          <div class="bar-container"><div class="bar" style="height:38%;"></div><span>Wed</span></div>
+          <div class="bar-container"><div class="bar" style="height:85%;"></div><span>Thu</span></div>
+          <div class="bar-container"><div class="bar" style="height:70%;"></div><span>Fri</span></div>
+          <div class="bar-container"><div class="bar" style="height:95%;"></div><span>Sat</span></div>
+          <div class="bar-container"><div class="bar" style="height:78%;"></div><span>Sun</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN PRODUCTS -->
+  <div id="admin-products" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Products Management</div>
+        <div class="page-sub">View, edit, and delete products</div>
+      </div>
+      <button class="btn" onclick="showPage('admin-add-product')">+ Add Product</button>
+    </div>
+
+    <div class="wire">
+      <div class="row" style="gap:10px;">
+        <input class="input-box" style="flex:1;" placeholder="Search inventory..." onkeyup="filterAdminTable(this)">
+      </div>
+
+      <div class="table-responsive">
+        <table class="table-wire" id="productsAdminTable">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="pattern pattern-sm" style="width:45px;">IMG</div></td>
+              <td class="prod-name">Cotton Oxford Shirt</td>
+              <td>Men</td>
+              <td class="prod-price">Rs. 2,500</td>
+              <td class="prod-stock">45</td>
+              <td><span class="badge badge-success">Active</span></td>
+              <td>
+                <button class="btn btn-sm btn-outline" onclick="inlineEditProduct(this)">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="directDeleteRow(this)">Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td><div class="pattern pattern-sm" style="width:45px;">IMG</div></td>
+              <td class="prod-name">Embroidered Lawn Dress</td>
+              <td>Women</td>
+              <td class="prod-price">Rs. 3,800</td>
+              <td class="prod-stock">20</td>
+              <td><span class="badge badge-success">Active</span></td>
+              <td>
+                <button class="btn btn-sm btn-outline" onclick="inlineEditProduct(this)">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="directDeleteRow(this)">Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td><div class="pattern pattern-sm" style="width:45px;">IMG</div></td>
+              <td class="prod-name">Slim Fit Denim</td>
+              <td>Men</td>
+              <td class="prod-price">Rs. 2,200</td>
+              <td class="prod-stock">12</td>
+              <td><span class="badge badge-success">Active</span></td>
+              <td>
+                <button class="btn btn-sm btn-outline" onclick="inlineEditProduct(this)">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="directDeleteRow(this)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN ADD PRODUCT -->
+  <div id="admin-add-product" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Add Product</div>
+        <div class="page-sub">Create a new product listing</div>
+      </div>
+      <button class="btn btn-outline" onclick="showPage('admin-products')">← Back to Products</button>
+    </div>
+
+    <div class="wire">
+      <div class="grid-2">
+        <div>
+          <label class="label">Product Name</label>
+          <input class="input-box" id="newPName" placeholder="Cotton Shirt" style="margin-bottom:10px;">
+          <label class="label">Price (PKR)</label>
+          <input class="input-box" id="newPPrice" placeholder="2500" style="margin-bottom:10px;">
+          <label class="label">Stock</label>
+          <input class="input-box" id="newPStock" placeholder="45">
+        </div>
+        <div>
+          <label class="label">Category</label>
+          <select class="input-box" id="newPCat" style="margin-bottom:10px;">
+            <option>Men</option><option>Women</option><option>Kids</option>
+          </select>
+          <label class="label">Images</label>
+          <div class="pattern pattern-sm" style="height:70px;">UPLOAD PHOTOS</div>
+        </div>
+      </div>
+      <div class="row" style="margin-top:18px;">
+        <button class="btn" onclick="directAddProduct()">Save Product</button>
+        <button class="btn btn-outline" onclick="showPage('admin-products')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN ORDERS -->
+  <div id="admin-orders" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Orders Management</div>
+        <div class="page-sub">View and update order status</div>
+      </div>
+      <button class="btn btn-outline" onclick="directExportCSV('orders.csv')">Export CSV</button>
+    </div>
+
+    <div class="wire">
+      <div class="table-responsive">
+        <table class="table-wire">
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>Customer</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>#1024</td>
+              <td>Ali Khan</td>
+              <td>2</td>
+              <td>Rs. 4,700</td>
+              <td>
+                <select class="input-box" style="padding:4px 6px; font-size:11px; width:110px;">
+                  <option selected>Shipped</option><option>Processing</option><option>Delivered</option>
+                </select>
+              </td>
+              <td><button class="btn btn-sm btn-danger" onclick="directDeleteRow(this)">Delete</button></td>
+            </tr>
+            <tr>
+              <td>#1023</td>
+              <td>Sara Ahmed</td>
+              <td>1</td>
+              <td>Rs. 2,000</td>
+              <td>
+                <select class="input-box" style="padding:4px 6px; font-size:11px; width:110px;">
+                  <option>Shipped</option><option selected>Processing</option><option>Delivered</option>
+                </select>
+              </td>
+              <td><button class="btn btn-sm btn-danger" onclick="directDeleteRow(this)">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- ADMIN CUSTOM DESIGN REQUESTS (EXACT SPECIFICATION)        -->
+  <!-- ========================================================= -->
+  <div id="admin-custom" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Custom Design Requests</div>
+        <div class="page-sub">Review and manage AI design submissions</div>
+      </div>
+      <span class="scope-pill">Custom Orders</span>
+    </div>
+
+    <div class="wire">
+      <div class="grid-2">
+        <!-- Card 1: Ali Khan -->
+        <div class="wire" style="margin-bottom:0; box-shadow:var(--shadow-wire-sm);">
+          <div class="row" style="align-items:flex-start; margin-bottom:8px;">
+            <div class="pattern pattern-sm" style="width:70px; height:70px;">IMG</div>
+            <div style="flex:1;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <b style="font-size:14px;">Ali Khan</b>
+                <span class="badge" id="badge-ali">New</span>
+              </div>
+              <div style="font-size:12px; color:#555; margin-top:4px;">
+                Phone: 0300-1234567
+              </div>
+            </div>
+          </div>
+
+          <p style="font-size:12px; margin:10px 0; background:#f9fafb; padding:10px; border-radius:4px; border:1px solid #e5e7eb; line-height:1.4;">
+            "Black shirt with white stripes, full sleeves, cotton fabric"
+          </p>
+
+          <div class="row" style="gap:8px; margin-bottom:0;">
+            <a href="tel:03001234567" class="btn btn-outline btn-sm">Call</a>
+            <a href="https://wa.me/923001234567" target="_blank" class="btn btn-outline btn-sm">WhatsApp</a>
+            <button class="btn btn-sm" onclick="toggleInlineDetail('detail-ali', this)">View Detail</button>
+          </div>
+
+          <!-- Inline Expandable Detail (Zero Popups) -->
+          <div id="detail-ali" style="display:none; margin-top:12px; padding:10px; background:#f0f7ff; border:1.5px solid #2563eb; border-radius:4px; font-size:11.5px;">
+            <b>Garment Specs:</b> Cotton fabric, regular cuff, spread collar.<br>
+            <b>Quote Estimate:</b> Rs. 2,800 • Fabric in warehouse stock.
+          </div>
+        </div>
+
+        <!-- Card 2: Sara Ahmed -->
+        <div class="wire" style="margin-bottom:0; box-shadow:var(--shadow-wire-sm);">
+          <div class="row" style="align-items:flex-start; margin-bottom:8px;">
+            <div class="pattern pattern-sm" style="width:70px; height:70px;">IMG</div>
+            <div style="flex:1;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <b style="font-size:14px;">Sara Ahmed</b>
+                <span class="badge badge-info" id="badge-sara">In Progress</span>
+              </div>
+              <div style="font-size:12px; color:#555; margin-top:4px;">
+                Phone: 0321-9876543
+              </div>
+            </div>
+          </div>
+
+          <p style="font-size:12px; margin:10px 0; background:#f9fafb; padding:10px; border-radius:4px; border:1px solid #e5e7eb; line-height:1.4;">
+            "Summer dress, floral pattern, light fabric"
+          </p>
+
+          <div class="row" style="gap:8px; align-items:center; margin-bottom:0;">
+            <a href="tel:03219876543" class="btn btn-outline btn-sm">Call</a>
+            <a href="https://wa.me/923219876543" target="_blank" class="btn btn-outline btn-sm">WhatsApp</a>
+            <div style="display:inline-flex; align-items:center; gap:6px; margin-left:auto;">
+              <span style="font-size:11px; font-weight:bold;">Status:</span>
+              <select class="input-box" style="width:115px; padding:4px 6px; font-size:11px;" onchange="updateInlineStatus('badge-sara', this.value)">
+                <option selected>In Progress</option>
+                <option>New</option>
+                <option>Completed</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN USERS -->
+  <div id="admin-users" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Users Management</div>
+        <div class="page-sub">View and manage customers</div>
+      </div>
+    </div>
+
+    <div class="wire">
+      <div class="table-responsive">
+        <table class="table-wire">
+          <thead>
+            <tr>
+              <th>Name</th><th>Email</th><th>Orders</th><th>Status</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ali Khan</td><td>ali@example.com</td><td>5</td><td><span class="badge badge-success">Active</span></td>
+              <td><button class="btn btn-sm btn-danger" onclick="directDeleteRow(this)">Delete</button></td>
+            </tr>
+            <tr>
+              <td>Sara Ahmed</td><td>sara@example.com</td><td>3</td><td><span class="badge badge-success">Active</span></td>
+              <td><button class="btn btn-sm btn-danger" onclick="directDeleteRow(this)">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN CATEGORIES -->
+  <div id="admin-categories" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Categories Management</div>
+        <div class="page-sub">Add, edit, delete categories</div>
+      </div>
+    </div>
+
+    <div class="wire">
+      <div class="table-responsive">
+        <table class="table-wire">
+          <thead>
+            <tr><th>Category</th><th>Subcategories</th><th>Products</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Men</td><td>Shirts, Pants, Jackets</td><td>45</td><td><button class="btn btn-sm btn-danger" onclick="directDeleteRow(this)">Delete</button></td></tr>
+            <tr><td>Women</td><td>Dresses, Tops, Pants</td><td>60</td><td><button class="btn btn-sm btn-danger" onclick="directDeleteRow(this)">Delete</button></td></tr>
+            <tr><td>Kids</td><td>Boys, Girls</td><td>30</td><td><button class="btn btn-sm btn-danger" onclick="directDeleteRow(this)">Delete</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN COUPONS (DIRECT ZERO-POPUP CREATION) -->
+  <div id="admin-coupons" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Coupons Management</div>
+        <div class="page-sub">Create and manage discount codes</div>
+      </div>
+      <button class="btn" onclick="directCreateCoupon()">+ Create Coupon</button>
+    </div>
+
+    <div class="wire">
+      <div class="table-responsive">
+        <table class="table-wire" id="couponsTable">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Discount</th>
+              <th>Expiry</th>
+              <th>Usage</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>SAVE10</b></td><td>10%</td><td>31 Oct 2026</td><td>45 / 100</td>
+              <td><span class="badge badge-success">Active</span></td>
+              <td><button class="btn btn-danger btn-sm" onclick="directDeleteRow(this)">Delete</button></td>
+            </tr>
+            <tr>
+              <td><b>WELCOME500</b></td><td>Rs. 500</td><td>15 Nov 2026</td><td>120 / 500</td>
+              <td><span class="badge badge-success">Active</span></td>
+              <td><button class="btn btn-danger btn-sm" onclick="directDeleteRow(this)">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN REPORTS -->
+  <div id="admin-reports" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Reports</div>
+        <div class="page-sub">Sales, users, product performance</div>
+      </div>
+      <button class="btn btn-outline" onclick="directExportCSV('sales_report.csv')">Export CSV</button>
+    </div>
+
+    <div class="wire">
+      <div class="grid-4">
+        <div class="stat-card"><div class="num">Rs. 5.42L</div><div class="lbl">Total Sales</div></div>
+        <div class="stat-card"><div class="num">124</div><div class="lbl">Orders</div></div>
+        <div class="stat-card"><div class="num">468</div><div class="lbl">Users</div></div>
+        <div class="stat-card"><div class="num">35</div><div class="lbl">Products Sold</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN SETTINGS (DIRECT ZERO-POPUP SAVE) -->
+  <div id="admin-settings" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Settings</div>
+        <div class="page-sub">Site configuration</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button class="btn" onclick="directSaveSettings(this)">Save Settings</button>
+        <span id="settingsSavedBadge" style="display:none; color:#059669; font-weight:bold; font-size:12px;">✓ Settings Saved</span>
+      </div>
+    </div>
+
+    <div class="wire">
+      <div class="grid-2">
+        <div class="section">
+          <h3>Site Settings</h3>
+          <label class="label">Site Name</label>
+          <input class="input-box" value="Fashion Store" style="margin-bottom:10px;">
+          <label class="label">Contact Email</label>
+          <input class="input-box" value="info@fashion.com" style="margin-bottom:10px;">
+          <label class="label">Contact Phone</label>
+          <input class="input-box" value="0300-1234567">
+        </div>
+
+        <div class="section">
+          <h3>Payment Settings</h3>
+          <label style="display:block; margin-bottom:8px;"><input type="checkbox" checked> Enable Stripe</label>
+          <label style="display:block; margin-bottom:8px;"><input type="checkbox" checked> Enable JazzCash</label>
+          <label style="display:block;"><input type="checkbox" checked> Enable EasyPaisa</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN FLOWS -->
+  <div id="flow-admin" class="page">
+    <div class="page-header-row">
+      <div>
+        <div class="page-title"><span class="ico"></span> Admin Flows</div>
+        <div class="page-sub">Step-by-step admin journeys</div>
+      </div>
+    </div>
+
+    <div class="wire">
+      <h3>Flow C: Product Management</h3>
+      <div class="flow-step" onclick="showPage('admin-login')"><div class="num">1</div> Admin Login</div>
+      <div class="flow-step" onclick="showPage('admin-dash')"><div class="num">2</div> Open Dashboard</div>
+      <div class="flow-step" onclick="showPage('admin-products')"><div class="num">3</div> Products Management</div>
+      <div class="flow-step" onclick="showPage('admin-add-product')"><div class="num">4</div> Add / Edit Product</div>
+
+      <h3 style="margin-top:28px;">Flow D: Order Management</h3>
+      <div class="flow-step" onclick="showPage('admin-orders')"><div class="num">1</div> Go to Orders</div>
+      <div class="flow-step" onclick="showPage('admin-orders')"><div class="num">2</div> Update Order Status</div>
+
+      <h3 style="margin-top:28px;">Flow E: Custom Request Handling</h3>
+      <div class="flow-step" onclick="showPage('admin-custom')"><div class="num">1</div> Review Custom Requests</div>
+      <div class="flow-step" onclick="showPage('admin-custom')"><div class="num">2</div> Direct Call / WhatsApp Contact</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================= JAVASCRIPT (ZERO POPUPS) ================= -->
+<script>
+  /* Navigation */
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(id);
+    if (target) {
+      target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    document.querySelectorAll('.sidebar a').forEach(a => {
+      a.classList.toggle('active', a.dataset.page === id);
+    });
+    document.getElementById('sidebar').classList.remove('open');
+  }
+
+  function switchMode(mode) {
+    const userNav = document.getElementById('userNav');
+    const adminNav = document.getElementById('adminNav');
+    const btnUser = document.getElementById('btnUser');
+    const btnAdmin = document.getElementById('btnAdmin');
+
+    if (mode === 'user') {
+      userNav.style.display = 'block';
+      adminNav.style.display = 'none';
+      btnUser.classList.add('active');
+      btnAdmin.classList.remove('active');
+      showPage('home');
+    } else {
+      userNav.style.display = 'none';
+      adminNav.style.display = 'block';
+      btnAdmin.classList.add('active');
+      btnUser.classList.remove('active');
+      showPage('admin-dash');
+    }
+  }
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
+  function setActiveBadge(el) {
+    el.parentElement.querySelectorAll('.badge').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  /* DIRECT ZERO-POPUP ACTIONS */
+  function directDeleteRow(btn) {
+    const tr = btn.closest('tr');
+    if (tr) tr.remove();
+  }
+
+  function directExportCSV(filename) {
+    const csvContent = "data:text/csv;charset=utf-8,ID,Name,Value,Date\n1,Record A,100,2026-10-13\n2,Record B,250,2026-10-13";
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", filename || "export.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  function directCreateCoupon() {
+    const table = document.getElementById('couponsTable').querySelector('tbody');
+    const randomCode = 'PROMO' + Math.floor(10 + Math.random() * 90);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><b>${randomCode}</b></td>
+      <td>15%</td>
+      <td>31 Dec 2026</td>
+      <td>0 / 100</td>
+      <td><span class="badge badge-success">Active</span></td>
+      <td><button class="btn btn-danger btn-sm" onclick="directDeleteRow(this)">Delete</button></td>
+    `;
+    table.appendChild(tr);
+  }
+
+  function directSaveSettings(btn) {
+    const badge = document.getElementById('settingsSavedBadge');
+    badge.style.display = 'inline-block';
+    setTimeout(() => { badge.style.display = 'none'; }, 2500);
+  }
+
+  function inlineEditProduct(btn) {
+    const tr = btn.closest('tr');
+    const nameCell = tr.querySelector('.prod-name');
+    const priceCell = tr.querySelector('.prod-price');
+    const stockCell = tr.querySelector('.prod-stock');
+
+    if (btn.textContent === 'Edit') {
+      nameCell.innerHTML = `<input class="input-box" style="padding:4px 6px;" value="${nameCell.textContent.trim()}">`;
+      priceCell.innerHTML = `<input class="input-box" style="padding:4px 6px; width:100px;" value="${priceCell.textContent.trim()}">`;
+      stockCell.innerHTML = `<input class="input-box" style="padding:4px 6px; width:70px;" value="${stockCell.textContent.trim()}">`;
+      btn.textContent = 'Save';
+      btn.classList.remove('btn-outline');
+    } else {
+      nameCell.textContent = nameCell.querySelector('input').value;
+      priceCell.textContent = priceCell.querySelector('input').value;
+      stockCell.textContent = stockCell.querySelector('input').value;
+      btn.textContent = 'Edit';
+      btn.classList.add('btn-outline');
+    }
+  }
+
+  function directAddProduct() {
+    const name = document.getElementById('newPName').value.trim() || 'New Garment';
+    const price = document.getElementById('newPPrice').value.trim() || '2500';
+    const stock = document.getElementById('newPStock').value.trim() || '20';
+    const cat = document.getElementById('newPCat').value;
+
+    const tbody = document.getElementById('productsAdminTable').querySelector('tbody');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><div class="pattern pattern-sm" style="width:45px;">IMG</div></td>
+      <td class="prod-name">${name}</td>
+      <td>${cat}</td>
+      <td class="prod-price">Rs. ${price}</td>
+      <td class="prod-stock">${stock}</td>
+      <td><span class="badge badge-success">Active</span></td>
+      <td>
+        <button class="btn btn-sm btn-outline" onclick="inlineEditProduct(this)">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="directDeleteRow(this)">Delete</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+    showPage('admin-products');
+  }
+
+  function toggleInlineDetail(id, btn) {
+    const el = document.getElementById(id);
+    if (el.style.display === 'none' || !el.style.display) {
+      el.style.display = 'block';
+      if (btn) btn.textContent = 'Hide Detail';
+    } else {
+      el.style.display = 'none';
+      if (btn) btn.textContent = 'View Detail';
+    }
+  }
+
+  function updateInlineStatus(badgeId, val) {
+    const badge = document.getElementById(badgeId);
+    if (badge) {
+      badge.textContent = val;
+      if (val === 'In Progress') {
+        badge.className = 'badge badge-info';
+      } else if (val === 'Completed') {
+        badge.className = 'badge badge-success';
+      } else {
+        badge.className = 'badge';
+      }
+    }
+  }
+
+  function filterAdminTable(input) {
+    const q = input.value.toLowerCase();
+    document.querySelectorAll('#productsAdminTable tbody tr').forEach(tr => {
+      tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+  }
+
+  /* Close sidebar on click outside on mobile */
+  document.addEventListener('click', function(e) {
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.querySelector('.mobile-header button');
+    if (window.innerWidth <= 950 && sidebar.classList.contains('open')) {
+      if (!sidebar.contains(e.target) && (!toggle || !toggle.contains(e.target))) {
+        sidebar.classList.remove('open');
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

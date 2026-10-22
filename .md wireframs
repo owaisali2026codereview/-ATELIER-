@@ -1,0 +1,993 @@
+# UI/UX Wireframe & Master Design Specification Document
+## Project: Atelier AI — Luxury Ready-To-Wear & AI Bespoke Fashion E-Commerce Platform
+**Document Type:** Comprehensive Screen-by-Screen UI/UX Design Blueprint, ASCII Wireframe Layouts & Information Architecture  
+**Scope:** Complete Storefront Customer Journey + Admin Operations Back-Office Suite  
+**Deliverable Format:** Pure Design & UX Architecture Specification (No Code)  
+**Version:** 3.0 (Redesigned for High Visual Density, Brand Cohesion, and Zero Dead Space)
+
+---
+
+# TABLE OF CONTENTS
+1. [Section 1: Luxury Design System, Visual Identity & Spatial Grid](#section-1-luxury-design-system-visual-identity--spatial-grid)
+2. [Section 2: Complete User Journeys & Unified Site Architecture](#section-2-complete-user-journeys--unified-site-architecture)
+3. [Section 3: Storefront Wireframe Blueprints (Screens 01 – 15)](#section-3-storefront-wireframe-blueprints)
+   - [Screen 01: Universal Navigation Bar, Mega-Menus & Top Banner](#screen-01-universal-navigation-bar-mega-menus--top-banner)
+   - [Screen 02: Flagship Storefront Homepage](#screen-02-flagship-storefront-homepage)
+   - [Screen 03: Department Hubs (Men, Women, Kids & Capsule Edits)](#screen-03-department-hubs-men-women-kids--capsule-edits)
+   - [Screen 04: Product Listing Page / PLP (Faceted Catalog)](#screen-04-product-listing-page--plp-faceted-catalog)
+   - [Screen 05: Product Detail Page / PDP (Editorial Decision Suite)](#screen-05-product-detail-page--pdp-editorial-decision-suite)
+   - [Screen 06: Saved Wardrobe & Wishlist Suite](#screen-06-saved-wardrobe--wishlist-suite)
+   - [Screen 07: Shopping Bag Page & Slide-Over Drawer](#screen-07-shopping-bag-page--slide-over-drawer)
+   - [Screen 08: 4-Step Distraction-Free Luxury Checkout](#screen-08-4-step-distraction-free-luxury-checkout)
+   - [Screen 09: Order Confirmation & Live Fulfillment Tracker](#screen-09-order-confirmation--live-fulfillment-tracker)
+   - [Screen 10: AI Custom Design Studio (Flagship Co-Creation Suite)](#screen-10-ai-custom-design-studio-flagship-co-creation-suite)
+   - [Screen 11: Bespoke Design Dossier Submission & Feasibility Status](#screen-11-bespoke-design-dossier-submission--feasibility-status)
+   - [Screen 12: Patron Authentication & Private Client Access](#screen-12-patron-authentication--private-client-access)
+   - [Screen 13: Patron Account Portal & Digital Wardrobe](#screen-13-patron-account-portal--digital-wardrobe)
+   - [Screen 14: Atelier Concierge, Private Fittings & Client Services](#screen-14-atelier-concierge-private-fittings--client-services)
+   - [Screen 15: Global Modals, Flyouts & Interactive Overlays](#screen-15-global-modals-flyouts--interactive-overlays)
+4. [Section 4: Admin Back-Office Wireframe Blueprints (Screens 16 – 26)](#section-4-admin-back-office-wireframe-blueprints)
+   - [Screen 16: Admin Secure Authentication Portal](#screen-16-admin-secure-authentication-portal)
+   - [Screen 17: Executive Operations & Metrics Dashboard](#screen-17-executive-operations--metrics-dashboard)
+   - [Screen 18: Product Catalog & Inventory Matrix Management](#screen-18-product-catalog--inventory-matrix-management)
+   - [Screen 19: Add / Edit Garment Studio & Taxonomy Suite](#screen-19-add--edit-garment-studio--taxonomy-suite)
+   - [Screen 20: Order Pipeline, Invoicing & Fulfillment Hub](#screen-20-order-pipeline-invoicing--fulfillment-hub)
+   - [Screen 21: AI Custom Design Feasibility & Quotation Management](#screen-21-ai-custom-design-feasibility--quotation-management)
+   - [Screen 22: Customer CRM & Patron Profile Management](#screen-22-customer-crm--patron-profile-management)
+   - [Screen 23: Category & Seasonal Campaign Manager](#screen-23-category--seasonal-campaign-manager)
+   - [Screen 24: Promotions, Coupons & VIP Privileges Studio](#screen-24-promotions-coupons--vip-privileges-studio)
+   - [Screen 25: Financial, Inventory & Sourcing Analytics](#screen-25-financial-inventory--sourcing-analytics)
+   - [Screen 26: Atelier Global Configuration & System Settings](#screen-26-atelier-global-configuration--system-settings)
+5. [Section 5: Spatial Optimization, Content Density Rules & UX Quality Matrix](#section-5-spatial-optimization-content-density-rules--ux-quality-matrix)
+
+---
+
+# SECTION 1: LUXURY DESIGN SYSTEM, VISUAL IDENTITY & SPATIAL GRID
+
+### 1.1 Brand Essence & Design Philosophy
+* **Brand Name:** Atelier AI (Maison de Haute Couture & Studio de Création Artificielle)
+* **Design Philosophy:** "Architectural Restraint Meets Digital Couture." Every viewport leverages balanced proportions, eliminating barren dead spaces while preserving high-fashion editorial breathing room.
+* **Content Density Principle:** High informational value per square inch without visual clutter. Text blocks are accompanied by structured metadata, badges, garment specifications, and micro-interactions.
+
+### 1.2 Layout Grids & Spatial Rhythms
+* **Desktop (1440px – 1920px Canvas):**
+  * Grid: 12-Column Flexible Grid | 64px Side Margins | 20px Gutter | Max content container: 1360px.
+  * Spatial Rhythm: Base unit of 4px. Component spacing scales across `8px`, `12px`, `16px`, `24px`, `32px`, `48px`, and `64px`.
+* **Tablet (768px – 1024px Canvas):**
+  * Grid: 8-Column Grid | 24px Side Margins | 16px Gutter.
+* **Mobile (375px – 430px Canvas):**
+  * Grid: 4-Column Grid | 16px Side Margins | 12px Gutter | Full-bleed interactive carousels with peek previews.
+
+### 1.3 Color Palette & Material Surfaces
+| Token Name | Hex Code | Visual Application & Hierarchy |
+| :--- | :--- | :--- |
+| **Alabaster Canvas** | `#FAF9F6` | Primary background; warm ivory softening eye fatigue and evoking archival cotton paper. |
+| **Pure Surface** | `#FFFFFF` | Card containers, flyout panels, modal drawers, and sticky decision cards. |
+| **Deep Obsidian** | `#111317` | High-contrast typography, primary buttons, borders, and footer backdrop. |
+| **Muted Slate** | `#4B5563` | Secondary text, textile yarn descriptions, care protocols, and breadcrumbs. |
+| **Hairline Neutral** | `#E5E7EB` | Ultra-fine structural dividers (1px solid borders) replacing harsh shadows. |
+| **Champagne Gold** | `#C5A880` | AI Custom Studio accents, VIP badges, selection rings, and rating stars. |
+| **Soft Sage** | `#DDE6CE` | Ecological/sustainable fabric badges, organic certifications, and in-stock badges. |
+| **Rich Amber** | `#D97706` | Low-stock counters, tailoring feasibility alerts, and time-sensitive offers. |
+| **Crimson Silk** | `#DC2626` | Form validation errors, sold-out tags, and critical notices. |
+
+### 1.4 Typography Hierarchy (Pairing: Serif Editorial + Sans Precision)
+* **Editorial Serif (Playfair Display / Cormorant Garamond):**
+  * `Display Hero H1`: 52px – 60px | Semi-Bold | Line-height 1.15 | Tracking: -0.02em
+  * `Page Title H2`: 32px – 38px | Semi-Bold | Line-height 1.25 | Tracking: -0.01em
+  * `Section Header H3`: 22px – 26px | Medium | Line-height 1.30
+* **Functional Sans-Serif (Inter / Plus Jakarta Sans):**
+  * `UI Subhead / Card Title`: 15px – 16px | Medium (500) | Line-height 1.4
+  * `Body Regular`: 14px | Regular (400) | Line-height 1.6
+  * `Technical Specs / Meta Data`: 12px – 13px | Regular (400) | Monospace/Sans | Line-height 1.5
+  * `Badges / Action Buttons`: 11px – 13px | Bold (600) | All-Caps | Tracking: +0.06em
+  * `Price Display`: 16px – 20px | Bold (700) | Tabular figures
+
+---
+
+# SECTION 2: COMPLETE USER JOURNEYS & UNIFIED SITE ARCHITECTURE
+
+```
+                                      [ GLOBAL TOP ANNOUNCEMENT BAR ]
+                                                     |
+                                        [ UNIFIED STICKY NAVBAR ]
+                                                     |
+             +--------------------+------------------+-------------------+--------------------+
+             |                    |                  |                   |                    |
+       [ STOREFRONT ]       [ MEN / WOMEN ]    [ AI CUSTOM ]       [ ACCOUNT & CRM ]    [ ADMIN PORTAL ]
+             |              [ KIDS HUBS ]      [ STUDIO ]                 |                   |
+             |                    |                  |                   |             [ DASHBOARD ]
+    +--------+--------+           |            +-----+-----+             |                    |
+    |                 |           |            |           |             |             +------+------+
+[ HERO & EDITS ] [ PLP CATALOG ]--+     [ PARAMETERS ] [ CANVAS ]  [ ORDERS & DOSSIER] |             |
+    |                 |                        |           |             |       [ INVENTORY ] [ ORDERS ]
+[ PDP SUITE ]   [ FACET FILTERS ]        [ AI GENERATE ] [ 360° ]        |             |             |
+    |                 |                        |           |             |       [ CUSTOM AI ] [ CRM ]
+[ BAG DRAWER ]--[ CART PAGE ]            [ TAILOR QUOTE ]--+             |             |             |
+    |                 |                        |                         |       [ CAMPAIGNS ] [ REPORTS]
+    +--------+--------+              [ DOSSIER CONFIRMATION ]            |                    |
+             |                                 |                         |             [ SETTINGS ]
+   [ 4-STEP CHECKOUT ]                         +------------+------------+
+             |                                              |
+   [ ORDER CONFIRMATION ] ------------------------> [ WARDROBE DASHBOARD ]
+```
+
+---
+
+# SECTION 3: STOREFRONT WIREFRAME BLUEPRINTS
+
+---
+
+## Screen 01: Universal Navigation Bar, Mega-Menus & Top Banner
+
+### Structural Layout Blueprint
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| [TOP BANNER] Complimentary Express Courier on orders over $250  |  Atelier Bespoke Consultations Open  |  Currency: [ USD $ v]|
++-------------------------------------------------------------------------------------------------------------------------------+
+| [ATELIER AI]     MEN       WOMEN       KIDS       COLLECTIONS       [✨ AI STUDIO]     | [🔍 Search Catalog] [🤍 3] [🛒 2] [👤]|
++-------------------------------------------------------------------------------------------------------------------------------+
+| [MEGA-MENU EXPANSION (Triggered on hover over "WOMEN")]                                                                        |
+| +---------------------+ +---------------------+ +---------------------+ +--------------------------+ +--------------------+ |
+| | READY-TO-WEAR       | | COUTURE & OCCASION  | | TEXTILES & FABRICS  | | CURATED CAPSULES         | | EDITORIAL SPOTLIGHT| |
+| | • Tailored Blazers  | | • Silk Evening Gowns| | • Mulberry Silk     | | • Autumn Cashmere '26    | | [Editorial Image]  | |
+| | • Crisp Shirts      | | • Velvet Robes      | | • Irish Flax Linen  | | • Monochromatic Tailoring| | "The Resham Silk   | |
+| | • Wide-Leg Trousers | | • Hand-Pleated Skirt| | • Giza 87 Cotton    | | • Resort & Cruise        | |  Dossier"          | |
+| | • Cashmere Knits    | | • Embroidered Kurtis| | • Wool Gabardine    | | • Archival Essentials    | | [Shop Edit ->]     | |
+| +---------------------+ +---------------------+ +---------------------+ +--------------------------+ +--------------------+ |
+| Bottom Strip: [Direct to Atelier Concierge] • [View Sizing Masterclass] • [Book In-Person Tailor Consultation (NY/London)]   |
++-------------------------------------------------------------------------------------------------------------------------------+
+```
+
+### Component & Spatial Specifications
+1. **Top Announcement Strip (32px Height):**
+   - Left: Dynamic promotional incentive with progress indicator.
+   - Center: Current atelier announcement ticker (e.g., Seasonal fabrics arriving).
+   - Right: Geographic localization selector (`USD $`, `EUR €`, `GBP £`, `PKR ₨`) and quick concierge hotline link.
+2. **Main Navigation Container (72px Height, Sticky):**
+   - Logo: High-editorial serif typography with subtle gold sparkle glyph for the AI division.
+   - Primary Navigation Links: 13px bold uppercase with generous hit-targets (padding 12px 18px).
+   - AI Studio CTA: Encased in a refined Champagne Gold micro-border (`border: 1px solid #C5A880; border-radius: 999px;`) to distinguish bespoke generative technology from ready-to-wear catalog.
+   - Utilities Suite (Right-Aligned):
+     - Interactive Search Pill: Launches immediate full-overlay modal with trending search terms and live thumbnail results.
+     - Saved Wishlist Icon with numeric badge.
+     - Shopping Bag Icon with live cart item counter and subtotal hover peek.
+     - Patron Profile Avatar with quick jump to active orders and custom AI dossiers.
+
+---
+
+## Screen 02: Flagship Storefront Homepage
+
+### High-Density Layout Blueprint
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| [HERO SARTORIAL SHOWCASE - FULL CONTAINER 620px HEIGHT]                                                                       |
+| +-----------------------------------------------------------+ +-------------------------------------------------------------+ |
+| | HERO CONTENT (Left 50%):                                  | | HERO EDITORIAL VISUAL (Right 50%):                          | |
+| | Tag: [AUTUMN/WINTER 2026 ARCHIVAL CAPSULE]               | | High-Resolution Portrait of Structured Cashmere Coat &      | |
+| | Headline:                                                 | | Silk Evening Garment with Floating Spec Cards:              | |
+| | "WHERE TIMELESS TAILORING                                 | | +---------------------------------------------------------+ | |
+| |  MEETS GENERATIVE ATELIER."                               | | | [Badge: 100% Grade-A Mongolian Cashmere] • [420 GSM]    | | |
+| | Description:                                              | | | "Sculptural silhouette cut by hand in Florence."        | | |
+| | Explore meticulously crafted garments tailored from       | | +---------------------------------------------------------+ | |
+| | heritage European textiles, or co-create your own         | | Interactive Hotspot 1: [• Structured Lapel Blazer - $480]   | |
+| | one-of-a-kind couture piece in our generative studio.     | | Interactive Hotspot 2: [• Pleated Silk Skirt - $320]        | |
+| |                                                           | +-------------------------------------------------------------+ |
+| | CTAs: [EXPLORE READY-TO-WEAR ->]   [ENTER AI STUDIO ✨]   | Metrics Bar: 48hr SOW Dispatch | Master Tailor Certified      |
+| +-----------------------------------------------------------+---------------------------------------------------------------+ |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [CURATED DEPARTMENT GATEWAY - 3-COLUMN ASYMMETRIC GRID WITH TEXTILE METRICS]                                                  |
+| +------------------------------------+ +------------------------------------+ +------------------------------------+        |
+| | MEN'S SARTORIAL EDIT               | | WOMEN'S COUTURE & EVENING          | | CHILDREN'S CEREMONIAL              |        |
+| | [High-Contrast Editorial Image]    | | [High-Contrast Editorial Image]    | | [High-Contrast Editorial Image]    |        |
+| | Categories: Suits, Linen, Shirts   | | Categories: Gowns, Silks, Knits    | | Categories: Boys, Girls, Occasion  |        |
+| | Signature: Super 130s Merino Wool  | | Signature: Mulberry Silk Charmeuse | | Signature: Organic Pima Cotton     |        |
+| | [Explore Men's Wardrobe ->]        | | [Explore Women's Wardrobe ->]      | | [Explore Children's Wardrobe ->]   |        |
+| +------------------------------------+ +------------------------------------+ +------------------------------------+        |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [FEATURED READY-TO-WEAR SPOTLIGHT - 4-COLUMN PRODUCT MATRIX WITH QUICK ADD]                                                    |
+| Section Header: "Archival Garments Ready for Immediate Dispatch"  |  Filter: [All] [Outerwear] [Silks] [Tailoring] [View All] |
+| +-------------------+ +-------------------+ +-------------------+ +-------------------+                                       |
+| | [GARMENT CARD 1]  | | [GARMENT CARD 2]  | | [GARMENT CARD 3]  | | [GARMENT CARD 4]  |                                       |
+| | Image: Oxford     | | Image: Silk Gown  | | Image: Wool Coat  | | Image: Linen Vest |                                       |
+| | Badge: [Archival] | | Badge: [Low Stock]| | Badge: [Signature]| | Badge: [Pure Flax]|                                       |
+| | Title: Giza Shirt | | Title: Lawn Dress | | Title: Fluted Coat| | Title: Waistcoat  |                                       |
+| | Fabric: Giza 87   | | Fabric: Raw Silk  | | Fabric: Cashmere  | | Fabric: Irish Flax|                                       |
+| | Price: $195       | | Price: $340       | | Price: $580       | | Price: $165       |                                       |
+| | Swatches: [⚫⚪🟤] | | Swatches: [🟡🟢⚫]| | Swatches: [⚫🟤]  | | Swatches: [⚪🟤]  |                                       |
+| | [Quick Add Size v]| | [Quick Add Size v]| | [Quick Add Size v]| | [Quick Add Size v]|                                       |
+| +-------------------+ +-------------------+ +-------------------+ +-------------------+                                       |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [AI CO-CREATION ATELIER SHOWCASE - DEEP OBSIDIAN PANORAMIC 440px CONTAINER]                                                    |
+| Background: Deep Obsidian (#111317) with Gold Accents                                                                         |
+| +---------------------------------------------------------+ +---------------------------------------------------------------+ |
+| | CO-CREATION PROTOCOL (Left 45%):                        | | REAL-TIME GENERATION CANVAS PREVIEW (Right 55%):              | |
+| | Step 1: Input your garment vision or upload sketch.     | | [BEFORE / AFTER INTERACTIVE COMPARISON SLIDER]                | |
+| | Step 2: Select luxury fabric, weave density & palette.  | | Left: Customer Rough Sketch / Inspiration Moodboard           | |
+| | Step 3: Generative AI produces 3D drape mockups in 10s. | | Right: Photorealistic 3D Mannequin Couture Render             | |
+| | Step 4: Feasibility verified by master tailors.         | | Overlay: "Generated Concept: Asymmetric Silk Drape #4910"     | |
+| | [BUTTON: LAUNCH BESPOKE STUDIO NOW ✨]                  | | [Interactive 360° Rotate] • [View Master Tailor Blueprint]    | |
+| +---------------------------------------------------------+ +---------------------------------------------------------------+ |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [ATELIER PROVENANCE & SUSTAINABLE CRAFT - 4-COLUMN TRUST SUITE]                                                               |
+| +-----------------------+ +-----------------------+ +-----------------------+ +-----------------------+                       |
+| | 🏛️ Master Tailor Guild | | 🧵 Traceable Mills    | | 📐 Exact-Fit Warranty | | ✈️ Insured Global White|                       |
+| | Hand-stitched finishes| | Direct sourcing from  | | Complimentary tailor  | | Glove delivery with   |                       |
+| | and bespoke patterns. | | Biella & Como, Italy. | | alterations worldwide.| | carbon-neutral freight|                       |
+| +-----------------------+ +-----------------------+ +-----------------------+ +-----------------------+                       |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [PRESS & CLIENT TESTIMONIALS WITH VERIFIED DOSSIER CARDS]                                                                     |
+| +-----------------------------------+ +-----------------------------------+ +-----------------------------------+             |
+| | "The AI studio rendered my gala   | | "Unbelievable drape. The Giza     | | "Redefines modern bespoke. Felt   |             |
+| |  gown concept with surgical       | |  cotton shirt feels like wearable | |  like sitting with a Savile Row   |             |
+| |  precision. Masterpiece."         | |  art. Arrived in 36 hours."       | |  master in my living room."       |             |
+| | — Lady Sarah M. | London          | | — Marcus V. | Milan               | | — Dr. Jonathan K. | New York      |             |
+| +-----------------------------------+ +-----------------------------------+ +-----------------------------------+             |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [COMPREHENSIVE LUXURY FOOTER - ZERO DEAD SPACE WITH RICH NAVIGATION]                                                          |
+| Column 1: Brand & Heritage  | Column 2: Wardrobe Aisles | Column 3: AI Co-Creation | Column 4: Client Services | Column 5: VIP|
+| Atelier AI History          | Men's Sartorial Collection| How Generative AI Works  | Bespoke Sizing Masterclass| Join Maison  |
+| Florence & Como Workshops   | Women's Evening & Couture | Feasibility Protocols    | Private Tailor Bookings   | Newsletter   |
+| Ethical Sourcing Charter    | Children's Ceremonial     | Fabric Sample Books      | Insured Global Logistics  | [Input: Email|
+| Certified Master Tailors    | Archival Seasonal Releases| Custom Design Dossiers   | Returns & Alterations     | [JOIN MAISON]|
+| Bottom Bar: © 2026 Atelier AI Inc. • Privacy Policy • Terms of Bespoke Feasibility • SOW Regulatory Compliance                |
++-------------------------------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## Screen 03: Department Hubs (Men, Women, Kids & Capsule Edits)
+
+### Layout & Functional Architecture
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| Breadcrumbs: Home / Men's Sartorial Department                                                       Season: Spring/Summer '26|
+| [DEPARTMENT EDITORIAL BANNER - 340px Height]                                                                                  |
+| Headline: "THE SARTORIAL MAN: MODERN ARCHITECTURAL TAILORING"                                                                 |
+| Subtitle: "Hand-finished jackets, Egyptian cotton shirting, and Italian wool trousers built for commanding presence."         |
+| Quick Jump Tags: [All (142)] [Suits & Blazers (38)] [Formal Shirting (44)] [Trousers (32)] [Knitwear (18)] [Resort (10)]       |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [LOOKBOOK SHOPPABLE SPREAD - 2 EQUAL EDITORIAL PANELS WITH INTERACTIVE HOTSPOTS]                                              |
+| +-----------------------------------------------------------+ +-------------------------------------------------------------+ |
+| | LOOKBOOK FRAME 01: "The Como Evening Tuxedo"              | | LOOKBOOK FRAME 02: "The Solomeo Linen Casual"               | |
+| | Full-length model visual with pulsating coordinate dots:  | | Full-length model visual with pulsating coordinate dots:    | |
+| | (•1) Peak Lapel Tuxedo Jacket - $680 [View Item]          | | (•1) Unstructured Fluted Linen Blazer - $420 [View Item]    | |
+| | (•2) Crisp Bib-Front Dress Shirt - $210 [View Item]       | | (•2) Pleated Belgian Linen Trousers - $240 [View Item]     | |
+| | (•3) Silk Satin Bowtie - $95 [View Item]                  | | (•3) Hand-Rolled Pocket Square - $75 [View Item]            | |
+| | [BUTTON: Shop Full Evening Look - $985 bundle]            | | [BUTTON: Shop Full Casual Look - $735 bundle]               | |
+| +-----------------------------------------------------------+ +-------------------------------------------------------------+ |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [SEASONAL TEXTILE DIRECTORY CARDS - 3 PANELS EXPLAINING CURRENT FABRICS]                                                      |
+| +------------------------------------+ +------------------------------------+ +------------------------------------+        |
+| | 140gsm Giza 87 Egyptian Cotton     | | Super 130s Extra-Fine Merino Wool  | | 380gsm Heavyweight Irish Flax      |        |
+| | Harvested along the Nile delta for | | Spun in Biella, offering natural   | | Loomed in Belfast, offering crisp  |        |
+| | unrivaled silkiness & luster.      | | crease recovery and thermo-balance.| | structure with breezy breathability|        |
+| | [Browse 24 Giza Garments ->]       | | [Browse 18 Merino Garments ->]     | | [Browse 14 Linen Garments ->]      |        |
+| +------------------------------------+ +------------------------------------+ +------------------------------------+        |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [NEW ARRIVALS 4-PRODUCT ROW WITH INTEGRATED BESPOKE TAILORING CALLOUT CARD]                                                   |
+| +-------------------+ +-------------------+ +-------------------+ +---------------------------------------------------------+ |
+| | [PRODUCT CARD 1]  | | [PRODUCT CARD 2]  | | [PRODUCT CARD 3]  | | [BESPOKE ALTERNATIVE CARD]                              | |
+| | Double-Breasted   | | Officer Trousers  | | Poplin Over-Shirt | | "Cannot find your exact sizing or preferred lapel?"     | |
+| | Wool Blazer       | | 100% Wool Gabard  | | Dual Chest Pocket | | Recreate any of these silhouettes in our AI Studio with | |
+| | $520              | | $260              | | $180              | | bespoke measurements and custom lining embroidery.      | |
+| | [Add to Bag]      | | [Add to Bag]      | | [Add to Bag]      | | [BUTTON: Launch AI Studio with Men's Silhouette ✨]     | |
+| +-------------------+ +-------------------+ +-------------------+ +---------------------------------------------------------+ |
++-------------------------------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## Screen 04: Product Listing Page / PLP (Faceted Catalog)
+
+### High-Density Layout Blueprint (Eliminating Dead Spaces)
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| Breadcrumbs: Home / Women / Ready-to-Wear / Dresses & Gowns                                              Showing 36 Garments  |
+| Active Filters Chips: [Mulberry Silk (x)] [Size: Medium (x)] [Color: Champagne (x)] [Under $500 (x)]         [RESET ALL FILTERS]|
++-------------------------------------------------------------------------------------------------------------------------------+
+| Toolbar: Sort By: [Curated Featured v] | View Density: [■■ 2-Col] [■■■ 3-Col *] [■■■■ 4-Col] | Toggle: [x] In-Stock Only      |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [FACETED FILTER SIDEBAR (22%)]   | [HIGH-DENSITY PRODUCT CATALOG GRID (78%)]                                                  |
+|                                  | +-----------------------------+ +-----------------------------+ +-----------------------------+ |
+| [+] CATEGORY DIVISION            | | [PRODUCT CARD 01]           | | [PRODUCT CARD 02]           | | [PRODUCT CARD 03]           | |
+| [x] Evening Gowns (14)           | | [Image: 3:4 High-Res Photo] | | [Image: 3:4 High-Res Photo] | | [Image: 3:4 High-Res Photo] | |
+| [ ] Tailored Blazers (12)        | | Top Badges: [Archival Silk] | | Top Badges: [Low Stock: 2]  | | Top Badges: [Best Seller]   | |
+| [ ] Formal Shirting (10)         | | Wishlist: [🤍 Active Favorite]| | Wishlist: [🤍]              | | Wishlist: [🤍]              | |
+|                                  | | Hover Peek: (Model 360° Cam)| | Hover Peek: (Fabric Zoom)   | | Hover Peek: (Alternate Color)| |
+| [+] FABRIC PROVENANCE            | | Title: Resham Silk Gown     | | Title: Fluted Linen Blazer  | | Title: Organza Slip Dress   | |
+| [x] 100% Mulberry Silk (16)      | | Textile: 22 Momme Charmeuse | | Textile: 380gsm Irish Flax  | | Textile: Silk Organza       | |
+| [ ] Grade-A Cashmere (8)         | | Sizing Available: [XS S M L]| | Sizing Available: [S M L XL]| | Sizing Available: [XS S M]  | |
+| [ ] Italian Merino Wool (12)     | | Swatches: [🟡 Champagne *]  | | Swatches: [⚪ Chalk *]      | | Swatches: [⚫ Onyx *]       | |
+| [ ] Belgian Flax Linen (9)       | |           [⚫ Noir] [🟢 Sage] | |           [🟤 Ochre]        | |           [⚪ Ivory]        | |
+|                                  | | Price: $380.00              | | Price: $410.00              | | Price: $290.00              | |
+| [+] SIZING MATRIX                | | [Quick Bag Glide Button]    | | [Quick Bag Glide Button]    | | [Quick Bag Glide Button]    | |
+| [XS] [ S ] [ M *] [ L ] [XL]     | +-----------------------------+ +-----------------------------+ +-----------------------------+ |
+|                                  | +-----------------------------+ +-----------------------------+ +-----------------------------+ |
+| [+] COLOR SWATCHES               | | [PRODUCT CARD 04]           | | [PRODUCT CARD 05]           | | [PRODUCT CARD 06]           | |
+| [⚫] [⚪] [🟡*] [🟢] [🟤] [🔵]     | | Title: Structured Coat      | | Title: Pleated Lawn Dress   | | Title: Cashmere Knit Turtle | |
+|                                  | | Fabric: Cashmere 420gsm     | | Fabric: Cotton Lawn         | | Fabric: 2-Ply Cashmere      | |
+| [+] PRICE RANGE SLIDER           | | Price: $620.00              | | Price: $240.00              | | Price: $310.00              | |
+| $150 ------------●--- $1,200     | +-----------------------------+ +-----------------------------+ +-----------------------------+ |
+|                                  |                                                                                             |
+| [+] OCCASION & SILHOUETTE        | [PAGINATION & SARTORIAL STATUS BAR]                                                         |
+| [ ] Black Tie Gala (11)          | Viewing 1 - 6 of 36 Hand-Finished Garments                                                  |
+| [ ] Sovereign Business (14)      | Progress: [====================------------------------------------------------] (17% Viewed) |
+| [ ] Resort & Leisure (11)        | [BUTTON: LOAD NEXT 12 GARMENTS] • [SHOW ALL ITEMS ON ONE PAGE]                              |
++----------------------------------+---------------------------------------------------------------------------------------------+
+```
+
+---
+
+## Screen 05: Product Detail Page / PDP (Editorial Decision Suite)
+
+### Asymmetric Sticky Layout (Zero Dead Space Architecture)
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| Breadcrumbs: Home / Women / Couture Gowns / Resham Embroidered Mulberry Silk Gown                         Item Code: #SKU-RS889|
++-------------------------------------------------------------------------------------------------------------------------------+
+| [LEFT COLUMN: MEDIA SUITE (58%)]                 | [RIGHT COLUMN: STICKY SARTORIAL DECISION SUITE (42%)]                      |
+|                                                  | Collection: Haute Couture Archival 2026                                    |
+| +----------------------------------------------+ | Title: "Resham Embroidered Mulberry Silk Gown"                             |
+| | MAIN PRODUCT VIEWPORT (High Resolution)      | | Rating: ★★★★★ 4.98 (42 Verified Reviews) | Tailoring Time: 48 Hours Ready|
+| | [Pinch to Zoom • Drag for Ultra-Macro Weave] | | Price: $380.00 USD (All import duties and insured freight included)        |
+| |                                              | |                                                                           |
+| | High-Resolution Editorial Shot:              | | SELECT COLORWAY: Champagne Gold (Hand-dyed naturally)                    |
+| | Model wearing full-length champagne gown     | | Swatches: [🟡 Champagne Gold *] [⚫ Obsidian Noir] [⚪ Ivory Alabaster]    |
+| | showing bodice embroidery and natural drape. | |                                                                           |
+| |                                              | | SELECT SIZE:                                 [📏 Sizing & Fit Masterclass]|
+| | [Floating Tag: 100% Traceable Silk]          | | [ XS ]   [ S ]   [ M * ]   [ L ]   [ XL - 1 Left in Atelier Vault ]       |
+| +----------------------------------------------+ | Fit Assessment: True to luxury sizing. Model is 5'10" wearing size S.     |
+|                                                  |                                                                           |
+| 4-THUMBNAIL MULTI-ANGLE STRIP:                   | ORDER QUANTITY:                                                           |
+| +----------+ +----------+ +----------+ +-------+ | [-]  1  [+]   | Stock Status: [🟢 3 units remaining for immediate dispatch] |
+| | [Front]  | | [Back]   | | [Weave]  | |[Video]| |                                                                           |
+| | Full-Body| | Low-Back | | Macro 40x| | Runway| | [BUTTON: ADD TO SHOPPING BAG] (Solid Obsidian Black, 52px Height)          |
+| +----------+ +----------+ +----------+ +-------+ | [BUTTON: EXPRESS BUYOUT VIA APPLE / GOOGLE PAY]                             |
+|                                                  |                                                                           |
+| [DETAILED TEXTILE SPECIFICATIONS TABLE]          | +-----------------------------------------------------------------------+ |
+| • Fiber: 100% Mulberry Silk Charmeuse            | | [✨ BESPOKE TAILORING EXTENSION]                                       | |
+| • Weight: 22 Momme (Ultra-heavy luxury drape)    | | Desire this exact silhouette made to your precise body measurements   | |
+| • Embroidery: Authentic Resham Threadwork        | | or customized in French Lace or Emerald Silk?                         | |
+| • Hardware: Concealed Japanese YKK Zipper        | | [BUTTON: Open this Silhouette in AI Custom Studio ->]                 | |
+| • Origin: Spun in Como, Italy                    | +-----------------------------------------------------------------------+ |
+|                                                  |                                                                           |
+| [COLLAPSIBLE EDITORIAL ACCORDIONS]               | CLIENT SATISFACTION ASSURANCE:                                            |
+| [+] Silhouette, Darting & Bodice Structure       | 🛡️ Complimentary Global Alterations Voucher Included                       |
+| [+] Master Weaver Notes & Dry Cleaning Protocols | 📦 Delivered in Handcrafted Monogrammed Wooden Atelier Box                  |
+| [+] Insured Global Delivery & 30-Day Returns     | 🔒 256-Bit Escrow Vault Checkout                                          |
++--------------------------------------------------+---------------------------------------------------------------------------+
+| [COMPLETE THE LOOK / COMPLEMENTARY GARMENTS CAROUSEL]                                                                         |
+| Pair With: [Silk Chiffon Stole - $110] • [Gold Leather Evening Clutch - $260] • [Minimalist Drop Pearl Earrings - $140]       |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [VERIFIED PATRON REVIEWS & REAL FIT GALLERY]                                                                                  |
+| Breakdown: 96% Would Recommend | Sizing: 92% True to Size | Fabric Feel: 10/10 Score                                          |
+| Review Card 1: "The drape exceeds Paris fashion house standards. Wore it to the Vienna Opera." — Claire D., Paris             |
++-------------------------------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## Screen 06: Saved Wardrobe & Wishlist Suite
+
+### Structured Layout Architecture
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| Breadcrumbs: Home / Patron Account / Saved Wardrobe                                                      Collection Total: 3  |
+| Title: "Curated Wardrobe Wishlist"                                                        [BUTTON: MOVE ALL IN-STOCK TO BAG]  |
++-------------------------------------------------------------------------------------------------------------------------------+
+| +------------------------------------+ +------------------------------------+ +------------------------------------+        |
+| | [SAVED ITEM CARD 01]               | | [SAVED ITEM CARD 02]               | | [SAVED ITEM CARD 03]               |        |
+| | [Image: Silk Evening Gown]         | | [Image: Double-Breasted Blazer]    | | [Image: Pleated Linen Trousers]    |        |
+| | Top Right: [Remove 'X']            | | Top Right: [Remove 'X']            | | Top Right: [Remove 'X']            |        |
+| | Name: Resham Silk Gown             | | Name: Biella Wool Blazer           | | Name: Irish Flax Trousers          |        |
+| | Selected Size: Medium              | | Selected Size: 40R                 | | Selected Size: 32 Waist            |        |
+| | Color: Champagne Gold              | | Color: Deep Navy                   | | Color: Chalk White                 |        |
+| | Price: $380.00                     | | Price: $520.00                     | | Price: $240.00                     |        |
+| | Stock Status: [🟢 In Stock - 3 Left]| | Stock Status: [🟠 Low Stock: 1]    | | Stock Status: [🔴 Out of Stock]    |        |
+| | [BUTTON: MOVE TO BAG IMMEDIATELY]  | | [BUTTON: MOVE TO BAG IMMEDIATELY]  | | [BUTTON: NOTIFY UPON RESTOCK]      |        |
+| | [Link: Customize in AI Studio]     | | [Link: Customize in AI Studio]     | | [Link: Re-create in AI Studio ✨]  |        |
+| +------------------------------------+ +------------------------------------+ +------------------------------------+        |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [AI WARDROBE COMPOSITION RECOMMENDATIONS]                                                                                     |
+| "Based on your saved items, our stylist recommends adding these transitional elements:"                                       |
+| +-------------------+ +-------------------+ +-------------------+ +---------------------------------------------------------+ |
+| | Cashmere Scarf    | | Suede Belt        | | Loafers in Box Calf| | [BOOK STYLIST CONSULTATION]                             | |
+| | $140              | | $110              | | $360              | | Speak with an Atelier stylist regarding sizing and    | |
+| | [Quick Add to Bag]| | [Quick Add to Bag]| | [Quick Add to Bag]| | wardrobe coordination. [Book 15-Min Call ->]          | |
+| +-------------------+ +-------------------+ +-------------------+ +---------------------------------------------------------+ |
++-------------------------------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## Screen 07: Shopping Bag Page & Slide-Over Drawer
+
+### Dual-Representation Blueprint (Full Page & Compact Slide-Out)
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| [SLIDE-OVER CART DRAWER / FULL SHOPPING BAG SUITE]                                                                            |
+| Header: YOUR ATELIER BAG (2 Pieces Selected)                                                                 [Close Panel (X)]|
+| Complimentary Delivery Threshold: [====================================---------] $70.00 away from VIP Express Courier      |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [BAG ITEMS TABLE (64%)]                                  | [ORDER FISCAL RECAP CARD (36% - STICKY)]                           |
+|                                                          |                                                                   |
+| +------------------------------------------------------+ | BAG SUMMARY METRICS:                                              |
+| | [Thumbnail] Resham Embroidered Silk Gown             | | Gross Garment Subtotal:                           $620.00         |
+| | Color: Champagne Gold  |  Size: Medium               | | Insured Express Courier:                          $25.00          |
+| | SKU: #SKU-RS889        |  Tailoring: Ready-to-Wear   | | Estimated Import Duties & VAT:                    INCLUDED        |
+| | Unit Price: $380.00                                  | | Atelier Alterations Guarantee:                    COMPLIMENTARY   |
+| | Quantity: [-] 1 [+]    |  Line Total: $380.00        | |                                                                   |
+| | [Move to Saved Wishlist] • [Remove Item]             | | PROMOTIONAL OR VIP PRIVILEGE VOUCHER:                             |
+| +------------------------------------------------------+ | +---------------------------------------------------------------+ |
+| +------------------------------------------------------+ | | [ ATELIER10                           ] [BUTTON: APPLY CODE]  | |
+| | [Thumbnail] Belgian Linen Pleated Trousers           | | +---------------------------------------------------------------+ |
+| | Color: Chalk White     |  Size: 32 Waist             | | Discount Applied: ATELIER10 (-$62.00)                             |
+| | SKU: #SKU-BL104        |  Tailoring: Ready-to-Wear   | |                                                                   |
+| | Unit Price: $240.00                                  | | ----------------------------------------------------------------- |
+| | Quantity: [-] 1 [+]    |  Line Total: $240.00        | | NET DUE TODAY:                                    $583.00         |
+| | [Move to Saved Wishlist] • [Remove Item]             | |                                                                   |
+| +------------------------------------------------------+ | [PRIMARY BUTTON: PROCEED TO CHECKOUT (Full Width)]                |
+|                                                          | [EXPRESS CHECKOUT: PAY WITH APPLE PAY / GOOGLE PAY]               |
+| ATELIER UNBOXING EXPERIENCE OPTIONS:                     |                                                                   |
+| [x] Signature Black Wooden Keepsake Box (Free)           | TRUST GUARANTEES:                                                 |
+| [ ] Include Handwritten Personalized Calligraphy Note    | • 30-Day Hassle-Free Alterations & Exchange Return                |
+| [ ] Omit Pricing on Invoice (Gift Presentation)          | • Climate Neutral Express Transportation                          |
++----------------------------------------------------------+-------------------------------------------------------------------+
+```
+
+---
+
+## Screen 08: 4-Step Distraction-Free Luxury Checkout
+
+### Streamlined Checkout Architecture
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| [MINIMALIST CHECKOUT HEADER]   ATELIER AI • PRIVATE CLIENT ESCROW                    [🔒 Bank-Grade 256-Bit SSL Encrypted]   |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [LEFT COLUMN: 4-STEP EXPANDED ACCORDION (60%)]           | [RIGHT COLUMN: STICKY ORDER BREAKDOWN (40%)]                      |
+|                                                          |                                                                   |
+| STEP 1: CLIENT IDENTIFICATION                            | REVIEW SELECTED GARMENTS (2):                                     |
+| Signed in as: eleanor.vance@maison.com [Change Account]  | • Resham Silk Gown (Gold, M)                          $380.00     |
+| [x] Subscribe to private archival releases & invitations | • Belgian Linen Trousers (Chalk, 32)                  $240.00     |
+|                                                          | ----------------------------------------------------------------- |
+| STEP 2: SHIPPING DESTINATION & RECIPIENT                 | Garments Subtotal:                                    $620.00     |
+| Saved Addresses: [• 742 Evergreen Terrace, OR *] [+] New | VIP Promo Discount:                                  -$62.00     |
+| Full Name: Eleanor Vance         Phone: +1 555-0192      | Insured Global Freight:                               FREE        |
+| Street Address: 742 Evergreen Terrace, Suite 4B          | Duties & Customs Clearance:                           INCLUDED    |
+| City: Springfield                Postal Code: 97477      | ----------------------------------------------------------------- |
+| Country / Region: [ United States                      v]| TOTAL FINAL CHARGE:                                   $558.00     |
+| Delivery Instructions: "Leave with doorman concierge."   |                                                                   |
+|                                                          | [ESTIMATED ATELIER ARRIVAL]                                       |
+| STEP 3: COURIER METHOD SELECTION                         | Express Courier: Wednesday, October 21 by 12:00 PM                |
+| (•) Atelier Insured Air Express (2-3 Days) — COMPLIMENTARY| Dispatched in climate-controlled protective garment flight casing.|
+| ( ) Same-Day White Glove Courier (NYC/LA Metro) — $45.00 |                                                                   |
+|                                                          | NEED SIZING ASSISTANCE BEFORE DISPATCH?                           |
+| STEP 4: SECURE PAYMENT GATEWAY                           | [Live Concierge Chat Trigger] • [Call Atelier Dispatch Desk]      |
+| [Tabs: Credit / Debit Card *] [Apple Pay] [Wire Escrow]  |                                                                   |
+| Card Number: [ 4532  ••••  ••••  8910                  ] |                                                                   |
+| Expiry Date: [ 08 / 28 ]         CVC Code: [ ••• ]       |                                                                   |
+| Cardholder Name: [ ELEANOR VANCE                       ] |                                                                   |
+| [x] Billing address matches shipping destination         |                                                                   |
+|                                                          |                                                                   |
+| [BUTTON: AUTHORIZE & PLACE ORDER - $558.00 USD]          |                                                                   |
++----------------------------------------------------------+-------------------------------------------------------------------+
+```
+
+---
+
+## Screen 09: Order Confirmation & Live Fulfillment Tracker
+
+### Visual Milestone & Status Architecture
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| [ORDER COMPLETION HERO CARD]                                                                                                  |
+|                                                                                                                               |
+| (✨) ATELIER EMBOSSED SEAL: ORDER RECORD CONFIRMED                                                                             |
+| Headline: "Honored to dress you, Eleanor."                                                                                    |
+| Unique Invoice Reference: #ATELIER-ORD-99418                                       Placed: October 19, 2026 at 09:14 EST     |
+| Digital receipt transmitted to: eleanor.vance@maison.com                           [BUTTON: DOWNLOAD TAX INVOICE (PDF)]       |
+|                                                                                                                               |
+| [LIVE ATELIER TO WARDROBE FULFILLMENT PIPELINE]                                                                               |
+| [● 1. Order Placed] === [● 2. Garment Inspection] === [○ 3. Master Tailor Pressing] === [○ 4. Courier Dispatch] === [○ 5. Delivered]
+| Completed Oct 19         In Progress (Como Vault)       Scheduled Today 16:00        Tracking: DHL Express Air    Est. Oct 21 |
+|                                                                                                                               |
+| +---------------------------------------------------------------------------------------------------------------------------+ |
+| | ORDER BREAKDOWN & SARTORIAL LOGISTICS                                                                                     | |
+| | Destination: Eleanor Vance, 742 Evergreen Terrace, Springfield, OR 97477                                                 | |
+| | Payment Method: Visa Signature ending in 8910 ($558.00 Authorized)                                                       | |
+| | Packaging: Handcrafted Signature Wooden Box with Personalized Monogramming                                                | |
+| | Included Garments:                                                                                                        | |
+| | • Resham Embroidered Mulberry Silk Gown (Gold, M) — Prepared with archival silk hanger                                    | |
+| | • Belgian Linen Pleated Trousers (Chalk, 32) — Steam-pressed and cedar-lined                                              | |
+| +---------------------------------------------------------------------------------------------------------------------------+ |
+|                                                                                                                               |
+| NEXT ACTIONS:                                                                                                                 |
+| [BUTTON: TRACK LIVE IN PATRON PORTAL]          [BUTTON: EXPLORE AI CUSTOM STUDIO FOR FUTURE COMMISSIONS]                      |
++-------------------------------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## Screen 10: AI Custom Design Studio (`/custom-studio`) — Flagship Co-Creation Suite
+
+### Multi-Step Bespoke Interface Architecture (Zero Dead Space)
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| STUDIO HEADER: [✨ ATELIER AI BESPOKE CO-CREATION WORKSHOP]                          Active Workspace: New Bespoke Commission|
+| Subtitle: "Synthesize personalized silhouette concepts with generative intelligence; realized by master tailors."            |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [LEFT PANEL: 6-STEP DESIGN CONTROLS (44%)]         | [RIGHT PANEL: REAL-TIME GENERATIVE 3D CANVAS (56%)]                      |
+|                                                    |                                                                          |
+| STEP 1: GENDER & SILHOUETTE BLUEPRINT              | +----------------------------------------------------------------------+ |
+| Target Patron: [Men] [Women *] [Children]          | | 3D VIRTUAL MANNEQUIN & CONCEPT WORKBENCH                             | |
+| Garment Type:  (•) Evening Gown  ( ) Tuxedo Blazer | |                                                                      | |
+|                ( ) Long Coat     ( ) Sherwani      | | [High-Resolution Photorealistic AI Concept Render]                   | |
+| Cut/Fit:       [Sculptural / Fitted *] [Flowing]   | | Front-perspective full render of flowing champagne gown showing      | |
+| Hemline:       [Floor-Length *] [Midi] [Asymmetric]| | hand-pleated silk drape and asymmetric neckline.                     | |
+| Neckline:      [Asymmetric Cut *] [High Cowl Neck] | |                                                                      | |
+| Sleeves:       [Sleeveless Cape *] [French Cuff]   | | Live Watermark: "Atelier AI Prototype • Model Iteration 3.8"         | |
+|                                                    | | Metrics: Concept Rendered in 6.4s • Ray-traced Lighting Simulation   | |
+| STEP 2: PALETTE & ORNAMENTATION                    | | Tools: [🔍 40x Macro Weave Zoom] [🔄 360° Rotate] [↔ Compare Variants]| |
+| Primary Weave Tone: [🟡 Champagne Gold *]          | +----------------------------------------------------------------------+ |
+| Contrast Trim:      [⚫ Obsidian Noir]             |                                                                          |
+| Ornamentation:      [Resham Embroidery *] [Minimal]| GENERATED CONCEPT VARIATIONS (Pick Preferred Vision):                    |
+|                     [Mother of Pearl Embellishment]| +-------------------+ +-------------------+ +-------------------+        |
+|                                                    | | [CONCEPT A *]     | | [CONCEPT B]       | | [CONCEPT C]       |        |
+| STEP 3: MASTER TEXTILE SELECTION                   | | (Selected Vision) | | (Deep Cowl Neck)  | | (Cape Sleeve Cut) |        |
+| [x] 100% Mulberry Silk Charmeuse (22 Momme)        | | Match: 98% Prompt | | Match: 94% Prompt | | Match: 91% Prompt |        |
+| [ ] Grade-A Mongolian Cashmere (420 GSM)           | +-------------------+ +-------------------+ +-------------------+        |
+| [ ] Super 130s Italian Wool (Biella Mill)          |                                                                          |
+|                                                    | DOSSIER SUBMISSION FOR MASTER TAILOR FEASIBILITY REVIEW:                 |
+| STEP 4: VISUAL MOODBOARD / SKETCH UPLOAD           | Selected Baseline: Concept A (Asymmetric Mulberry Silk Gown)             |
+| +------------------------------------------------+ | Body Measurements Profile:                                               |
+| | [📁 DRAG & DROP INSPIRATION OR SKETCH IMAGES]  | | (•) Use Saved Profile (Eleanor Vance - Size M)  ( ) Enter Custom Metrics |
+| | Supported: JPG, PNG, WEBP (Max 15MB)           | |                                                                        |
+| | Uploaded: [archival_drape_ref.jpg] (2.4MB) [X] | | Specific Instructions for Tailoring Director:                          |
+| +------------------------------------------------+ | [ "Please construct interior boning for structured support and ensure" ]|
+|                                                    | [ "zipper is fully invisible along left lateral seam."                 ]|
+| STEP 5: PROMPT CO-PILOT (NATURAL LANGUAGE)         |                                                                          |
+| [ "Floor-length evening gown with fluid silk     ] | Expected Delivery Target: [ Select Gala Event Date: Nov 28, 2026 📅 ]    |
+| [  charmeuse draping, asymmetric cape sleeve and ] | Budgetary Threshold:      [ $400 - $800 USD Range                  v ]    |
+| [  delicate floral Resham embroidery on bodice." ] |                                                                          |
+| Quick Chips: [+ Pleated Back] [+ Slit] [+ Gold Trim| [PRIMARY ACTION: TRANSMIT DOSSIER TO MASTER TAILORS FOR QUOTE]          |
+|                                                    | Notice: No payment required now. Official feasibility quote within 24h.  |
+| [BUTTON: RE-GENERATE AI CONCEPTS ✨ (Credits: 5)]  | SOW Compliance: AI outputs are conceptual design mockups for tailoring.  |
++----------------------------------------------------+--------------------------------------------------------------------------+
+```
+
+---
+
+## Screen 11: Bespoke Design Dossier Submission & Feasibility Status
+
+### Detailed Dossier Tracking Architecture
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| [COMMISSION SUBMITTED BANNER]                                                                                                 |
+| (✨) DOSSIER REGISTERED UNDER PROTOCOL: #AI-DSN-49102                                                                         |
+| Status: [🟡 UNDER FEASIBILITY REVIEW WITH HEAD OF TAILORING]                                 Submitted: Oct 19, 2026 at 09:30 |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [LEFT COLUMN: DOSSIER SPECIFICATIONS (50%)]              | [RIGHT COLUMN: MASTER TAILOR PIPELINE & CHAT (50%)]                |
+|                                                          |                                                                   |
+| APPROVED CONCEPT SPECIFICATIONS:                         | 3-STAGE BESPOKE FEASIBILITY ROADMAP:                              |
+| • Garment Classification: Women's Bespoke Evening Gown   | [● Stage 1: Drape & Weave Feasibility Check (In Progress - 24h)]  |
+| • Selected AI Render: Concept A (Asymmetric Silk Drape)  | Head Tailor evaluates fabric stress and seam allowances.          |
+| • Primary Fabric: 100% Mulberry Silk Charmeuse (Como)    |                                                                   |
+| • Color Tone: Champagne Gold #C5A880                     | [○ Stage 2: Binding Quotation & Measurement Validation]           |
+| • Target Gala Event Date: November 28, 2026              | Official quote and bespoke measurement portal unlocked.           |
+| • Declared Budget Ceiling: $400 - $800 USD               |                                                                   |
+| • Client Specifics: Interior boning & invisible zipper   | [○ Stage 3: Artisan Tailoring & Dispatched Delivery]              |
+|                                                          | Hand-cut in Florence atelier and dispatched via white glove.      |
+| VISUAL ARCHIVE:                                          |                                                                   |
+| [Thumbnail: Concept A] • [Thumbnail: Reference Sketch]   | DIRECT ATELIER CHAT CHANNEL:                                      |
+|                                                          | Tailor Concierge: "Good morning Eleanor, Master Tailor Giuliano   |
+| [BUTTON: DOWNLOAD DOSSIER PDF BLUEPRINT]                 | is reviewing your silk yardage requirements now."                 |
+| [BUTTON: MODIFY OR CANCEL COMMISSION REQUEST]            | [BUTTON: SEND MESSAGE OR MEASUREMENTS TO CONCIERGE]               |
++----------------------------------------------------------+-------------------------------------------------------------------+
+```
+
+---
+
+## Screen 12: Patron Authentication & Private Client Access
+
+### Editorial Split-Screen Layout Blueprint
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| [LEFT 50%: HIGH-FASHION EDITORIAL ATMOSPHERE]            | [RIGHT 50%: SECURE PATRON PORTAL SUITE]                           |
+|                                                          |                                                                   |
+| Full-Height Atmospheric Photograph:                      | Brand Logo: [ATELIER AI • MAISON PRIVÉE]                          |
+| Model in master-tailored evening coat standing in        | Headline: "Enter Your Private Sartorial Suite"                    |
+| Milanese historic palazzo courtyard.                     | Subtitle: "Access saved wardrobes, active commissions & orders."  |
+|                                                          |                                                                   |
+| Overlay Quote:                                           | AUTHENTICATION SELECTOR: [SIGN IN *]  [CREATE PATRON ACCOUNT]     |
+| "Elegance is not about being noticed,                    |                                                                   |
+|  it's about being remembered."                           | Email Address:                                                    |
+| — Giorgio Armani                                         | [ eleanor.vance@maison.com                                      ] |
+|                                                          |                                                                   |
+| Footer Note: Registered patrons receive complimentary    | Password:                                                         |
+| custom tailoring fittings and private runway previews.   | [ ••••••••••••••••••••••                                    ] [👁️]|
+|                                                          | [Remember my login securely]         [Forgot password recovery?]  |
+|                                                          |                                                                   |
+|                                                          | [PRIMARY BUTTON: ACCESS PATRON SUITE ->]                          |
+|                                                          |                                                                   |
+|                                                          | OR INSTANT ACCESS VIA:                                            |
+|                                                          | [Apple ID Private Login]     •     [Google Workspace Auth]        |
+|                                                          |                                                                   |
+|                                                          | GUEST COMMISSION BRIDGE:                                          |
+|                                                          | Need to check out or design immediately without password?         |
+|                                                          | [Continue as Verified Guest with One-Time Email Code ->]          |
++----------------------------------------------------------+-------------------------------------------------------------------+
+```
+
+---
+
+## Screen 13: Patron Account Portal & Digital Wardrobe
+
+### Comprehensive Hub Blueprint (Zero Empty Space)
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| PATRON SUITE: Eleanor Vance • VIP Tier: Gold Needle Patron                                    Member Since: 2024 • Credit: $50|
++-------------------------------------------------------------------------------------------------------------------------------+
+| [NAVIGATION TABS (20%)] | [MAIN WORKSPACE & SARTORIAL LOGS (80%)]                                                             |
+|                         |                                                                                                     |
+| [•] Overview Dashboard  | ACTIVE BESPOKE COMMISSIONS (1 IN REVIEW):                                                           |
+| [ ] Ready Orders (6)    | +-------------------------------------------------------------------------------------------------+ |
+| [ ] AI Dossiers (1)     | | Dossier Ref: #AI-DSN-49102  |  Submitted: Today  |  Target: Nov 28 Gala                         | |
+| [ ] Saved Wardrobe (3)  | | [Thumbnail Concept A] Resham Embroidered Silk Gown                                              | |
+| [ ] Body Measurements   | | Feasibility Status: [🟡 Master Tailor Reviewing Yardage] • Estimated: $580.00                   | |
+| [ ] Tailoring Concierge | | [BUTTON: Open Live Dossier Workspace] • [BUTTON: Chat Directly with Tailor]                  | |
+| [ ] Addresses (2)       | +-------------------------------------------------------------------------------------------------+ |
+| [ ] Security & MFA      |                                                                                                     |
+| [ ] Sign Out            | RECENT READY-TO-WEAR SARTORIAL ORDERS:                                                              |
+|                         | +-------------------------------------------------------------------------------------------------+ |
+| QUICK METRICS:          | | Order: #ATELIER-ORD-99418 | Date: Today | Total: $558.00 (2 Garments)                               | |
+| • Tailored Garments: 4  | | Status: [🔵 Dispatched via DHL Express Air - Tracking #98241042] | Delivery: Wednesday           | |
+| • Bespoke Pieces: 2     | | Items: Resham Silk Gown (Gold, M), Belgian Linen Trousers (Chalk, 32)                            | |
+| • Saved Measurements: 8 | | [BUTTON: Track Courier Package] • [BUTTON: Download VAT Invoice] • [Request Free Return/Alter] | |
+|                         | +-------------------------------------------------------------------------------------------------+ |
+|                         |                                                                                                     |
+|                         | SAVED BESPOKE BODY MEASUREMENTS PROFILE ("Formal Gala Spec - Updated Sept '26"):                  |
+|                         | • Bust/Chest: 36.5 in  • Waist: 27.0 in  • Hips: 38.2 in  • Shoulder Width: 16.0 in  • Height: 5'10"|
+|                         | [BUTTON: Update Anatomical Measurements] • [Book Virtual Measuring Consultation with Concierge]    |
++-------------------------+-----------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## Screen 14: Atelier Concierge, Private Fittings & Client Services
+
+### High-Utility Concierge Architecture
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| Breadcrumbs: Home / Client Services / Atelier Concierge                                         Hotline: +1 (800) 555-0199    |
+| Headline: "Atelier Client Services & Private Bespoke Consultations"                                                           |
+| Subtitle: "Whether requesting custom fabric sourcing or scheduling an in-person measurement fitting, our team is at your call."|
++-------------------------------------------------------------------------------------------------------------------------------+
+| [DIRECT CONTACT CARDS (40%)]                     | [CONCIERGE INQUIRY & APPOINTMENT FORM (60%)]                               |
+|                                                  |                                                                           |
+| 🏛️ FLAGSHIP MAISONS & FITTING SUITES:              | Full Legal Name: [ Eleanor Vance                                        ] |
+| • New York: 450 Madison Avenue, 8th Floor        | Patron Email:    [ eleanor.vance@maison.com                             ] |
+| • Florence: Via de' Tornabuoni, 14               | Contact Phone:   [ +1 (555) 019-2834                                    ] |
+| • London: 18 Savile Row, Mayfair                 | Consultation Inquiry Nature:                                              |
+|                                                  | [v Bespoke AI Design Feasibility & Fabric Sourcing Inquiry              ] |
+| 📞 DIRECT CLIENT TELEPHONE:                       | Reference Dossier or Order # (Optional): [ #AI-DSN-49102                ] |
+| +1 (800) 555-0199 (Mon–Sat, 8am–9pm EST)         | In-Person Atelier Fitting Desired?                                        |
+|                                                  | (•) Virtual 3D Video Fitting   ( ) New York Suite   ( ) Florence Atelier  |
+| 💬 INSTANT CONCIERGE CHAT:                       | Message / Tailoring Specification Requests:                               |
+| WhatsApp Direct: +1 (555) 019-9000               | [ "Seeking clarification whether the Mulberry silk charmeuse can be    ]  |
+| Average response time: Under 8 minutes           | [  swatched with an organza overlay for added structure."              ]  |
+| [BUTTON: LAUNCH CONCIERGE WHATSAPP NOW]          |                                                                           |
+|                                                  | [PRIMARY BUTTON: TRANSMIT INQUIRY TO MASTER TAILOR DESK]                  |
++--------------------------------------------------+---------------------------------------------------------------------------+
+| [FREQUENTLY CLARIFIED SARTORIAL & BESPOKE QUESTIONS ACCORDION]                                                                |
+| [+] How true to reality is the 3D visual concept generated in the AI Custom Studio?                                           |
+| [+] How does the master tailor feasibility and quotation procedure function?                                                  |
+| [+] What guarantees exist regarding custom tailored fit and post-delivery alterations?                                        |
+| [+] What are the global shipping timelines and insurance policies for fine silk and cashmere?                                |
++-------------------------------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## Screen 15: Global Modals, Flyouts & Interactive Overlays
+
+### Layout Specs for Universal Micro-Interactions
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| [15.1 INTERACTIVE SIZING & ANATOMICAL MEASUREMENT MODAL]                                                                      |
+| Trigger: "Size Guide & Fit Masterclass" link on PDP or AI Studio                                              [Close Modal (X)]|
+| Mode Toggle: [Imperial (Inches) *]  [Metric (Centimeters)]                                                                    |
+| +------------------------------------------------------+ +------------------------------------------------------------------+ |
+| | ANATOMICAL SIZING CHART TABLE                        | | VISUAL BODY MEASURING GUIDE (ILLUSTRATED FIGURE)                 | |
+| | Size  | Bust/Chest | Natural Waist | Hips    | Length| | Showing accurate tape placement line-drawings:                   | |
+| | XS    | 32 - 34"   | 24 - 25"      | 34 - 35"| 58"   | | 1. Bust: Around fullest part of chest.                           | |
+| | S     | 34 - 36"   | 26 - 27"      | 36 - 37"| 59"   | | 2. Waist: Narrowest circumference above navel.                   | |
+| | M *   | 36 - 38"   | 28 - 29"      | 38 - 39"| 60"   | | 3. Hips: Stand with feet together across widest point.           | |
+| | L     | 38 - 40"   | 30 - 32"      | 40 - 42"| 60"   | | Still unsure? [BUTTON: Use AI Camera Sizing Estimator]           | |
+| +------------------------------------------------------+ +------------------------------------------------------------------+ |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [15.2 AI GENERATED CONCEPT 40x ULTRA-ZOOM & VARIANT COMPARATOR MODAL]                                                         |
+| Trigger: "Zoom / Compare" in AI Studio Canvas                                                                 [Close Modal (X)]|
+| Split-Screen Comparison: [Concept A (Selected) *]   vs   [Original Uploaded Reference Inspiration Image]                       |
+| Left Panel: 40x micro-weave simulation showing resham silk fibers. Right Panel: Original customer sketch showing matching darts.|
++-------------------------------------------------------------------------------------------------------------------------------+
+| [15.3 GLOBAL CATALOG SEARCH OVERLAY MODAL]                                                                                    |
+| Trigger: Search Icon in Navbar                                                                                [Close Modal (X)]|
+| Search Field: [ 🔍 Type garment, fabric, silhouette or season... (e.g., 'Silk Gown')                                         ] |
+| TRENDING SEARCH SUGGESTIONS: [Mulberry Silk] [Cashmere Blazer] [Resham Embroidery] [Giza 87 Shirt] [Black Tie Tuxedo]         |
+| INSTANT MATCH PREVIEW (3 Columns): 1. Exact Ready Garments (4) | 2. Seasonal Lookbook Edits (2) | 3. AI Custom Studio Presets (1)|
++-------------------------------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+# SECTION 4: ADMIN BACK-OFFICE WIREFRAME BLUEPRINTS
+
+---
+
+## Screen 16: Admin Secure Authentication Portal
+
+### Back-Office Login Architecture
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| [CENTERED ENCLAVE - DEEP OBSIDIAN RESTRICTED PORTAL]                                                                          |
+|                                                                                                                               |
+| 🏛️ ATELIER AI — BACK-OFFICE OPERATIONS & TAILORING SYSTEM                                                                      |
+| Security Notice: Restricted to authorized inventory directors, head tailors & executive managers.                            |
+|                                                                                                                               |
+| +---------------------------------------------------------------------------------------------------------------------------+ |
+| | OPERATOR CREDENTIALS                                                                                                      | |
+| | Work Identity / Corporate Email:                                                                                          | |
+| | [ giuliano.tailoring@atelier-ai.com                                                                                     ] | |
+| | Encrypted Master Password:                                                                                                | |
+| | [ •••••••••••••••••••••••••••••••••                                                                                     ] | |
+| | Hardware Key / Two-Factor Authenticator (TOTP):                                                                           | |
+| | [ 894  102                                                                                                              ] | |
+| |                                                                                                                           | |
+| | Operational Role / Department: [ Master Tailor Guild & Feasibility v ]                                                    | |
+| |                                                                                                                           | |
+| | [PRIMARY BUTTON: VERIFY IDENTITY & INITIALIZE WORKSPACE]                                                                  | |
+| +---------------------------------------------------------------------------------------------------------------------------+ |
+| Audit Protocol: All actions logged under ISO-27001 & SOC2 sartorial compliance. IP: 192.168.1.42 logged.                     |
++-------------------------------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## Screen 17: Executive Operations & Metrics Dashboard
+
+### High-Density Operations Center
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| ATELIER ADMIN | [Search SKUs, Dossiers, Patrons...]           Role: Master Tailoring Director | Operator: Giuliano M. | [Exit]|
++-------------------------------------------------------------------------------------------------------------------------------+
+| [NAVIGATION SIDEBAR (18%)] | [OPERATIONAL EXECUTIVE COMMAND CENTER (82%)]                                                     |
+|                            |                                                                                                  |
+| [•] Overview & Metrics     | 4 KEY EXECUTIVE KPIS (REAL-TIME TODAY):                                                          |
+| [ ] Ready Product Catalog  | +----------------------+ +----------------------+ +----------------------+ +----------------------+ |
+| [ ] Add New Garment        | | GROSS REVENUE (TODAY)| | READY-TO-WEAR ORDERS | | ACTIVE AI DOSSIERS   | | AVG TAILORING MARGIN | |
+| [ ] Orders & Invoices (18) | | $48,920.00 USD       | | 34 Dispatched Orders | | 14 Awaiting Review   | | 68.4% Net Margin     | |
+| [ ] AI Custom Queue (14)   | | (+18% vs yesterday)  | | (98% on-time dispatch)| | (4 Quotes Ready)     | | (+4.2% MoM)          | |
+| [ ] Patron CRM (1,240)     | +----------------------+ +----------------------+ +----------------------+ +----------------------+ |
+| [ ] Categories & Taxa      |                                                                                                  |
+| [ ] Promotions & VIP       | RECENT ACTIVITY PIPELINE (READY ORDERS & CUSTOM COMMISSIONS):                                    |
+| [ ] Sourcing & Reports     | +----------------------------------------------------------------------------------------------+ |
+| [ ] System Settings        | | Ref ID       | Client Name    | Garment Description        | Status               | Action   | |
+|                            | | #ORD-99418   | Eleanor Vance  | Resham Silk Gown + Linen Tr| [🔵 Ready to Ship]   | [Fulfill]| |
+| QUICK HEALTH MONITOR:      | | #AI-DSN-49102| Eleanor Vance  | Asymmetric Silk Bespoke Gwn| [🟡 Feasibility Rev] | [Review] | |
+| • Como Silk Yardage: OK    | | #ORD-99417   | Marcus Vance   | Giza 87 Oxford Shirt x2    | [🟢 In Transit]      | [Invoice]| |
+| • Tailor Utilization: 82%  | | #AI-DSN-49098| Sophia Laurent | Mongolian Cashmere Coat    | [🟢 Quote Approved]  | [Assign] | |
+| • Server Load: 12%         | +----------------------------------------------------------------------------------------------+ |
++----------------------------+--------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## Screen 18: Product Catalog & Inventory Matrix Management
+
+### Dense Inventory Control Table
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| CATALOG MANAGEMENT: Ready-to-Wear Vault                                       [BUTTON: + CREATE NEW GARMENT] [EXPORT CSV]     |
+| Filters: Department: [All v] | Fabric: [Silk v] | Stock Level: [All v] | Search: [SKU or Name...                            ] |
++-------------------------------------------------------------------------------------------------------------------------------+
+| SKU CODE   | GARMENT TITLE               | DEPARTMENT | TEXTILE TYPE         | SIZES IN STOCK    | BASE PRICE | STOCK | ACTION|
+| #SKU-RS889 | Resham Embroidered Silk Gown| Women      | Mulberry Silk Charme | XS:2 S:4 M:3 L:1  | $380.00    | 10    | [Edit]|
+| #SKU-BL104 | Belgian Linen Trousers      | Men/Women  | 380gsm Irish Flax    | 30:4 32:6 34:2    | $240.00    | 12    | [Edit]|
+| #SKU-GZ201 | Archival Giza Oxford Shirt  | Men        | Giza 87 Cotton       | S:8 M:12 L:10 XL:4| $195.00    | 34    | [Edit]|
+| #SKU-MC502 | Fluted Double Cashmere Coat | Women      | Mongolian Cashmere   | S:1 M:2 L:0       | $620.00    | 3 (⚠️)| [Edit]|
++-------------------------------------------------------------------------------------------------------------------------------+
+| BULK INVENTORY ACTIONS: [Update Selected Prices] • [Apply Seasonal Tag] • [Initiate Re-stock from Italian Mill]              |
++-------------------------------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## Screen 19: Add / Edit Garment Studio & Taxonomy Suite
+
+### Comprehensive Creation Form
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| BACK-OFFICE GARMENT STUDIO: Create New Archival Garment                                        [Save Draft] [PUBLISH GARMENT] |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [PRIMARY PRODUCT INFORMATION (55%)]                      | [MEDIA UPLOADS & TEXTILE SPECS (45%)]                              |
+| Garment Title: [ Silk Velvet Evening Cape               ]| Media Asset Manager (Drag & Drop up to 8 High-Res Photos/Videos):  |
+| Department:    [ Women's Couture                      v ]| +----------------------------------------------------------------+ |
+| Sub-Category:  [ Evening Outerwear & Capes            v ]| | [Slot 1: Front Full] [Slot 2: Back] [Slot 3: Macro Weave]      | |
+| Retail Price:  [ $540.00 USD   ]  Cost Price: [$180.00 ] | | [Slot 4: Runway Video Clip] • Drag to re-order priority        | |
+|                                                          | +----------------------------------------------------------------+ |
+| Editorial Description:                                   | Textile Provenance Details:                                        |
+| [ Hand-cut silk velvet with liquid drape and silk      ] | Fabric Material: [ 80% Mulberry Silk, 20% Rayon Velvet          ] |
+| [ satin lining. Finished with horn clasp closure.      ] | Mill of Origin:  [ Como Textile Arts, Italy                      ] |
+|                                                          | Weight (GSM):    [ 320 GSM                                       ] |
+| INVENTORY & SIZING MATRIX:                               | Care Directives: [ Specialist Dry Clean Only                     ] |
+| [x] XS (Stock: [ 4 ])   [x] S (Stock: [ 8 ])             |                                                                    |
+| [x] M  (Stock: [ 6 ])   [x] L (Stock: [ 2 ])             | AI Custom Studio Integration:                                      |
+|                                                          | [x] Allow customers to use this silhouette as an AI Bespoke base   |
++----------------------------------------------------------+--------------------------------------------------------------------+
+```
+
+---
+
+## Screen 20: Order Pipeline, Invoicing & Fulfillment Hub
+
+### Order Logistics Console
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| ORDER LOGISTICS HUB: Active Orders (18 Pending Dispatch)                                   Filter: [Dispatch Due Today (8) v] |
++-------------------------------------------------------------------------------------------------------------------------------+
+| ORDER #      | RECIPIENT        | ITEMS COUNT | TOTAL PAID  | CARRIER & SERVICE | STATUS              | SARTORIAL PACKAGING   |
+| #ORD-99418   | Eleanor Vance    | 2 Garments  | $558.00 USD | DHL Air Express   | [🔵 Quality Checked]| Wooden Monogram Box   |
+| #ORD-99416   | Marcus Aurelius  | 1 Garment   | $380.00 USD | FedEx Priority    | [🟠 Pressing/Steam] | Protective Canvas Bag |
+| #ORD-99415   | Claire Delacroix | 3 Garments  | $910.00 USD | White Glove NYC   | [🟢 Dispatched]     | Signature Atelier Cask|
++-------------------------------------------------------------------------------------------------------------------------------+
+| ACTION DRAWER: [Print Thermal Shipping Label] • [Generate Commercial Customs Invoice] • [Log Master Tailor QC Signoff]       |
++-------------------------------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## Screen 21: AI Custom Design Feasibility & Quotation Management
+
+### Master Tailor Review Suite (The Flagship Admin Screen)
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| AI CUSTOM DESIGN FEASIBILITY QUEUE: Dossier #AI-DSN-49102                                      Client: Eleanor Vance (VIP)    |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [AI VISUAL CONCEPT & CLIENT DOSSIER (45%)]               | [HEAD TAILOR FEASIBILITY WORKBENCH (55%)]                          |
+|                                                          |                                                                    |
+| [Customer Selected AI Concept Render]                    | FEASIBILITY VERIFICATION CHECKLIST:                                |
+| Silhouette: Asymmetric Evening Gown                      | [x] Silhouette & Draping Feasibility: APPROVED (Pattern viable)    |
+| Selected Weave: 100% Mulberry Silk Charmeuse             | [x] Fabric Inventory Available: Como Silk Charmeuse (18m in vault)  |
+| Client Target Event: Nov 28, 2026 (40 Days Remaining)   | [x] Anatomical Proportions Validated: Within standard dart limits  |
+| Target Budget: $400 - $800 USD Range                     |                                                                    |
+| Reference Sketch Upload: [View Customer Sketch Attachment]| ESTIMATED ATELIER COSTING & PRODUCTION CALCULATOR:                 |
+| Client Notes: "Ensure interior boning and invisible zip."| • Silk Charmeuse Fabric (4.2 meters):               $126.00        |
+|                                                          | • Hand Cutting & Boning Construction:               $140.00        |
+| AI PROMPT LOG:                                           | • Resham Threadwork Embroidery:                     $85.00         |
+| "Floor-length evening gown with fluid silk charmeuse     | • Atelier Overhead & Quality Certification:         $45.00         |
+|  draping, asymmetric cape sleeve, resham embroidery..."  | ------------------------------------------------------------------ |
+| Model Confidence Score: 98.4% (Viable construction)      | BASE ATELIER COST: $396.00 USD  |  SUGGESTED QUOTE: $580.00 USD    |
+|                                                          |                                                                    |
+| TAILOR ACTION BUTTONS:                                   | FORMAL QUOTATION DISPATCH TO CLIENT:                               |
+| [BUTTON: APPROVE & TRANSMIT BINDING $580 QUOTE TO CLIENT]| Tailor Note: "We have approved your asymmetric gown with interior  |
+| [BUTTON: REQUEST MEASUREMENT CLARIFICATION FROM CLIENT]  | silk boning. Production will take 18 days in Florence."            |
+| [BUTTON: REJECT WITH DETAILED REASONING (Unviable drape)]| Delivery Commitment: Guaranteed delivery by November 20, 2026.     |
++----------------------------------------------------------+--------------------------------------------------------------------+
+```
+
+---
+
+## Screen 22: Customer CRM & Patron Profile Management
+
+### Clienteling & Sizing Intelligence
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| PATRON CRM: Eleanor Vance (Client Profile #PAT-8812)                                        Status: VIP Gold Needle Tier      |
+| Total Lifetime Value: $3,420.00 USD | Total Purchases: 6 Ready Garments, 2 Bespoke Commissions | Return Rate: 0.0%             |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [CLIENT SARTORIAL PREFERENCES]           | [MEASUREMENTS MATRIX]             | [COMMUNICATION & ORDER TIMELINE]               |
+| Preferred Fabric: Mulberry Silk & Linen  | Height: 5'10" | Weight: 135 lbs   | • Oct 19: Submitted Bespoke Dossier #49102     |
+| Preferred Palette: Champagne, Alabaster  | Bust: 36.5"   | Waist: 27.0"      | • Oct 19: Placed Order #ORD-99418 ($558.00)    |
+| Primary Stylist: Marco Bellini (Florence)| Hips: 38.2"   | Shoulder: 16.0"   | • Aug 14: Completed fitting in New York Maison |
+| Special Notes: "Prefers high necklines   | Arm Length: 24.5" | Inseam: 33.0" | Concierge Action:                              |
+|                 for autumn galas."       | [Update Official Measurements]    | [Send Personalized Fabric Swatch Book]         |
++------------------------------------------+-----------------------------------+------------------------------------------------+
+```
+
+---
+
+## Screen 23: Category & Seasonal Campaign Manager
+
+### Taxonomy & Lookbook Controller
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| STORE TAXONOMY & CAMPAIGN CONTROLLER                                                        [BUTTON: + NEW SEASONAL CAMPAIGN] |
++-------------------------------------------------------------------------------------------------------------------------------+
+| CATEGORY TREE HIERARCHY:                                 | ACTIVE SEASONAL CAMPAIGNS:                                         |
+| [▼] Men's Department (42 Garments)                       | 1. "Autumn/Winter Archival Capsule '26" (Homepage Hero Live)       |
+|     ├── Suits & Structured Tailoring (14)                |    • Banner CTA: "Where Timeless Tailoring Meets Generative AI"    |
+|     ├── Formal Shirting (Giza 87) (18)                   |    • Linked Products: 12 Garments | Impression Rate: 4,820/day     |
+|     └── Trousers & Flutes (10)                           | 2. "Resham Silk Evening Series" (Women's Couture Hub Spotlight)    |
+| [▼] Women's Department (58 Garments)                     |    • Banner CTA: "Fluid Silk Charmeuse & Italian Velvet"           |
+|     ├── Couture Evening Gowns (22)                       |    • Direct AI Studio Link: Enabled (Silhouette #RS889)            |
+|     └── Blazers & Coats (16)                             | [Edit Campaign Creative] • [Schedule Black Tie Spring Lookbook]    |
++----------------------------------------------------------+--------------------------------------------------------------------+
+```
+
+---
+
+## Screen 24: Promotions, Coupons & VIP Privileges Studio
+
+### Incentive Management Console
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| PROMOTIONS & PRIVILEGES STUDIO                                                            [BUTTON: + CREATE NEW PROMOTION]    |
++-------------------------------------------------------------------------------------------------------------------------------+
+| VOUCHER CODE | TYPE OF PRIVILEGE       | DISCOUNT LEVEL | USAGE LIMIT     | EXPIRY DATE     | APPLICABILITY        | STATUS   |
+| ATELIER10    | Welcome Patron Code     | 10% Off Cart   | 1 Per Customer  | Dec 31, 2026    | Ready-to-Wear Catalog| [ACTIVE] |
+| MAISONVIP    | Private Client Benefit  | 15% Off Cart   | VIP Tiers Only  | Open Perpetual  | Entire Order         | [ACTIVE] |
+| BESPOKEGIFT  | Complimentary Alteration| 100% Tailoring | Max 100 Clients | Nov 15, 2026    | Custom Studio Orders | [ACTIVE] |
++-------------------------------------------------------------------------------------------------------------------------------+
+| RULES ENGINE: Minimum spend thresholds, non-stackable flags, and exclusions on archival silk fabrics.                         |
++-------------------------------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## Screen 25: Financial, Inventory & Sourcing Analytics
+
+### Financial Intelligence Reporting
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| SARTORIAL FINANCIAL INTELLIGENCE REPORT                                                  Reporting Period: [Last 30 Days v]   |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [SALES BY DEPARTMENT BREAKDOWN]          | [AI CUSTOM STUDIO PERFORMANCE]   | [RAW FABRIC YARDAGE CONSUMPTION]               |
+| • Women's Evening: $148,200 (46%)        | • Total Design Prompts Run: 1,420 | • Mulberry Silk: 184 meters consumed (Como)    |
+| • Men's Sartorial: $112,400 (35%)        | • Dossiers Submitted: 112 (7.8%)  | • Giza 87 Cotton: 140 meters consumed (Egypt)  |
+| • Bespoke Commissions: $61,800 (19%)     | • Feasibility Approved: 84 (75%)  | • Cashmere Wool: 92 meters consumed (Mongolia) |
+| Total Gross Revenue: $322,400 USD        | • Paid Commissions: 62 (73.8%)    | Inventory Alert: Reorder Biella Wool by Oct 28 |
++------------------------------------------+-----------------------------------+------------------------------------------------+
+```
+
+---
+
+## Screen 26: Atelier Global Configuration & System Settings
+
+### Back-Office Infrastructure Suite
+```
++-------------------------------------------------------------------------------------------------------------------------------+
+| GLOBAL SYSTEM CONFIGURATION                                                               [BUTTON: COMMIT CONFIGURATION]      |
++-------------------------------------------------------------------------------------------------------------------------------+
+| [STOREFRONT & REGIONAL PREFERENCES]                      | [AI GENERATIVE ENGINE PARAMETERS]                                  |
+| Default Base Currency: [ USD ($)                      v ]| AI Studio Model Engine:   [ Google Gemini Pro Vision 3.8 Flash v] |
+| Supported Currencies:  [x] USD  [x] EUR  [x] GBP  [x] PKR| Generation Timeout:       [ 15 Seconds Limit                    ] |
+| Free Courier Threshold: [ $250.00 USD                   ]| Max Concepts Per Session: [ 3 Photorealistic Mannequins          ] |
+| Tax Calculation Mode:  [ Automated Stripe Tax via VAT v ]| Daily Prompt Rate-Limit:  [ 10 Generative Prompts Per Patron    ] |
+|                                                          | Content Moderation Filter:[ Strict Haute Couture Sartorial v    ] |
+| LOGISTICS & FULFILLMENT APIS:                            |                                                                    |
+| DHL Express API Status: [🟢 Operational - Ping 38ms]     | ESCROW & PAYMENT GATEWAYS:                                         |
+| Primary Dispatch Facility: [ Central Florence Vault, IT ]| Stripe Escrow API: [🟢 Live Verified] • PayPal Commerce: [🟢 Live] |
++----------------------------------------------------------+--------------------------------------------------------------------+
+```
+
+---
+
+# SECTION 5: SPATIAL OPTIMIZATION, CONTENT DENSITY RULES & UX QUALITY MATRIX
+
+### 5.1 Rules for Zero Dead Space & Layout Balance
+1. **Asymmetric 60/40 Split Rhythms:** Product Detail Pages and Co-Creation Studios utilize a 60% media canvas paired with a 40% sticky decision module, ensuring both viewports terminate simultaneously on scroll.
+2. **Dense Metadata Pairing:** Every garment card displays five indispensable clothing markers:
+   - Category / Archival Collection Tag
+   - Garment Title in high-contrast typography
+   - Fabric Composition & Weave Density (e.g., *140gsm Giza 87* or *22 Momme Silk*)
+   - Retail Price with currency localization
+   - Visual Colorway Swatches with real-time image swap on hover
+3. **No Barren Footers or Headers:** Spacing gaps exceeding 80px are banned. White space is converted into curated cross-sells, textile educational callouts, artisan quotes, or trust metrics.
+4. **Interactive State Feedback:** Every button and card incorporates explicit hover, active, disabled, and loading skeleton states to maintain continuous user engagement.
+
+### 5.2 Verification Checklist
+* [x] **26 Full Screens Detailed:** 15 Storefront customer pages + 11 Admin back-office operational suites.
+* [x] **Brand Cohesion:** 100% focused on an authentic luxury fashion maison with real textile terminology.
+* [x] **Zero Code Included:** Pure UX/UI architectural blueprints, wireframe layouts, and element specifications.
+* [x] **Spatial Optimization:** Unnecessary empty space eliminated through structured layouts, technical spec tables, and dense fashion metadata.
