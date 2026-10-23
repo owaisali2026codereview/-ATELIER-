@@ -2826,10 +2826,6 @@ export default function AdminDashboardPage() {
                         <span>Database Target:</span>
                         <span className="text-[#171717]">MongoDB Atlas (products)</span>
                       </div>
-                      <div className="flex justify-between">
-                        <span>Real-time Sync:</span>
-                        <span className="text-[#35664A]">RTK Query Invalidation Active</span>
-                      </div>
                     </div>
                   </div>
                 </div>
