@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { clearCart } from '../store/cartSlice';
-import { useCreateOrderMutation, useGetMeQuery } from '../store/api/apiSlice';
+import { useCreateOrderMutation, useGetMeQuery, useGetSettingsQuery } from '../store/api/apiSlice';
 import {
   ShieldCheck,
   Lock,
@@ -13,6 +13,8 @@ import {
   Sparkles,
   AlertCircle,
   ShoppingBag,
+  Smartphone,
+  Wallet,
 } from 'lucide-react';
 
 export default function CheckoutPage({ onOpenAuth }) {
@@ -25,10 +27,84 @@ export default function CheckoutPage({ onOpenAuth }) {
 
   const token = typeof window !== 'undefined' ? localStorage.getItem('atelier_token') : null;
   const { data: userData } = useGetMeQuery(undefined, { skip: !token });
+  const { data: settingsData } = useGetSettingsQuery();
   const currentUser = userData?.data || null;
+
+  // Real-time site settings from MongoDB and Admin Dashboard
+  const [siteSettings, setSiteSettings] = useState(() => {
+    try {
+      const stored = localStorage.getItem('atelier_site_settings');
+      if (stored) return JSON.parse(stored);
+    } catch (e) {}
+    return {
+      siteName: 'Atelier AI Haute Couture',
+      contactEmail: 'info@fashion.com',
+      contactPhone: '0300-1234567',
+      stripeEnabled: true,
+      jazzCashEnabled: true,
+      easyPaisaEnabled: true,
+      codEnabled: true,
+    };
+  });
 
   const [shippingMethod, setShippingMethod] = useState('standard');
   const [paymentMethod, setPaymentMethod] = useState('card');
+  const [jazzCashNumber, setJazzCashNumber] = useState('');
+  const [easyPaisaNumber, setEasyPaisaNumber] = useState('');
+
+  // Sync settings when loaded from API
+  useEffect(() => {
+    if (settingsData?.data) {
+      setSiteSettings({
+        siteName: settingsData.data.siteName || 'Atelier AI Haute Couture',
+        contactEmail: settingsData.data.contactEmail || 'info@fashion.com',
+        contactPhone: settingsData.data.contactPhone || '0300-1234567',
+        stripeEnabled: settingsData.data.stripeEnabled ?? true,
+        jazzCashEnabled: settingsData.data.jazzCashEnabled ?? true,
+        easyPaisaEnabled: settingsData.data.easyPaisaEnabled ?? true,
+        codEnabled: settingsData.data.codEnabled ?? true,
+      });
+    }
+  }, [settingsData]);
+
+  // Listen for live cross-tab changes from Admin Settings
+  useEffect(() => {
+    let bc = null;
+    try {
+      if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+        bc = new BroadcastChannel('atelier_live_sync');
+        bc.onmessage = (event) => {
+          if (event.data?.type === 'SETTINGS_UPDATED' && event.data?.settings) {
+            setSiteSettings(event.data.settings);
+          }
+        };
+      }
+    } catch (e) {}
+
+    const handleSettingsChange = (e) => {
+      if (e.detail) setSiteSettings(e.detail);
+    };
+    window.addEventListener('atelier_settings_change', handleSettingsChange);
+
+    return () => {
+      if (bc) bc.close();
+      window.removeEventListener('atelier_settings_change', handleSettingsChange);
+    };
+  }, []);
+
+  // Compute enabled payment methods and fallback
+  const enabledPaymentMethods = [
+    siteSettings.stripeEnabled && 'card',
+    siteSettings.jazzCashEnabled && 'jazzcash',
+    siteSettings.easyPaisaEnabled && 'easypaisa',
+    siteSettings.codEnabled && 'cod',
+  ].filter(Boolean);
+
+  useEffect(() => {
+    if (enabledPaymentMethods.length > 0 && !enabledPaymentMethods.includes(paymentMethod)) {
+      setPaymentMethod(enabledPaymentMethods[0]);
+    }
+  }, [enabledPaymentMethods, paymentMethod]);
 
   // Form Fields State (unpopulated by default for real customer input)
   const [formData, setFormData] = useState({
@@ -253,7 +329,7 @@ export default function CheckoutPage({ onOpenAuth }) {
       errs.country = 'Country is required.';
     }
 
-    // 9. Payment Method (Card validation)
+    // 9. Payment Method Validation
     if (paymentMethod === 'card') {
       const cardHolder = cardData.cardHolder.trim();
       if (!cardHolder) {
@@ -282,6 +358,22 @@ export default function CheckoutPage({ onOpenAuth }) {
       } else if (!/^\d{3,4}$/.test(cardCvc)) {
         errs.cardCvc = 'CVC must be 3 or 4 digits.';
       }
+    } else if (paymentMethod === 'jazzcash') {
+      const cleanNum = jazzCashNumber.replace(/\D/g, '');
+      if (!cleanNum) {
+        errs.jazzCashNumber = 'JazzCash 11-digit mobile account number is required.';
+      } else if (cleanNum.length !== 11) {
+        errs.jazzCashNumber = 'Please enter a valid 11-digit JazzCash number (e.g. 03001234567).';
+      }
+    } else if (paymentMethod === 'easypaisa') {
+      const cleanNum = easyPaisaNumber.replace(/\D/g, '');
+      if (!cleanNum) {
+        errs.easyPaisaNumber = 'EasyPaisa 11-digit account number is required.';
+      } else if (cleanNum.length !== 11) {
+        errs.easyPaisaNumber = 'Please enter a valid 11-digit EasyPaisa number (e.g. 03331234567).';
+      }
+    } else if (enabledPaymentMethods.length === 0) {
+      errs.payment = 'Payment channels are currently updating. Please select Cash on Delivery or contact concierge.';
     }
 
     return errs;
@@ -934,140 +1026,282 @@ export default function CheckoutPage({ onOpenAuth }) {
                 <span className="text-xs text-[#77736E] font-mono">Step 4 of 4</span>
               </div>
               <div className="space-y-4 text-xs">
-                <label
-                  className={`flex items-center gap-3 p-3.5 rounded-lg border cursor-pointer transition-all ${
-                    paymentMethod === 'card'
-                      ? 'border-[#171717] bg-[#F1EFEA]'
-                      : 'border-[#DAD7D1] hover:border-[#171717]'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="payment"
-                    checked={paymentMethod === 'card'}
-                    onChange={() => setPaymentMethod('card')}
-                    className="accent-[#171717]"
-                  />
-                  <CreditCard size={18} className="text-[#4D5543]" />
-                  <span className="font-semibold text-[#171717]">
-                    Credit / Debit Card (Visa, MasterCard, UnionPay)
-                  </span>
-                </label>
-
-                {/* Card Fields Form if Card Selected */}
-                {paymentMethod === 'card' && (
-                  <div className="p-4 bg-[#FAF9F6] border border-[#DAD7D1] rounded-lg space-y-3 animate-in fade-in duration-200">
-                    <div>
-                      <label className="text-[#171717] font-medium block mb-1">
-                        Cardholder Name <span className="text-red-500 font-bold">*</span>
-                      </label>
+                {/* 1. International Credit / Debit Card (Stripe) */}
+                {siteSettings.stripeEnabled && (
+                  <div className="space-y-3">
+                    <label
+                      className={`flex items-center gap-3 p-3.5 rounded-lg border cursor-pointer transition-all ${
+                        paymentMethod === 'card'
+                          ? 'border-[#171717] bg-[#F1EFEA]'
+                          : 'border-[#DAD7D1] hover:border-[#171717]'
+                      }`}
+                    >
                       <input
-                        type="text"
-                        value={cardData.cardHolder}
-                        onChange={(e) => handleCardChange('cardHolder', e.target.value)}
-                        placeholder="e.g. OWAIS AHMED"
-                        className={`w-full border rounded p-2.5 text-xs text-[#171717] outline-none uppercase font-mono transition ${
-                          errors.cardHolder ? 'border-red-500 bg-red-50/20 focus:border-red-600' : 'border-[#DAD7D1] focus:border-[#171717]'
-                        }`}
+                        type="radio"
+                        name="payment"
+                        checked={paymentMethod === 'card'}
+                        onChange={() => setPaymentMethod('card')}
+                        className="accent-[#171717]"
                       />
-                      {errors.cardHolder && (
-                        <p className="text-[11px] text-red-600 mt-1 flex items-center gap-1 font-medium">
-                          <AlertCircle size={12} className="shrink-0" /> {errors.cardHolder}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="text-[#171717] font-medium block mb-1">
-                        Card Number (16 Digits) <span className="text-red-500 font-bold">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={cardData.cardNumber}
-                        onChange={(e) => handleCardChange('cardNumber', e.target.value)}
-                        placeholder="4111 2222 3333 4444"
-                        maxLength={19}
-                        className={`w-full border rounded p-2.5 text-xs text-[#171717] outline-none font-mono tracking-wider transition ${
-                          errors.cardNumber ? 'border-red-500 bg-red-50/20 focus:border-red-600' : 'border-[#DAD7D1] focus:border-[#171717]'
-                        }`}
-                      />
-                      {errors.cardNumber && (
-                        <p className="text-[11px] text-red-600 mt-1 flex items-center gap-1 font-medium">
-                          <AlertCircle size={12} className="shrink-0" /> {errors.cardNumber}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label className="text-[#171717] font-medium block mb-1">
-                          Expiry Date (MM/YY) <span className="text-red-500 font-bold">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          value={cardData.cardExpiry}
-                          onChange={(e) => handleCardChange('cardExpiry', e.target.value)}
-                          placeholder="09/28"
-                          maxLength={5}
-                          className={`w-full border rounded p-2.5 text-xs text-[#171717] outline-none font-mono transition ${
-                            errors.cardExpiry ? 'border-red-500 bg-red-50/20 focus:border-red-600' : 'border-[#DAD7D1] focus:border-[#171717]'
-                          }`}
-                        />
-                        {errors.cardExpiry && (
-                          <p className="text-[11px] text-red-600 mt-1 flex items-center gap-1 font-medium">
-                            <AlertCircle size={12} className="shrink-0" /> {errors.cardExpiry}
-                          </p>
-                        )}
+                      <CreditCard size={18} className="text-[#4D5543]" />
+                      <div className="flex-1 flex items-center justify-between">
+                        <span className="font-semibold text-[#171717]">
+                          Credit / Debit Card (Visa, MasterCard, UnionPay)
+                        </span>
+                        <span className="text-[10px] uppercase font-bold text-[#35664A] bg-[#DDE6CE] px-2 py-0.5 rounded">
+                          Instant Authorization
+                        </span>
                       </div>
+                    </label>
 
-                      <div>
-                        <label className="text-[#171717] font-medium block mb-1">
-                          Security CVC / CVV <span className="text-red-500 font-bold">*</span>
-                        </label>
-                        <input
-                          type="password"
-                          value={cardData.cardCvc}
-                          onChange={(e) => handleCardChange('cardCvc', e.target.value)}
-                          placeholder="•••"
-                          maxLength={4}
-                          className={`w-full border rounded p-2.5 text-xs text-[#171717] outline-none font-mono transition ${
-                            errors.cardCvc ? 'border-red-500 bg-red-50/20 focus:border-red-600' : 'border-[#DAD7D1] focus:border-[#171717]'
-                          }`}
-                        />
-                        {errors.cardCvc && (
-                          <p className="text-[11px] text-red-600 mt-1 flex items-center gap-1 font-medium">
-                            <AlertCircle size={12} className="shrink-0" /> {errors.cardCvc}
-                          </p>
-                        )}
+                    {/* Card Fields Form if Card Selected */}
+                    {paymentMethod === 'card' && (
+                      <div className="p-4 bg-[#FAF9F6] border border-[#DAD7D1] rounded-lg space-y-3 animate-in fade-in duration-200">
+                        <div>
+                          <label className="text-[#171717] font-medium block mb-1">
+                            Cardholder Name <span className="text-red-500 font-bold">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={cardData.cardHolder}
+                            onChange={(e) => handleCardChange('cardHolder', e.target.value)}
+                            placeholder="e.g. OWAIS AHMED"
+                            className={`w-full border rounded p-2.5 text-xs text-[#171717] outline-none uppercase font-mono transition ${
+                              errors.cardHolder ? 'border-red-500 bg-red-50/20 focus:border-red-600' : 'border-[#DAD7D1] focus:border-[#171717]'
+                            }`}
+                          />
+                          {errors.cardHolder && (
+                            <p className="text-[11px] text-red-600 mt-1 flex items-center gap-1 font-medium">
+                              <AlertCircle size={12} className="shrink-0" /> {errors.cardHolder}
+                            </p>
+                          )}
+                        </div>
+
+                        <div>
+                          <label className="text-[#171717] font-medium block mb-1">
+                            Card Number (16 Digits) <span className="text-red-500 font-bold">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={cardData.cardNumber}
+                            onChange={(e) => handleCardChange('cardNumber', e.target.value)}
+                            placeholder="4111 2222 3333 4444"
+                            maxLength={19}
+                            className={`w-full border rounded p-2.5 text-xs text-[#171717] outline-none font-mono tracking-wider transition ${
+                              errors.cardNumber ? 'border-red-500 bg-red-50/20 focus:border-red-600' : 'border-[#DAD7D1] focus:border-[#171717]'
+                            }`}
+                          />
+                          {errors.cardNumber && (
+                            <p className="text-[11px] text-red-600 mt-1 flex items-center gap-1 font-medium">
+                              <AlertCircle size={12} className="shrink-0" /> {errors.cardNumber}
+                            </p>
+                          )}
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="text-[#171717] font-medium block mb-1">
+                              Expiry Date (MM/YY) <span className="text-red-500 font-bold">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={cardData.cardExpiry}
+                              onChange={(e) => handleCardChange('cardExpiry', e.target.value)}
+                              placeholder="09/28"
+                              maxLength={5}
+                              className={`w-full border rounded p-2.5 text-xs text-[#171717] outline-none font-mono transition ${
+                                errors.cardExpiry ? 'border-red-500 bg-red-50/20 focus:border-red-600' : 'border-[#DAD7D1] focus:border-[#171717]'
+                              }`}
+                            />
+                            {errors.cardExpiry && (
+                              <p className="text-[11px] text-red-600 mt-1 flex items-center gap-1 font-medium">
+                                <AlertCircle size={12} className="shrink-0" /> {errors.cardExpiry}
+                              </p>
+                            )}
+                          </div>
+
+                          <div>
+                            <label className="text-[#171717] font-medium block mb-1">
+                              Security CVC / CVV <span className="text-red-500 font-bold">*</span>
+                            </label>
+                            <input
+                              type="password"
+                              value={cardData.cardCvc}
+                              onChange={(e) => handleCardChange('cardCvc', e.target.value)}
+                              placeholder="•••"
+                              maxLength={4}
+                              className={`w-full border rounded p-2.5 text-xs text-[#171717] outline-none font-mono transition ${
+                                errors.cardCvc ? 'border-red-500 bg-red-50/20 focus:border-red-600' : 'border-[#DAD7D1] focus:border-[#171717]'
+                              }`}
+                            />
+                            {errors.cardCvc && (
+                              <p className="text-[11px] text-red-600 mt-1 flex items-center gap-1 font-medium">
+                                <AlertCircle size={12} className="shrink-0" /> {errors.cardCvc}
+                              </p>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 )}
 
-                <label
-                  className={`flex items-center gap-3 p-3.5 rounded-lg border cursor-pointer transition-all ${
-                    paymentMethod === 'cod'
-                      ? 'border-[#171717] bg-[#F1EFEA]'
-                      : 'border-[#DAD7D1] hover:border-[#171717]'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="payment"
-                    checked={paymentMethod === 'cod'}
-                    onChange={() => setPaymentMethod('cod')}
-                    className="accent-[#171717]"
-                  />
-                  <Truck size={18} className="text-[#4D5543]" />
-                  <div>
-                    <span className="font-semibold text-[#171717] block">
-                      Cash on Delivery (Verified Atelier Concierge)
-                    </span>
-                    <span className="text-[11px] text-[#77736E]">
-                      Pay in cash or direct bank transfer upon insured doorstep handover
-                    </span>
+                {/* 2. JazzCash Mobile Account */}
+                {siteSettings.jazzCashEnabled && (
+                  <div className="space-y-3">
+                    <label
+                      className={`flex items-center gap-3 p-3.5 rounded-lg border cursor-pointer transition-all ${
+                        paymentMethod === 'jazzcash'
+                          ? 'border-[#171717] bg-[#F1EFEA]'
+                          : 'border-[#DAD7D1] hover:border-[#171717]'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="payment"
+                        checked={paymentMethod === 'jazzcash'}
+                        onChange={() => setPaymentMethod('jazzcash')}
+                        className="accent-[#171717]"
+                      />
+                      <Smartphone size={18} className="text-[#D97706]" />
+                      <div className="flex-1 flex items-center justify-between">
+                        <span className="font-semibold text-[#171717]">
+                          JazzCash Mobile Account Gateway
+                        </span>
+                        <span className="text-[10px] font-bold text-amber-700 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded">
+                          JazzCash Direct
+                        </span>
+                      </div>
+                    </label>
+
+                    {paymentMethod === 'jazzcash' && (
+                      <div className="p-4 bg-[#FAF9F6] border border-[#DAD7D1] rounded-lg space-y-3 animate-in fade-in duration-200">
+                        <div>
+                          <label className="text-[#171717] font-medium block mb-1">
+                            Registered JazzCash Mobile Number (11 Digits) <span className="text-red-500 font-bold">*</span>
+                          </label>
+                          <input
+                            type="tel"
+                            value={jazzCashNumber}
+                            onChange={(e) => setJazzCashNumber(e.target.value.replace(/\D/g, '').slice(0, 11))}
+                            placeholder="03001234567"
+                            className={`w-full border rounded p-2.5 text-xs text-[#171717] outline-none font-mono transition ${
+                              errors.jazzCashNumber ? 'border-red-500 bg-red-50/20 focus:border-red-600' : 'border-[#DAD7D1] focus:border-[#171717]'
+                            }`}
+                          />
+                          {errors.jazzCashNumber && (
+                            <p className="text-[11px] text-red-600 mt-1 flex items-center gap-1 font-medium">
+                              <AlertCircle size={12} className="shrink-0" /> {errors.jazzCashNumber}
+                            </p>
+                          )}
+                          <p className="text-[11px] text-[#77736E] mt-1.5 flex items-center gap-1.5">
+                            <Sparkles size={12} className="text-[#D97706]" />
+                            Enter your JazzCash phone number. You will receive an MPIN confirmation prompt on your device.
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </label>
+                )}
+
+                {/* 3. EasyPaisa Direct Mobile Payment */}
+                {siteSettings.easyPaisaEnabled && (
+                  <div className="space-y-3">
+                    <label
+                      className={`flex items-center gap-3 p-3.5 rounded-lg border cursor-pointer transition-all ${
+                        paymentMethod === 'easypaisa'
+                          ? 'border-[#171717] bg-[#F1EFEA]'
+                          : 'border-[#DAD7D1] hover:border-[#171717]'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="payment"
+                        checked={paymentMethod === 'easypaisa'}
+                        onChange={() => setPaymentMethod('easypaisa')}
+                        className="accent-[#171717]"
+                      />
+                      <Wallet size={18} className="text-[#059669]" />
+                      <div className="flex-1 flex items-center justify-between">
+                        <span className="font-semibold text-[#171717]">
+                          EasyPaisa Direct Mobile Payment
+                        </span>
+                        <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 border border-emerald-300 px-2 py-0.5 rounded">
+                          EasyPaisa Direct
+                        </span>
+                      </div>
+                    </label>
+
+                    {paymentMethod === 'easypaisa' && (
+                      <div className="p-4 bg-[#FAF9F6] border border-[#DAD7D1] rounded-lg space-y-3 animate-in fade-in duration-200">
+                        <div>
+                          <label className="text-[#171717] font-medium block mb-1">
+                            Registered EasyPaisa Mobile Number (11 Digits) <span className="text-red-500 font-bold">*</span>
+                          </label>
+                          <input
+                            type="tel"
+                            value={easyPaisaNumber}
+                            onChange={(e) => setEasyPaisaNumber(e.target.value.replace(/\D/g, '').slice(0, 11))}
+                            placeholder="03331234567"
+                            className={`w-full border rounded p-2.5 text-xs text-[#171717] outline-none font-mono transition ${
+                              errors.easyPaisaNumber ? 'border-red-500 bg-red-50/20 focus:border-red-600' : 'border-[#DAD7D1] focus:border-[#171717]'
+                            }`}
+                          />
+                          {errors.easyPaisaNumber && (
+                            <p className="text-[11px] text-red-600 mt-1 flex items-center gap-1 font-medium">
+                              <AlertCircle size={12} className="shrink-0" /> {errors.easyPaisaNumber}
+                            </p>
+                          )}
+                          <p className="text-[11px] text-[#77736E] mt-1.5 flex items-center gap-1.5">
+                            <Sparkles size={12} className="text-[#059669]" />
+                            Please enter your 11-digit EasyPaisa number and authorize the deduction prompt in your app.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* 4. Cash on Delivery (COD) */}
+                {siteSettings.codEnabled && (
+                  <label
+                    className={`flex items-center gap-3 p-3.5 rounded-lg border cursor-pointer transition-all ${
+                      paymentMethod === 'cod'
+                        ? 'border-[#171717] bg-[#F1EFEA]'
+                        : 'border-[#DAD7D1] hover:border-[#171717]'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="payment"
+                      checked={paymentMethod === 'cod'}
+                      onChange={() => setPaymentMethod('cod')}
+                      className="accent-[#171717]"
+                    />
+                    <Truck size={18} className="text-[#4D5543]" />
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <span className="font-semibold text-[#171717] block">
+                          Cash on Delivery (Verified Atelier Concierge)
+                        </span>
+                        <span className="text-[10px] font-bold text-[#4D5543] bg-[#FAF9F6] border border-[#DAD7D1] px-2 py-0.5 rounded">
+                          Doorstep Handover
+                        </span>
+                      </div>
+                      <span className="text-[11px] text-[#77736E]">
+                        Pay in cash or direct bank transfer upon insured doorstep handover
+                      </span>
+                    </div>
+                  </label>
+                )}
+
+                {/* All gateways disabled fallback notice */}
+                {enabledPaymentMethods.length === 0 && (
+                  <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg text-amber-900 text-xs flex items-center gap-2">
+                    <AlertCircle size={16} className="text-amber-600 shrink-0" />
+                    <span>Payment gateways are currently updating. Please contact our atelier concierge for manual order placement.</span>
+                  </div>
+                )}
               </div>
             </div>
 

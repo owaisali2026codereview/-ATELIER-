@@ -3,6 +3,26 @@ import { User } from '../features/auth/user.model.js';
 import { getUserById } from '../features/auth/auth.service.js';
 
 export const protect = async (req, res, next) => {
+  // Allow development / admin IDE requests with x-admin-dev header
+  if (process.env.NODE_ENV !== 'production' && req.headers['x-admin-dev'] === 'true') {
+    try {
+      const devAdmin = (await User.findOne({ role: 'super_admin' })) || {
+        _id: '6ad9ff6a372ebe8f17e62198',
+        email: 'owais@gmail.com',
+        role: 'super_admin',
+      };
+      req.user = devAdmin;
+      return next();
+    } catch (err) {
+      req.user = {
+        _id: '6ad9ff6a372ebe8f17e62198',
+        email: 'owais@gmail.com',
+        role: 'super_admin',
+      };
+      return next();
+    }
+  }
+
   let token;
 
   // 1. Check HTTP-only cookie

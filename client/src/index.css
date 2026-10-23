@@ -135,3 +135,98 @@
   box-shadow: 0 12px 24px -6px rgba(23, 23, 23, 0.08), 0 4px 8px -4px rgba(23, 23, 23, 0.03);
   border-color: #C5A880;
 }
+
+/* ================= ATELIER ADMIN INTERACTIVE THEMES ================= */
+.admin-theme-editorial {
+  --admin-bg: #FAF9F6;
+  --admin-surface: #FFFFFF;
+  --admin-surface-subtle: #F1EFEA;
+  --admin-border: #DAD7D1;
+  --admin-text-main: #171717;
+  --admin-text-muted: #57534E;
+  --admin-text-faint: #8C827A;
+  --admin-accent: #C5A880;
+  color-scheme: light;
+}
+
+.admin-theme-midnight {
+  --admin-bg: #0B0F19;
+  --admin-surface: #111827;
+  --admin-surface-subtle: #1E293B;
+  --admin-border: #2D3748;
+  --admin-text-main: #F8FAFC;
+  --admin-text-muted: #CBD5E1;
+  --admin-text-faint: #94A3B8;
+  --admin-accent: #F59E0B;
+  color-scheme: dark;
+}
+
+.admin-theme-emerald {
+  --admin-bg: #061410;
+  --admin-surface: #0A221B;
+  --admin-surface-subtle: #12382D;
+  --admin-border: #1B4D3E;
+  --admin-text-main: #F0FDF4;
+  --admin-text-muted: #A7F3D0;
+  --admin-text-faint: #6EE7B7;
+  --admin-accent: #10B981;
+  color-scheme: dark;
+}
+
+/* Theme overrides for dark & emerald themes */
+.admin-theme-midnight .bg-\[\#FAF9F6\],
+.admin-theme-emerald .bg-\[\#FAF9F6\] {
+  background-color: var(--admin-bg) !important;
+}
+
+.admin-theme-midnight .bg-white,
+.admin-theme-emerald .bg-white {
+  background-color: var(--admin-surface) !important;
+}
+
+.admin-theme-midnight .bg-\[\#F1EFEA\],
+.admin-theme-emerald .bg-\[\#F1EFEA\] {
+  background-color: var(--admin-surface-subtle) !important;
+}
+
+.admin-theme-midnight .border-\[\#DAD7D1\],
+.admin-theme-emerald .border-\[\#DAD7D1\] {
+  border-color: var(--admin-border) !important;
+}
+
+.admin-theme-midnight .text-\[\#171717\],
+.admin-theme-emerald .text-\[\#171717\] {
+  color: var(--admin-text-main) !important;
+}
+
+.admin-theme-midnight .text-\[\#77736E\],
+.admin-theme-emerald .text-\[\#77736E\] {
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-theme-midnight .text-\[\#8C827A\],
+.admin-theme-emerald .text-\[\#8C827A\] {
+  color: var(--admin-text-faint) !important;
+}
+
+.admin-theme-midnight .text-\[\#353535\],
+.admin-theme-emerald .text-\[\#353535\] {
+  color: var(--admin-text-main) !important;
+}
+
+.admin-theme-midnight input,
+.admin-theme-midnight textarea,
+.admin-theme-midnight select {
+  background-color: #0F172A !important;
+  color: #F8FAFC !important;
+  border-color: #334155 !important;
+}
+
+.admin-theme-emerald input,
+.admin-theme-emerald textarea,
+.admin-theme-emerald select {
+  background-color: #0A221B !important;
+  color: #F0FDF4 !important;
+  border-color: #1B4D3E !important;
+}
+

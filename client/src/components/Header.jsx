@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleCart } from '../store/cartSlice';
-import { useGetMeQuery, useLogoutMutation, useGetWishlistQuery } from '../store/api/apiSlice';
+import { useGetMeQuery, useLogoutMutation, useGetWishlistQuery, useGetSettingsQuery } from '../store/api/apiSlice';
 import { ShoppingBag, Search, Heart, User, Menu, X, Sparkles, LogOut, Package, Ruler, ChevronDown, Shield, Mail } from 'lucide-react';
 
 export default function Header({ onOpenSearch, onOpenSizeGuide, onOpenAuth, onOpenContact }) {
@@ -19,7 +19,50 @@ export default function Header({ onOpenSearch, onOpenSizeGuide, onOpenAuth, onOp
   const token = typeof window !== 'undefined' ? localStorage.getItem('atelier_token') : null;
   const { data: userData } = useGetMeQuery(undefined, { skip: !token });
   const { data: wishlistData } = useGetWishlistQuery(undefined, { skip: !token });
+  const { data: settingsData } = useGetSettingsQuery();
   const [logoutMutation] = useLogoutMutation();
+
+  const [siteSettings, setSiteSettings] = useState(() => {
+    try {
+      const stored = localStorage.getItem('atelier_site_settings');
+      if (stored) return JSON.parse(stored);
+    } catch (e) {}
+    return { siteName: 'ATELIER' };
+  });
+
+  useEffect(() => {
+    if (settingsData?.data) {
+      setSiteSettings({
+        siteName: settingsData.data.siteName || 'ATELIER',
+        contactEmail: settingsData.data.contactEmail,
+        contactPhone: settingsData.data.contactPhone,
+      });
+    }
+  }, [settingsData]);
+
+  useEffect(() => {
+    let bc = null;
+    try {
+      if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+        bc = new BroadcastChannel('atelier_live_sync');
+        bc.onmessage = (event) => {
+          if (event.data?.type === 'SETTINGS_UPDATED' && event.data?.settings) {
+            setSiteSettings(event.data.settings);
+          }
+        };
+      }
+    } catch (e) {}
+
+    const handleSettingsChange = (e) => {
+      if (e.detail) setSiteSettings(e.detail);
+    };
+    window.addEventListener('atelier_settings_change', handleSettingsChange);
+
+    return () => {
+      if (bc) bc.close();
+      window.removeEventListener('atelier_settings_change', handleSettingsChange);
+    };
+  }, []);
 
   const currentUser = userData?.data || null;
   const totalCartCount = items.reduce((acc, item) => acc + item.quantity, 0);
@@ -74,7 +117,7 @@ export default function Header({ onOpenSearch, onOpenSizeGuide, onOpenAuth, onOp
     { name: 'Men', path: '/collection?cat=men' },
     { name: 'Women', path: '/collection?cat=women' },
     { name: 'Kids', path: '/collection?cat=kids' },
-    { name: 'AI Custom Studio', path: '/custom-studio', highlight: true },
+    { name: 'AI Custom Design', path: '/custom-studio', highlight: true },
     { name: 'New Arrivals', path: '/collection' },
     { name: 'The Journal', path: '/journal' },
   ];
@@ -87,14 +130,9 @@ export default function Header({ onOpenSearch, onOpenSizeGuide, onOpenAuth, onOp
     return location.pathname === path;
   };
 
-
-  const handleCustomStudioClick = (e, path) => {
-    if (path === '/custom-studio' && !currentUser) {
-      e.preventDefault();
-      setMobileMenuOpen(false);
-      if (onOpenAuth) onOpenAuth('login', '/custom-studio');
-      return true;
-    }
+  const handleCustomStudioClick = () => {
+    // Seamless navigation for all patrons and visitors
+    setMobileMenuOpen(false);
     return false;
   };
 
@@ -120,14 +158,14 @@ export default function Header({ onOpenSearch, onOpenSizeGuide, onOpenAuth, onOp
 
           <Link to="/" className="flex items-center gap-3 group">
             <span className="w-8 h-8 rounded-full border border-[#171717] flex items-center justify-center font-editorial font-bold text-sm tracking-widest text-[#171717] group-hover:bg-[#171717] group-hover:text-white transition-all">
-              A
+              {siteSettings.siteName ? siteSettings.siteName.charAt(0).toUpperCase() : 'A'}
             </span>
             <div className="flex flex-col">
               <span className="font-editorial text-2xl tracking-[0.18em] uppercase text-[#171717] font-semibold leading-none">
-                ATELIER
+                {siteSettings.siteName || 'ATELIER'}
               </span>
               <span className="text-[9px] tracking-[0.25em] uppercase text-[#77736E] font-medium mt-1">
-                Haute Couture & AI Studio
+                Haute Couture &amp; AI Studio
               </span>
             </div>
           </Link>

@@ -7,11 +7,30 @@ import { getAllOrdersAdmin } from '../orders/order.service.js';
 import { memoryDossiers } from '../custom-studio/studio.service.js';
 
 export const fetchDashboardMetrics = async () => {
-  const totalRevenueAgg = await Order.aggregate([
-    { $match: { paymentStatus: 'paid' } },
-    { $group: { _id: null, total: { $sum: '$totalAmount' } } },
+  const ordersAgg = await Order.aggregate([
+    { $match: { fulfillmentStatus: { $ne: 'cancelled' } } },
+    {
+      $project: {
+        totalAmount: 1,
+        itemsCount: {
+          $cond: {
+            if: { $isArray: '$items' },
+            then: { $sum: '$items.quantity' },
+            else: 1,
+          },
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        grossRevenue: { $sum: '$totalAmount' },
+        productsSold: { $sum: '$itemsCount' },
+      },
+    },
   ]);
-  const grossRevenue = totalRevenueAgg[0]?.total || 0;
+  const grossRevenue = ordersAgg[0]?.grossRevenue || 0;
+  const productsSold = ordersAgg[0]?.productsSold || 0;
 
   const totalOrders = await Order.countDocuments();
   const pendingOrders = await Order.countDocuments({
@@ -23,7 +42,7 @@ export const fetchDashboardMetrics = async () => {
   });
   const totalDossiers = await CustomRequest.countDocuments();
 
-  const totalPatrons = await User.countDocuments({ role: 'customer' });
+  const totalPatrons = await User.countDocuments({ role: { $ne: 'admin' } });
 
   const recentOrders = await Order.find()
     .sort({ createdAt: -1 })
@@ -42,6 +61,7 @@ export const fetchDashboardMetrics = async () => {
     activeDossiers,
     totalDossiers,
     totalPatrons,
+    productsSold,
     recentOrders,
     recentDossiers,
   };

@@ -1,8 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check, Mail } from 'lucide-react';
+import { ArrowRight, Check, Mail, Phone } from 'lucide-react';
+import { useGetSettingsQuery } from '../store/api/apiSlice';
 
 export default function Footer({ onOpenSizeGuide, onOpenContact }) {
+  const { data: settingsData } = useGetSettingsQuery();
+  const [siteSettings, setSiteSettings] = useState(() => {
+    try {
+      const stored = localStorage.getItem('atelier_site_settings');
+      if (stored) return JSON.parse(stored);
+    } catch (e) {}
+    return {
+      siteName: 'ATELIER',
+      contactEmail: 'info@fashion.com',
+      contactPhone: '0300-1234567',
+    };
+  });
+
+  useEffect(() => {
+    if (settingsData?.data) {
+      setSiteSettings({
+        siteName: settingsData.data.siteName || 'ATELIER',
+        contactEmail: settingsData.data.contactEmail || 'info@fashion.com',
+        contactPhone: settingsData.data.contactPhone || '0300-1234567',
+      });
+    }
+  }, [settingsData]);
+
+  useEffect(() => {
+    let bc = null;
+    try {
+      if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+        bc = new BroadcastChannel('atelier_live_sync');
+        bc.onmessage = (event) => {
+          if (event.data?.type === 'SETTINGS_UPDATED' && event.data?.settings) {
+            setSiteSettings((prev) => ({ ...prev, ...event.data.settings }));
+          }
+        };
+      }
+    } catch (e) {}
+
+    const handleSettingsChange = (e) => {
+      if (e.detail) setSiteSettings((prev) => ({ ...prev, ...e.detail }));
+    };
+    window.addEventListener('atelier_settings_change', handleSettingsChange);
+
+    return () => {
+      if (bc) bc.close();
+      window.removeEventListener('atelier_settings_change', handleSettingsChange);
+    };
+  }, []);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -39,7 +86,7 @@ export default function Footer({ onOpenSizeGuide, onOpenContact }) {
           {/* Brand Manifesto & Newsletter */}
           <div className="lg:col-span-2 pr-0 lg:pr-10">
             <h3 className="font-editorial text-2xl uppercase tracking-[0.18em] text-[#171717] mb-4">
-              ATELIER
+              {siteSettings.siteName || 'ATELIER'}
             </h3>
             <p className="text-sm text-[#77736E] leading-relaxed mb-6 max-w-sm">
               Contemporary bespoke tailoring and architectural silhouettes crafted with archival textile discipline. Generative precision meets hand-finished haute couture.
@@ -122,8 +169,19 @@ export default function Footer({ onOpenSizeGuide, onOpenContact }) {
                   className="hover:text-[#171717] transition-colors text-left flex items-center gap-1.5 text-[#35664A] font-semibold"
                 >
                   <Mail size={13} />
-                  <span>Email Concierge (info@fashion.com)</span>
+                  <span>Email: {siteSettings.contactEmail}</span>
                 </button>
+              </li>
+              <li>
+                <a
+                  href={`https://wa.me/${siteSettings.contactPhone.replace(/\D/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#171717] transition-colors text-left flex items-center gap-1.5 text-[#171717] font-semibold"
+                >
+                  <Phone size={13} className="text-[#35664A]" />
+                  <span>WhatsApp: {siteSettings.contactPhone}</span>
+                </a>
               </li>
               <li>
                 <button
@@ -184,7 +242,7 @@ export default function Footer({ onOpenSizeGuide, onOpenContact }) {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-[#DAD7D1] flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-[#77736E]">
-          <p>© 2026 ATELIER MAISON S.A. All rights reserved. Registered trademark.</p>
+          <p>© 2026 {siteSettings.siteName || 'ATELIER'}. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <span className="hover:text-[#171717] cursor-pointer">Privacy Protocol</span>
             <span>•</span>

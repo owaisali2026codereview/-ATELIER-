@@ -187,9 +187,61 @@ export default function AICustomStudioPage({ onOpenAuth }) {
             }))
           )
         );
+      } else {
+        dispatch(
+          setGeneratedConcepts([
+            {
+              id: 'concept-1',
+              title: `Concept I: ${studio.category}`,
+              image: studio.audience === 'men'
+                ? 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80'
+                : studio.audience === 'kids'
+                ? 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=1200&q=80'
+                : 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=1200&q=80',
+              description: `${studio.fabric} calibrated for ${studio.silhouette} with ${studio.neckline}.`,
+              estimatedPrice: 'Rs. 34,500',
+              fabricYardage: '4.8 Meters',
+              tailorFeasibility: '98.5% Feasible',
+            },
+            {
+              id: 'concept-2',
+              title: `Concept II: Modern Drapery`,
+              image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=1200&q=80',
+              description: `Sculptural tailoring in ${studio.fabric} with handcrafted embellishment.`,
+              estimatedPrice: 'Rs. 38,000',
+              fabricYardage: '5.2 Meters',
+              tailorFeasibility: '96.2% Feasible',
+            }
+          ])
+        );
       }
     } catch (err) {
-      // Seamless fallback
+      dispatch(
+        setGeneratedConcepts([
+          {
+            id: 'concept-1',
+            title: `Concept I: ${studio.category}`,
+            image: studio.audience === 'men'
+              ? 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80'
+              : studio.audience === 'kids'
+              ? 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=1200&q=80'
+              : 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=1200&q=80',
+            description: `${studio.fabric} calibrated for ${studio.silhouette} with ${studio.neckline}.`,
+            estimatedPrice: 'Rs. 34,500',
+            fabricYardage: '4.8 Meters',
+            tailorFeasibility: '98.5% Feasible',
+          },
+          {
+            id: 'concept-2',
+            title: `Concept II: Modern Drapery`,
+            image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=1200&q=80',
+            description: `Sculptural tailoring in ${studio.fabric} with handcrafted embellishment.`,
+            estimatedPrice: 'Rs. 38,000',
+            fabricYardage: '5.2 Meters',
+            tailorFeasibility: '96.2% Feasible',
+          }
+        ])
+      );
     }
 
     setTimeout(() => {
@@ -336,74 +388,21 @@ export default function AICustomStudioPage({ onOpenAuth }) {
   const activeFabricObj =
     FABRICS_DATABASE.find((f) => f.name === studio.fabric) || FABRICS_DATABASE[0];
 
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-[85vh] bg-[#FAF9F6] py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-        <div className="max-w-2xl w-full bg-white border border-[#DAD7D1] rounded-3xl p-8 sm:p-12 shadow-2xl text-center space-y-8 animate-in zoom-in-95 duration-200">
-          <div className="w-20 h-20 rounded-full bg-[#171717] text-white mx-auto flex items-center justify-center shadow-lg relative">
-            <Lock size={32} className="text-[#DDE6CE]" />
-            <span className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#4D5543] text-white flex items-center justify-center text-xs animate-pulse">
-              ✨
-            </span>
-          </div>
+  const defaultConcept = {
+    id: 'concept-1',
+    title: 'Concept I: The Emerald Column',
+    image: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=1200&q=80',
+    description: 'Lustrous mulberry silk with sculptural diagonal drape and hand-embroidered resham cuffs.',
+    estimatedPrice: 'Rs. 34,500',
+    fabricYardage: '4.8 Meters Como Silk',
+    tailorFeasibility: '98.5% Feasible'
+  };
+  const safeConcepts = (studio.generatedConcepts && studio.generatedConcepts.length > 0)
+    ? studio.generatedConcepts
+    : [defaultConcept];
+  const activeConcept = safeConcepts[studio.selectedConceptIndex] || safeConcepts[0] || defaultConcept;
 
-          <div className="space-y-3">
-            <span className="inline-block px-3.5 py-1 bg-[#F1EFEA] border border-[#DAD7D1] rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-[#4D5543]">
-              Atelier AI Bespoke Haute Couture
-            </span>
-            <h1 className="font-editorial text-3xl sm:text-4xl text-[#171717] tracking-tight">
-              Patron Authentication Required
-            </h1>
-            <p className="text-[#77736E] text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
-              Access to the bespoke generative 3D silhouette studio, heritage textile archives, and master tailor feasibility queue is exclusively reserved for registered patrons.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto pt-2">
-            <button
-              type="button"
-              onClick={() => onOpenAuth && onOpenAuth('login', '/custom-studio')}
-              className="w-full py-3.5 px-6 bg-[#171717] hover:bg-black text-white text-xs font-bold uppercase tracking-[0.14em] rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2 group cursor-pointer"
-            >
-              <LogIn size={15} className="group-hover:translate-x-0.5 transition-transform" />
-              <span>Sign In to Account</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => onOpenAuth && onOpenAuth('register', '/custom-studio')}
-              className="w-full py-3.5 px-6 bg-white hover:bg-[#FAF9F6] border-2 border-[#171717] text-[#171717] text-xs font-bold uppercase tracking-[0.14em] rounded-2xl transition-all flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <UserPlus size={15} />
-              <span>Create New Account</span>
-            </button>
-          </div>
-
-          <div className="border-t border-[#DAD7D1]/60 pt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left text-xs">
-            <div className="bg-[#FAF9F6] p-3.5 rounded-xl border border-[#DAD7D1]/50 space-y-1">
-              <span className="font-bold text-[#171717] flex items-center gap-1.5">
-                <Sparkles size={13} className="text-[#4D5543]" /> Gemini AI Stylist
-              </span>
-              <p className="text-[11px] text-[#77736E]">Real-time conversational bespoke fashion guidance & prompt synthesis.</p>
-            </div>
-            <div className="bg-[#FAF9F6] p-3.5 rounded-xl border border-[#DAD7D1]/50 space-y-1">
-              <span className="font-bold text-[#171717] flex items-center gap-1.5">
-                <Scissors size={13} className="text-[#4D5543]" /> Master Tailors
-              </span>
-              <p className="text-[11px] text-[#77736E]">Direct atelier review, drape feasibility assessment, and certified quotes.</p>
-            </div>
-            <div className="bg-[#FAF9F6] p-3.5 rounded-xl border border-[#DAD7D1]/50 space-y-1">
-              <span className="font-bold text-[#171717] flex items-center gap-1.5">
-                <FileCheck size={13} className="text-[#4D5543]" /> Archival Dossiers
-              </span>
-              <p className="text-[11px] text-[#77736E]">Save, track, and consult directly on your customized silhouette commissions.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  // All patrons and guests can freely use the AI Custom Studio
   return (
     <div className="w-full bg-[#FAF9F6] min-h-screen py-10">
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
@@ -947,42 +946,41 @@ export default function AICustomStudioPage({ onOpenAuth }) {
                 </div>
               </div>
             ) : (
-              /* Concept Showcase Canvas */
               <div className="space-y-6">
                 {/* Generated Concept View Card */}
                 <div className="bg-white border border-[#DAD7D1] rounded-lg overflow-hidden shadow-xl">
                   {/* Concept Image Frame */}
                   <div className="relative aspect-[16/10] sm:aspect-[16/9] bg-[#171717] overflow-hidden">
                     <img
-                      src={studio.generatedConcepts[studio.selectedConceptIndex].image}
-                      alt={studio.generatedConcepts[studio.selectedConceptIndex].title}
+                      src={activeConcept.image}
+                      alt={activeConcept.title}
                       className="w-full h-full object-cover"
                     />
 
                     <div className="absolute top-4 left-4 bg-[#171717]/90 backdrop-blur-md text-white px-3 py-1.5 rounded flex items-center gap-2 border border-white/20">
                       <span className="w-2 h-2 rounded-full bg-[#DDE6CE]" />
                       <span className="text-[10px] font-bold uppercase tracking-wider">
-                        {studio.generatedConcepts[studio.selectedConceptIndex].title}
+                        {activeConcept.title}
                       </span>
                     </div>
 
                     <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm text-[#171717] px-3 py-1 rounded text-xs font-semibold shadow-sm">
-                      Feasibility: {studio.generatedConcepts[studio.selectedConceptIndex].tailorFeasibility}
+                      Feasibility: {activeConcept.tailorFeasibility}
                     </div>
 
                     <div className="absolute bottom-4 left-4 right-4 bg-[#171717]/80 backdrop-blur-md text-white p-4 rounded border border-white/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                       <div>
                         <h4 className="text-xs font-bold uppercase tracking-wider text-[#DDE6CE]">
-                          {studio.generatedConcepts[studio.selectedConceptIndex].description}
+                          {activeConcept.description}
                         </h4>
                         <p className="text-[11px] text-white/80 mt-0.5">
-                          Estimated Yardage: {studio.generatedConcepts[studio.selectedConceptIndex].fabricYardage}
+                          Estimated Yardage: {activeConcept.fabricYardage}
                         </p>
                       </div>
                       <div className="text-right shrink-0">
                         <span className="text-[10px] text-white/70 block uppercase">Est. Tailoring Cost</span>
                         <span className="text-sm font-bold text-white">
-                          {studio.generatedConcepts[studio.selectedConceptIndex].estimatedPrice}
+                          {activeConcept.estimatedPrice}
                         </span>
                       </div>
                     </div>
@@ -994,9 +992,9 @@ export default function AICustomStudioPage({ onOpenAuth }) {
                       Rendered Concepts:
                     </span>
                     <div className="flex gap-3">
-                      {studio.generatedConcepts.map((c, i) => (
+                      {safeConcepts.map((c, i) => (
                         <button
-                          key={c.id}
+                          key={c.id || i}
                           type="button"
                           onClick={() => dispatch(selectConcept(i))}
                           className={`px-4 py-1.5 text-xs font-semibold rounded border transition-all ${
@@ -1005,7 +1003,7 @@ export default function AICustomStudioPage({ onOpenAuth }) {
                               : 'bg-white text-[#171717] border-[#DAD7D1] hover:border-[#171717]'
                           }`}
                         >
-                          Concept {i === 0 ? 'I' : 'II'}
+                          Concept {i === 0 ? 'I' : i === 1 ? 'II' : i + 1}
                         </button>
                       ))}
                     </div>

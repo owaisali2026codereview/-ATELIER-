@@ -143,7 +143,12 @@ export default function ProductDetailPage({ onOpenSizeGuide }) {
           (p.rawId && p.rawId.toString() === id) ||
           (p.id && p.id.toString() === id) ||
           (p.slug && p.slug === id) ||
-          (base && (p.rawId === base._id || p.id === base._id || (p.slug && p.slug === base.slug)))
+          (base && (
+            p.rawId === base._id ||
+            p.id === base._id ||
+            (p.slug && p.slug === base.slug) ||
+            (p.name && base.name && p.name.trim().toLowerCase() === base.name.trim().toLowerCase())
+          ))
       );
 
       if (match) {

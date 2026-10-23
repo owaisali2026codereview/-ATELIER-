@@ -167,6 +167,14 @@ function AppContent({
             path="/custom-studio"
             element={<AICustomStudioPage onOpenAuth={handleOpenAuth} />}
           />
+          <Route
+            path="/studio"
+            element={<AICustomStudioPage onOpenAuth={handleOpenAuth} />}
+          />
+          <Route
+            path="/custom-design"
+            element={<AICustomStudioPage onOpenAuth={handleOpenAuth} />}
+          />
           <Route path="/checkout" element={<CheckoutPage onOpenAuth={handleOpenAuth} />} />
           <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
           <Route path="/account" element={<AccountPage onOpenAuth={handleOpenAuth} />} />

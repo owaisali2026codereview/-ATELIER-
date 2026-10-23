@@ -57,6 +57,14 @@ export const queryProducts = async (filters = {}) => {
       if (filters.sort === 'rating') sortOption = { rating: -1 };
 
       const products = await Product.find(query).sort(sortOption);
+      if (products && products.length > 0) {
+        products.forEach((p) => {
+          const pObj = p.toObject();
+          const idx = memoryProductsCache.findIndex((m) => m._id?.toString() === pObj._id?.toString() || m.slug === pObj.slug);
+          if (idx !== -1) memoryProductsCache[idx] = pObj;
+          else memoryProductsCache.push(pObj);
+        });
+      }
       return products;
     } catch (err) {
       console.warn('[QueryProducts DB Fallback]: Using memory products', err.message);
@@ -169,8 +177,17 @@ export const createProductInDb = async (productData) => {
   return memoryDoc;
 };
 
-export const updateProductInDb = async (id, updateData) => {
-  if (updateData.price) updateData.price = Number(updateData.price);
+export const updateProductInDb = async (id, rawUpdateData = {}) => {
+  const updateData = { ...rawUpdateData };
+  const strId = String(id || '').trim();
+
+  // Remove immutable and meta fields
+  const providedId = updateData._id || updateData.rawId;
+  delete updateData._id;
+  delete updateData.id;
+  delete updateData.rawId;
+
+  if (updateData.price !== undefined) updateData.price = Number(updateData.price);
   if (updateData.stockCount !== undefined) {
     updateData.stockCount = Number(updateData.stockCount);
     updateData.inStock = updateData.stockCount > 0;
@@ -180,32 +197,88 @@ export const updateProductInDb = async (id, updateData) => {
     updateData.inStock = updateData.stockCount > 0;
   }
   if (updateData.category) {
-    updateData.category = updateData.category.toLowerCase();
+    updateData.category = updateData.category.toLowerCase().trim();
   }
   if (updateData.image) {
     updateData.images = [updateData.image];
   }
 
+  // Format colors if provided
+  if (Array.isArray(updateData.colors) && updateData.colors.length > 0) {
+    const fallbackImg = updateData.images?.[0] || 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80';
+    updateData.colors = updateData.colors.map((c) =>
+      typeof c === 'string'
+        ? { name: c, hex: '#171717', image: fallbackImg }
+        : { name: c.name || 'Classic', hex: c.hex || '#171717', image: c.image || fallbackImg }
+    );
+  }
+
+  // Format sizes if provided
+  if (Array.isArray(updateData.sizes) && updateData.sizes.length > 0) {
+    updateData.sizes = updateData.sizes.map((s) =>
+      typeof s === 'string'
+        ? { size: s, stockCount: updateData.stockCount || 10, inStock: true }
+        : { size: s.size || 'M', stockCount: s.stockCount || 10, inStock: s.stockCount > 0 }
+    );
+  }
+
   if (mongoose.connection.readyState === 1) {
     try {
       let updated = null;
-      if (id.match(/^[0-9a-fA-F]{24}$/)) {
-        updated = await Product.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
+
+      // 1. Try finding by MongoDB ObjectId
+      if (mongoose.isValidObjectId(strId)) {
+        updated = await Product.findByIdAndUpdate(strId, updateData, { new: true });
+      } else if (providedId && mongoose.isValidObjectId(String(providedId))) {
+        updated = await Product.findByIdAndUpdate(String(providedId), updateData, { new: true });
       }
-      if (!updated) {
-        updated = await Product.findOneAndUpdate({ slug: id }, updateData, { new: true, runValidators: true });
+
+      // 2. Try finding by Slug
+      if (!updated && (strId || updateData.slug)) {
+        const slugQuery = strId && !mongoose.isValidObjectId(strId) ? strId : updateData.slug;
+        if (slugQuery) {
+          updated = await Product.findOneAndUpdate({ slug: slugQuery }, updateData, { new: true });
+        }
       }
+
+      // 3. Try finding by Name (case-insensitive)
+      if (!updated && (updateData.name || strId)) {
+        const nameQuery = updateData.name || strId;
+        const escaped = nameQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        updated = await Product.findOneAndUpdate(
+          { name: new RegExp(`^${escaped}$`, 'i') },
+          updateData,
+          { new: true }
+        );
+      }
+
       if (updated) {
-        const idx = memoryProductsCache.findIndex((p) => p._id?.toString() === id || p.slug === id);
-        if (idx !== -1) memoryProductsCache[idx] = updated.toObject();
-        return updated;
+        const updatedObj = updated.toObject();
+        const idx = memoryProductsCache.findIndex(
+          (p) =>
+            p._id?.toString() === updatedObj._id?.toString() ||
+            p.slug === updatedObj.slug ||
+            (p.name && updatedObj.name && p.name.toLowerCase() === updatedObj.name.toLowerCase())
+        );
+        if (idx !== -1) memoryProductsCache[idx] = updatedObj;
+        else memoryProductsCache.unshift(updatedObj);
+        return updatedObj;
       }
     } catch (err) {
       console.warn('[UpdateProduct DB Error]:', err.message);
     }
   }
 
-  const idx = memoryProductsCache.findIndex((p) => p._id?.toString() === id || p.slug === id || p.id === id);
+  // Memory fallback
+  const idx = memoryProductsCache.findIndex(
+    (p) =>
+      p._id?.toString() === strId ||
+      p.slug === strId ||
+      p.id === strId ||
+      (updateData.slug && p.slug === updateData.slug) ||
+      (updateData.name && p.name && p.name.toLowerCase() === updateData.name.toLowerCase())
+  );
+
   if (idx !== -1) {
     memoryProductsCache[idx] = { ...memoryProductsCache[idx], ...updateData };
     return memoryProductsCache[idx];
@@ -215,17 +288,29 @@ export const updateProductInDb = async (id, updateData) => {
 };
 
 export const deleteProductInDb = async (id) => {
+  const strId = String(id || '').trim();
   if (mongoose.connection.readyState === 1) {
     try {
       let deleted = null;
-      if (id.match(/^[0-9a-fA-F]{24}$/)) {
-        deleted = await Product.findByIdAndDelete(id);
+      if (mongoose.isValidObjectId(strId)) {
+        deleted = await Product.findByIdAndDelete(strId);
       }
-      if (!deleted) {
-        deleted = await Product.findOneAndDelete({ slug: id });
+      if (!deleted && strId) {
+        deleted = await Product.findOneAndDelete({
+          $or: [
+            { slug: strId },
+            { name: new RegExp('^' + strId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', 'i') },
+          ],
+        });
       }
       if (deleted) {
-        memoryProductsCache = memoryProductsCache.filter((p) => p._id?.toString() !== id && p.slug !== id);
+        const delObj = deleted.toObject ? deleted.toObject() : deleted;
+        memoryProductsCache = memoryProductsCache.filter(
+          (p) =>
+            p._id?.toString() !== delObj._id?.toString() &&
+            p.slug !== delObj.slug &&
+            p.name?.toLowerCase() !== delObj.name?.toLowerCase()
+        );
         return deleted;
       }
     } catch (err) {
@@ -233,7 +318,9 @@ export const deleteProductInDb = async (id) => {
     }
   }
 
-  memoryProductsCache = memoryProductsCache.filter((p) => p._id?.toString() !== id && p.slug !== id && p.id !== id);
+  memoryProductsCache = memoryProductsCache.filter(
+    (p) => p._id?.toString() !== strId && p.slug !== strId && p.id !== strId
+  );
   return { message: 'Deleted' };
 };
 

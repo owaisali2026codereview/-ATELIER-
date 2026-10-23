@@ -8,6 +8,6 @@ const router = express.Router();
 router.get('/', getSettings);
 
 // Guarded: only authenticated administrators can update settings
-router.put('/', protect, authorizeRoles('admin', 'super_admin'), updateSettings);
+router.put('/', protect, authorizeRoles('admin', 'super_admin', 'tailor_admin'), updateSettings);
 
 export default router;

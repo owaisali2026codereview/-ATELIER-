@@ -72,7 +72,83 @@ import {
   Archive,
   Printer,
   Upload,
+  Sun,
+  Moon,
+  Palette,
 } from 'lucide-react';
+
+// ================= LUXURY INTERACTIVE ADMIN THEMES =================
+const THEMES = {
+  editorial: {
+    id: 'editorial',
+    name: 'Editorial Luxe',
+    icon: '☀️',
+    pageBg: 'bg-[#FAF9F6] text-[#171717]',
+    headerBg: 'bg-white/95 backdrop-blur-md border-[#DAD7D1]',
+    headerTitle: 'text-[#171717]',
+    headerSearch: 'bg-[#FAF9F6] border-[#DAD7D1] text-[#171717] focus:border-[#C5A880] focus:ring-[#C5A880]/20 placeholder:text-[#8C827A]',
+    sidebarBg: 'bg-white border-[#DAD7D1]',
+    sidebarSectionTitle: 'text-[#77736E]',
+    sidebarItemActive: 'bg-[#F1EFEA] text-[#171717] font-semibold border-l-4 border-[#C5A880] shadow-sm translate-x-1',
+    sidebarItemInactive: 'text-[#44403C] hover:text-[#171717] hover:bg-[#FAF9F6] hover:translate-x-1 duration-200',
+    sidebarIconActive: 'text-[#4D5543]',
+    sidebarIconInactive: 'text-[#77736E] group-hover:text-[#171717]',
+    sidebarCountActive: 'bg-[#171717] text-white font-bold',
+    sidebarCountInactive: 'bg-[#E7E5E4] text-[#1C1917] font-bold border border-[#D6D3D1]',
+    sidebarStaffBadge: 'bg-amber-100 text-amber-900 border border-amber-300 font-bold',
+    sidebarAlertBadge: 'bg-rose-100 text-rose-900 border border-rose-300 font-bold',
+    sidebarFooter: 'border-[#DAD7D1] bg-[#FAF9F6] text-[#77736E]',
+    mainBg: 'bg-[#FAF9F6]',
+    pillActive: 'bg-[#171717] text-white',
+    pillInactive: 'text-[#57534E] hover:text-[#171717] hover:bg-stone-200/60',
+  },
+  midnight: {
+    id: 'midnight',
+    name: 'Midnight Onyx',
+    icon: '🌙',
+    pageBg: 'bg-[#0B0F19] text-[#F8FAFC]',
+    headerBg: 'bg-[#111827]/95 backdrop-blur-md border-slate-800',
+    headerTitle: 'text-white',
+    headerSearch: 'bg-[#0F172A] border-slate-700 text-white focus:border-amber-400 focus:ring-amber-400/20 placeholder:text-slate-400',
+    sidebarBg: 'bg-[#111827] border-slate-800',
+    sidebarSectionTitle: 'text-slate-400 font-semibold',
+    sidebarItemActive: 'bg-slate-800/90 text-white font-semibold border-l-4 border-amber-400 shadow-md translate-x-1',
+    sidebarItemInactive: 'text-slate-300 hover:text-white hover:bg-slate-800/60 hover:translate-x-1 duration-200',
+    sidebarIconActive: 'text-amber-400',
+    sidebarIconInactive: 'text-slate-400 group-hover:text-amber-300',
+    sidebarCountActive: 'bg-amber-400 text-slate-950 font-bold',
+    sidebarCountInactive: 'bg-slate-800 text-slate-100 font-bold border border-slate-700',
+    sidebarStaffBadge: 'bg-amber-400/20 text-amber-300 border border-amber-400/50 font-bold',
+    sidebarAlertBadge: 'bg-rose-500/20 text-rose-300 border border-rose-500/50 font-bold',
+    sidebarFooter: 'border-slate-800 bg-[#0F172A] text-slate-300',
+    mainBg: 'bg-[#0B0F19]',
+    pillActive: 'bg-amber-400 text-slate-950 font-bold',
+    pillInactive: 'text-slate-300 hover:text-white hover:bg-slate-800/60',
+  },
+  emerald: {
+    id: 'emerald',
+    name: 'Royal Emerald',
+    icon: '✨',
+    pageBg: 'bg-[#061410] text-[#ECFDF5]',
+    headerBg: 'bg-[#0A221B]/95 backdrop-blur-md border-[#163E32]',
+    headerTitle: 'text-white',
+    headerSearch: 'bg-[#091F18] border-[#163E32] text-white focus:border-emerald-400 focus:ring-emerald-400/20 placeholder:text-emerald-300/60',
+    sidebarBg: 'bg-[#0A221B] border-[#163E32]',
+    sidebarSectionTitle: 'text-emerald-400/90 font-semibold',
+    sidebarItemActive: 'bg-[#12382D] text-white font-semibold border-l-4 border-emerald-400 shadow-md translate-x-1',
+    sidebarItemInactive: 'text-emerald-100/80 hover:text-white hover:bg-[#12382D]/60 hover:translate-x-1 duration-200',
+    sidebarIconActive: 'text-emerald-400',
+    sidebarIconInactive: 'text-emerald-300/70 group-hover:text-emerald-200',
+    sidebarCountActive: 'bg-emerald-400 text-slate-950 font-bold',
+    sidebarCountInactive: 'bg-[#12382D] text-emerald-100 font-bold border border-[#1C4D3E]',
+    sidebarStaffBadge: 'bg-emerald-400/25 text-emerald-300 border border-emerald-400/50 font-bold',
+    sidebarAlertBadge: 'bg-rose-500/25 text-rose-300 border border-rose-500/50 font-bold',
+    sidebarFooter: 'border-[#163E32] bg-[#071914] text-emerald-200',
+    mainBg: 'bg-[#061410]',
+    pillActive: 'bg-emerald-400 text-slate-950 font-bold',
+    pillInactive: 'text-emerald-200 hover:text-white hover:bg-[#12382D]/60',
+  },
+};
 
 export default function AdminDashboardPage() {
   // Strict Authentication Guard
@@ -119,6 +195,15 @@ export default function AdminDashboardPage() {
   const [activeTab, setActiveTab] = useState('admin-dash');
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [globalSearchQuery, setGlobalSearchQuery] = useState('');
+  const [adminTheme, setAdminTheme] = useState(() => {
+    try {
+      return localStorage.getItem('atelier_admin_theme') || 'editorial';
+    } catch (e) {
+      return 'editorial';
+    }
+  });
+
+  const th = THEMES[adminTheme] || THEMES.editorial;
 
   // RTK Query hooks (automatic live polling on all dashboard data)
   const { data: metricsData, refetch: refetchMetrics } = useGetDashboardMetricsQuery(undefined, { skip: !adminAuth, pollingInterval: 5000 });
@@ -203,24 +288,38 @@ export default function AdminDashboardPage() {
     try {
       const stored = localStorage.getItem('atelier_custom_dossiers');
       if (stored) {
-        const parsed = JSON.parse(stored);
+        let parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed.map((d) => ({
-            id: d.referenceCode || d.refCode || d._id || `AI-DSN-${Math.floor(1000 + Math.random() * 9000)}`,
-            name: d.clientName || d.customerName || 'Bespoke Patron',
-            email: d.guestEmail || d.email || '',
-            phone: d.phone || d.customerPhone || '',
-            rawPhone: (d.phone || d.customerPhone || '').replace(/\D/g, ''),
-            prompt: d.parameters?.prompt || d.designPrompt || d.prompt || 'Custom bespoke garment commission',
-            specs: `${d.parameters?.fabric?.name || d.fabricChoice || 'Bespoke Fabric'} • ${d.parameters?.category || d.occasion || 'Haute Couture'}`,
-            fabric: d.parameters?.fabric?.name || d.fabricChoice || 'Bespoke Fabric',
-            category: d.parameters?.category || d.occasion || 'Haute Couture',
-            notes: d.parameters?.customNotes || d.customNotes || '',
-            quote: d.officialQuoteAmount ? `Rs. ${Number(d.officialQuoteAmount).toLocaleString()}` : 'Awaiting Feasibility Quote',
-            image: d.aiConcepts?.[0]?.imageUrl || d.generatedVisualUrl || d.sketchUrl || 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=600&q=80',
-            status: d.tailorStatus === 'feasibility_review' ? 'New' : (d.status || 'New'),
-            date: d.createdAt ? new Date(d.createdAt).toLocaleDateString() : 'Today',
-          }));
+          // Remove hardcoded/demo ali ali requests
+          parsed = parsed.filter(
+            (d) =>
+              (d.referenceCode || d.refCode || d._id || d.id) !== 'AI-DSN-89232' &&
+              d.clientName !== 'ali ali' &&
+              d.customerName !== 'ali ali' &&
+              d.phone !== '03212637613'
+          );
+          localStorage.setItem('atelier_custom_dossiers', JSON.stringify(parsed));
+
+          const deletedIds = JSON.parse(localStorage.getItem('atelier_deleted_custom_request_ids') || '[]');
+
+          return parsed
+            .filter((d) => !deletedIds.includes(d.referenceCode || d.refCode || d._id || d.id))
+            .map((d) => ({
+              id: d.referenceCode || d.refCode || d._id || `AI-DSN-${Math.floor(1000 + Math.random() * 9000)}`,
+              name: d.clientName || d.customerName || 'Bespoke Patron',
+              email: d.guestEmail || d.email || '',
+              phone: d.phone || d.customerPhone || '',
+              rawPhone: (d.phone || d.customerPhone || '').replace(/\D/g, ''),
+              prompt: d.parameters?.prompt || d.designPrompt || d.prompt || 'Custom bespoke garment commission',
+              specs: `${d.parameters?.fabric?.name || d.fabricChoice || 'Bespoke Fabric'} • ${d.parameters?.category || d.occasion || 'Haute Couture'}`,
+              fabric: d.parameters?.fabric?.name || d.fabricChoice || 'Bespoke Fabric',
+              category: d.parameters?.category || d.occasion || 'Haute Couture',
+              notes: d.parameters?.customNotes || d.customNotes || '',
+              quote: d.officialQuoteAmount ? `Rs. ${Number(d.officialQuoteAmount).toLocaleString()}` : 'Awaiting Feasibility Quote',
+              image: d.aiConcepts?.[0]?.imageUrl || d.generatedVisualUrl || d.sketchUrl || 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=600&q=80',
+              status: d.tailorStatus === 'feasibility_review' ? 'New' : (d.status || 'New'),
+              date: d.createdAt ? new Date(d.createdAt).toLocaleDateString() : 'Today',
+            }));
         }
       }
     } catch (e) {
@@ -293,10 +392,23 @@ export default function AdminDashboardPage() {
       try {
         const stored = localStorage.getItem('atelier_custom_dossiers');
         if (stored) {
-          const parsed = JSON.parse(stored);
+          let parsed = JSON.parse(stored);
           if (Array.isArray(parsed)) {
+            // Filter out hardcoded/demo ali ali requests
+            parsed = parsed.filter(
+              (d) =>
+                (d.referenceCode || d.refCode || d._id || d.id) !== 'AI-DSN-89232' &&
+                d.clientName !== 'ali ali' &&
+                d.customerName !== 'ali ali' &&
+                d.phone !== '03212637613'
+            );
+            localStorage.setItem('atelier_custom_dossiers', JSON.stringify(parsed));
+
+            const deletedIds = JSON.parse(localStorage.getItem('atelier_deleted_custom_request_ids') || '[]');
+
             parsed.forEach((localDoc) => {
               const code = localDoc.referenceCode || localDoc.id;
+              if (deletedIds.includes(code)) return;
               if (!merged.some((m) => m.id === code)) {
                 merged.unshift({
                   id: code,
@@ -321,6 +433,9 @@ export default function AdminDashboardPage() {
       } catch (e) {
         // ignore
       }
+
+      const deletedIds = JSON.parse(localStorage.getItem('atelier_deleted_custom_request_ids') || '[]');
+      merged = merged.filter((m) => !deletedIds.includes(m.id) && m.id !== 'AI-DSN-89232' && m.name !== 'ali ali');
 
       setLocalCustomRequests(merged);
     }
@@ -560,26 +675,43 @@ export default function AdminDashboardPage() {
   }, [couponsData]);
 
 
-  // Settings State
-  const [siteSettings, setSiteSettings] = useState({
-    siteName: 'Fashion Store',
-    contactEmail: 'info@fashion.com',
-    contactPhone: '0300-1234567',
-    stripeEnabled: true,
-    jazzCashEnabled: true,
-    easyPaisaEnabled: true,
+  // Settings State (with local durability and live MongoDB sync)
+  const [siteSettings, setSiteSettings] = useState(() => {
+    try {
+      const stored = localStorage.getItem('atelier_site_settings');
+      if (stored) {
+        return JSON.parse(stored);
+      }
+    } catch (e) {}
+    return {
+      siteName: 'Atelier AI Haute Couture',
+      contactEmail: 'info@fashion.com',
+      contactPhone: '0300-1234567',
+      stripeEnabled: true,
+      jazzCashEnabled: true,
+      easyPaisaEnabled: true,
+      codEnabled: true,
+    };
   });
   const [settingsSavedAlert, setSettingsSavedAlert] = useState(false);
 
   useEffect(() => {
     if (settingsData?.data) {
-      setSiteSettings({
-        siteName: settingsData.data.siteName || 'Atelier AI Haute Couture',
-        contactEmail: settingsData.data.contactEmail || 'info@fashion.com',
-        contactPhone: settingsData.data.contactPhone || '0300-1234567',
-        stripeEnabled: settingsData.data.stripeEnabled ?? true,
-        jazzCashEnabled: settingsData.data.jazzCashEnabled ?? true,
-        easyPaisaEnabled: settingsData.data.easyPaisaEnabled ?? true,
+      setSiteSettings((prev) => {
+        const updated = {
+          ...prev,
+          siteName: settingsData.data.siteName || prev.siteName || 'Atelier AI Haute Couture',
+          contactEmail: settingsData.data.contactEmail || prev.contactEmail || 'info@fashion.com',
+          contactPhone: settingsData.data.contactPhone || prev.contactPhone || '0300-1234567',
+          stripeEnabled: settingsData.data.stripeEnabled ?? prev.stripeEnabled ?? true,
+          jazzCashEnabled: settingsData.data.jazzCashEnabled ?? prev.jazzCashEnabled ?? true,
+          easyPaisaEnabled: settingsData.data.easyPaisaEnabled ?? prev.easyPaisaEnabled ?? true,
+          codEnabled: settingsData.data.codEnabled ?? prev.codEnabled ?? true,
+        };
+        try {
+          localStorage.setItem('atelier_site_settings', JSON.stringify(updated));
+        } catch (e) {}
+        return updated;
       });
     }
   }, [settingsData]);
@@ -678,6 +810,93 @@ export default function AdminDashboardPage() {
     });
   }, [customLocalProducts, productSearch, globalSearchQuery, adminCategoryFilter]);
 
+  // ================= LIVE REAL-TIME DATA & EXECUTIVE REPORT CALCULATIONS =================
+  const realTotalRevenue = useMemo(() => {
+    const ordersSum = localOrders
+      .filter((o) => o.status !== 'cancelled' && o.fulfillmentStatus !== 'cancelled')
+      .reduce((sum, o) => sum + (Number(o.total || o.totalAmount) || 0), 0);
+    const backendRev = Number(metricsData?.data?.grossRevenue) || 0;
+    return Math.max(ordersSum, backendRev);
+  }, [localOrders, metricsData]);
+
+  const realTotalOrders = useMemo(() => {
+    const count = localOrders.filter((o) => o.status !== 'cancelled' && o.fulfillmentStatus !== 'cancelled').length;
+    const backendCount = Number(metricsData?.data?.totalOrders) || 0;
+    return Math.max(count, backendCount);
+  }, [localOrders, metricsData]);
+
+  const realTotalUsers = useMemo(() => {
+    const count = localUsers.length;
+    const backendCount = Number(metricsData?.data?.totalPatrons) || 0;
+    return Math.max(count, backendCount);
+  }, [localUsers, metricsData]);
+
+  const realProductsSold = useMemo(() => {
+    const itemsCount = localOrders
+      .filter((o) => o.status !== 'cancelled' && o.fulfillmentStatus !== 'cancelled')
+      .reduce((sum, o) => {
+        if (Array.isArray(o.itemsList) && o.itemsList.length > 0) {
+          return sum + o.itemsList.reduce((iSum, i) => iSum + (Number(i.quantity) || 1), 0);
+        }
+        return sum + (Number(o.items) || 1);
+      }, 0);
+    const backendItems = Number(metricsData?.data?.productsSold) || 0;
+    return Math.max(itemsCount, backendItems);
+  }, [localOrders, metricsData]);
+
+  const realAvgOrderValue = useMemo(() => {
+    return realTotalOrders > 0 ? Math.round(realTotalRevenue / realTotalOrders) : 0;
+  }, [realTotalRevenue, realTotalOrders]);
+
+  const realBespokeSales = useMemo(() => {
+    return localOrders
+      .filter((o) => o.status !== 'cancelled' && o.fulfillmentStatus !== 'cancelled')
+      .reduce((sum, o) => {
+        const bespokeItems = (o.itemsList || []).filter(
+          (i) =>
+            i.isCustom ||
+            i.category === 'bespoke' ||
+            i.category === 'custom' ||
+            (i.name && /bespoke|custom|ai studio|couture/i.test(i.name))
+        );
+        if (bespokeItems.length > 0) {
+          return sum + bespokeItems.reduce((iSum, i) => iSum + ((Number(i.price) || 0) * (Number(i.quantity) || 1)), 0);
+        }
+        return sum;
+      }, 0);
+  }, [localOrders]);
+
+  const realRtwSales = Math.max(0, realTotalRevenue - realBespokeSales);
+  const realRtwPercent = realTotalRevenue > 0 ? Math.round((realRtwSales / realTotalRevenue) * 100) : 100;
+  const realBespokePercent = realTotalRevenue > 0 ? 100 - realRtwPercent : 0;
+
+  const weeklyDayBreakdown = useMemo(() => {
+    const days = [
+      { key: 1, day: 'Mon', total: 0 },
+      { key: 2, day: 'Tue', total: 0 },
+      { key: 3, day: 'Wed', total: 0 },
+      { key: 4, day: 'Thu', total: 0 },
+      { key: 5, day: 'Fri', total: 0 },
+      { key: 6, day: 'Sat', total: 0 },
+      { key: 0, day: 'Sun', total: 0 },
+    ];
+    localOrders
+      .filter((o) => o.status !== 'cancelled' && o.fulfillmentStatus !== 'cancelled')
+      .forEach((o) => {
+        const d = o.createdAt ? new Date(o.createdAt) : (o.date ? new Date(o.date) : new Date());
+        const dayIdx = isNaN(d.getDay()) ? 0 : d.getDay();
+        const amt = Number(o.total || o.totalAmount) || 0;
+        const target = days.find((dObj) => dObj.key === dayIdx);
+        if (target) target.total += amt;
+      });
+    const maxVal = Math.max(...days.map((d) => d.total), 1);
+    return days.map((d) => ({
+      day: d.day,
+      h: d.total > 0 ? `${Math.max(18, Math.round((d.total / maxVal) * 90))}%` : '8%',
+      val: d.total > 0 ? (d.total >= 100000 ? `Rs. ${(d.total / 100000).toFixed(1)}L` : `Rs. ${(d.total / 1000).toFixed(0)}k`) : 'Rs. 0',
+    }));
+  }, [localOrders]);
+
   // ================= AUTHENTICATION HANDLERS =================
   const handleAdminLogin = async (e) => {
     if (e) e.preventDefault();
@@ -744,7 +963,7 @@ export default function AdminDashboardPage() {
     }
 
     const price = Number(newProduct.price) || 6500;
-    const stock = Number(newProduct.stock) !== undefined && !isNaN(Number(newProduct.stock)) ? Number(newProduct.stock) : 25;
+    const stock = !isNaN(Number(newProduct.stock)) ? Number(newProduct.stock) : 25;
     const category = (newProduct.category || 'Men').trim();
     const fabric = newProduct.fabric?.trim() || '100% Breathable Combed Cotton';
     const description = newProduct.description?.trim() || 'Classic handcrafted tailored apparel with clean seams and premium finish.';
@@ -904,67 +1123,90 @@ export default function AdminDashboardPage() {
   };
 
   const handleSaveInlineEdit = async (p) => {
-    const targetId = p.rawId || p.id;
+    const targetId = p.rawId || p._id || p.id;
     const targetSlug = p.slug;
+    const priceNum = Number(editPrice);
+    const stockNum = Number(editStock);
+    const statusVal = stockNum > 0 ? 'Active' : 'Out of Stock';
+
     try {
       await updateProductMutation({
         id: targetId,
-        price: Number(editPrice),
-        stockCount: Number(editStock),
+        _id: targetId,
+        slug: targetSlug,
+        name: p.name,
+        price: priceNum,
+        stockCount: stockNum,
+        stock: stockNum,
       }).unwrap();
-
-      setCustomLocalProducts((prev) =>
-        prev.map((item) =>
-          (item.rawId || item.id) === targetId
-            ? { ...item, price: Number(editPrice), stock: Number(editStock), status: Number(editStock) > 0 ? 'Active' : 'Out of Stock' }
-            : item
-        )
-      );
-
-      try {
-        const stored = JSON.parse(localStorage.getItem('atelier_local_products') || '[]');
-        const updatedStored = stored.map((item) =>
-          (item.rawId || item.id) === targetId || (targetSlug && item.slug === targetSlug)
-            ? { ...item, price: Number(editPrice), stock: Number(editStock), status: Number(editStock) > 0 ? 'Active' : 'Out of Stock' }
-            : item
-        );
-        if (!updatedStored.some((item) => (item.rawId || item.id) === targetId || (targetSlug && item.slug === targetSlug))) {
-          updatedStored.unshift({
-            ...p,
-            rawId: targetId,
-            id: targetId,
-            price: Number(editPrice),
-            stock: Number(editStock),
-            status: Number(editStock) > 0 ? 'Active' : 'Out of Stock',
-          });
-        }
-        localStorage.setItem('atelier_local_products', JSON.stringify(updatedStored));
-      } catch (e) {}
-
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('atelier_product_catalog_sync', Date.now().toString());
-        if ('BroadcastChannel' in window) {
-          try {
-            const bc = new BroadcastChannel('atelier_live_sync');
-            bc.postMessage({ type: 'CATALOG_UPDATED', action: 'UPDATE', id: targetId });
-            bc.close();
-          } catch (e) {
-            // ignore
-          }
-        }
-      }
-
-      refetchProducts();
     } catch (e) {
-      console.error('Inline update error:', e);
+      console.warn('Backend inline update notice (persisting locally & broadcasting):', e);
     }
+
+    setCustomLocalProducts((prev) =>
+      prev.map((item) => {
+        const matches =
+          (item.rawId && item.rawId === targetId) ||
+          (item.id && item.id === targetId) ||
+          (targetSlug && item.slug === targetSlug) ||
+          (item.name && p.name && item.name.toLowerCase() === p.name.toLowerCase());
+        return matches
+          ? { ...item, price: priceNum, stock: stockNum, stockCount: stockNum, status: statusVal }
+          : item;
+      })
+    );
+
+    try {
+      const stored = JSON.parse(localStorage.getItem('atelier_local_products') || '[]');
+      let found = false;
+      const updatedStored = stored.map((item) => {
+        const matches =
+          (item.rawId && item.rawId === targetId) ||
+          (item.id && item.id === targetId) ||
+          (targetSlug && item.slug === targetSlug) ||
+          (item.name && p.name && item.name.toLowerCase() === p.name.toLowerCase());
+        if (matches) {
+          found = true;
+          return { ...item, price: priceNum, stock: stockNum, stockCount: stockNum, status: statusVal };
+        }
+        return item;
+      });
+      if (!found) {
+        updatedStored.unshift({
+          ...p,
+          rawId: targetId,
+          id: targetId,
+          price: priceNum,
+          stock: stockNum,
+          stockCount: stockNum,
+          status: statusVal,
+        });
+      }
+      localStorage.setItem('atelier_local_products', JSON.stringify(updatedStored));
+    } catch (e) {}
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('atelier_product_catalog_sync', Date.now().toString());
+      window.dispatchEvent(new CustomEvent('atelier_catalog_change'));
+      if ('BroadcastChannel' in window) {
+        try {
+          const bc = new BroadcastChannel('atelier_live_sync');
+          bc.postMessage({ type: 'CATALOG_UPDATED', action: 'UPDATE', id: targetId });
+          bc.close();
+        } catch (e) {}
+      }
+    }
+
+    try {
+      refetchProducts?.();
+    } catch (e) {}
     setEditingProductId(null);
   };
 
   const handleOpenEditModal = (p) => {
     setModalEditProduct({
       ...p,
-      rawId: p.rawId || p.id,
+      rawId: p.rawId || p._id || p.id,
       category: p.category ? p.category.charAt(0).toUpperCase() + p.category.slice(1).toLowerCase() : 'Men',
     });
   };
@@ -972,88 +1214,112 @@ export default function AdminDashboardPage() {
   const handleSaveModalEdit = async (e) => {
     e.preventDefault();
     if (!modalEditProduct) return;
-    const targetId = modalEditProduct.rawId || modalEditProduct.id;
+    const targetId = modalEditProduct.rawId || modalEditProduct._id || modalEditProduct.id;
     const targetSlug = modalEditProduct.slug;
+    const priceNum = Number(modalEditProduct.price);
+    const stockNum = Number(modalEditProduct.stock);
+    const categoryLower = (modalEditProduct.category || '').toLowerCase();
+    const departmentName = `${modalEditProduct.category}'s Apparel`;
+    const imageVal = modalEditProduct.image || '';
+    const statusVal = stockNum > 0 ? 'Active' : 'Out of Stock';
+
+    const payload = {
+      id: targetId,
+      _id: targetId,
+      slug: targetSlug,
+      name: modalEditProduct.name,
+      price: priceNum,
+      stockCount: stockNum,
+      stock: stockNum,
+      category: categoryLower,
+      department: departmentName,
+      fabric: modalEditProduct.fabric,
+      description: modalEditProduct.description,
+      image: imageVal,
+      images: imageVal ? [imageVal] : undefined,
+      badge: modalEditProduct.badge || '',
+    };
+
+    // 1. Persist to MongoDB database via backend API
     try {
-      await updateProductMutation({
-        id: targetId,
-        name: modalEditProduct.name,
-        price: Number(modalEditProduct.price),
-        stockCount: Number(modalEditProduct.stock),
-        category: modalEditProduct.category.toLowerCase(),
-        department: `${modalEditProduct.category}'s Apparel`,
-        fabric: modalEditProduct.fabric,
-        description: modalEditProduct.description,
-        image: modalEditProduct.image,
-        badge: modalEditProduct.badge,
-      }).unwrap();
-
-      setCustomLocalProducts((prev) =>
-        prev.map((item) =>
-          (item.rawId || item.id) === targetId
-            ? {
-                ...item,
-                name: modalEditProduct.name,
-                price: Number(modalEditProduct.price),
-                stock: Number(modalEditProduct.stock),
-                category: modalEditProduct.category,
-                fabric: modalEditProduct.fabric,
-                description: modalEditProduct.description,
-                image: modalEditProduct.image,
-                badge: modalEditProduct.badge,
-              }
-            : item
-        )
-      );
-
-      try {
-        const stored = JSON.parse(localStorage.getItem('atelier_local_products') || '[]');
-        const updatedStored = stored.map((item) =>
-          (item.rawId || item.id) === targetId || (targetSlug && item.slug === targetSlug)
-            ? {
-                ...item,
-                name: modalEditProduct.name,
-                price: Number(modalEditProduct.price),
-                stock: Number(modalEditProduct.stock),
-                category: modalEditProduct.category,
-                fabric: modalEditProduct.fabric,
-                description: modalEditProduct.description,
-                image: modalEditProduct.image,
-                badge: modalEditProduct.badge,
-              }
-            : item
-        );
-        if (!updatedStored.some((item) => (item.rawId || item.id) === targetId || (targetSlug && item.slug === targetSlug))) {
-          updatedStored.unshift({
-            ...modalEditProduct,
-            rawId: targetId,
-            id: targetId,
-            price: Number(modalEditProduct.price),
-            stock: Number(modalEditProduct.stock),
-          });
-        }
-        localStorage.setItem('atelier_local_products', JSON.stringify(updatedStored));
-      } catch (e) {}
-
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('atelier_product_catalog_sync', Date.now().toString());
-        if ('BroadcastChannel' in window) {
-          try {
-            const bc = new BroadcastChannel('atelier_live_sync');
-            bc.postMessage({ type: 'CATALOG_UPDATED', action: 'UPDATE', id: targetId });
-            bc.close();
-          } catch (e) {
-            // ignore
-          }
-        }
-      }
-
-      refetchProducts();
-      refetchCategories();
-      setModalEditProduct(null);
+      await updateProductMutation(payload).unwrap();
     } catch (err) {
-      console.error('Modal update error:', err);
+      console.warn('Backend update notice (persisting locally & broadcasting):', err);
     }
+
+    // 2. Update Admin Dashboard state immediately
+    const updatedProductObj = {
+      ...modalEditProduct,
+      rawId: targetId,
+      id: targetId,
+      price: priceNum,
+      stock: stockNum,
+      stockCount: stockNum,
+      category: modalEditProduct.category,
+      department: departmentName,
+      fabric: modalEditProduct.fabric,
+      description: modalEditProduct.description,
+      image: imageVal,
+      images: [imageVal],
+      badge: modalEditProduct.badge,
+      status: statusVal,
+    };
+
+    setCustomLocalProducts((prev) =>
+      prev.map((item) => {
+        const matches =
+          (item.rawId && item.rawId === targetId) ||
+          (item.id && item.id === targetId) ||
+          (targetSlug && item.slug === targetSlug) ||
+          (item.name && modalEditProduct.name && item.name.toLowerCase() === modalEditProduct.name.toLowerCase());
+        return matches ? updatedProductObj : item;
+      })
+    );
+
+    // 3. Persist to localStorage for instant website sync across tabs
+    try {
+      const stored = JSON.parse(localStorage.getItem('atelier_local_products') || '[]');
+      let found = false;
+      const updatedStored = stored.map((item) => {
+        const matches =
+          (item.rawId && item.rawId === targetId) ||
+          (item.id && item.id === targetId) ||
+          (targetSlug && item.slug === targetSlug) ||
+          (item.name && modalEditProduct.name && item.name.toLowerCase() === modalEditProduct.name.toLowerCase());
+        if (matches) {
+          found = true;
+          return updatedProductObj;
+        }
+        return item;
+      });
+
+      if (!found) {
+        updatedStored.unshift(updatedProductObj);
+      }
+      localStorage.setItem('atelier_local_products', JSON.stringify(updatedStored));
+    } catch (e) {}
+
+    // 4. Synchronize across tabs via BroadcastChannel & CustomEvent
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('atelier_product_catalog_sync', Date.now().toString());
+      window.dispatchEvent(new CustomEvent('atelier_catalog_change'));
+      if ('BroadcastChannel' in window) {
+        try {
+          const bc = new BroadcastChannel('atelier_live_sync');
+          bc.postMessage({ type: 'CATALOG_UPDATED', action: 'UPDATE', id: targetId, product: updatedProductObj });
+          bc.close();
+        } catch (e) {}
+      }
+    }
+
+    try {
+      refetchProducts?.();
+      refetchCategories?.();
+    } catch (e) {}
+
+    setModalEditProduct(null);
+    setProductSavedAlert(true);
+    setTimeout(() => setProductSavedAlert(false), 3000);
   };
 
   // Handlers for Custom Requests
@@ -1066,6 +1332,27 @@ export default function AdminDashboardPage() {
     setLocalCustomRequests((prev) =>
       prev.map((r) => (r.id === id ? { ...r, status: newStatus } : r))
     );
+  };
+
+  const handleDeleteCustomRequest = (id) => {
+    if (window.confirm(`Are you sure you want to delete custom design request ${id}?`)) {
+      setLocalCustomRequests((prev) => prev.filter((r) => r.id !== id));
+      try {
+        const stored = localStorage.getItem('atelier_custom_dossiers');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed)) {
+            const updated = parsed.filter((d) => (d.referenceCode || d.refCode || d._id || d.id) !== id);
+            localStorage.setItem('atelier_custom_dossiers', JSON.stringify(updated));
+          }
+        }
+        const deletedIds = JSON.parse(localStorage.getItem('atelier_deleted_custom_request_ids') || '[]');
+        if (!deletedIds.includes(id)) {
+          deletedIds.push(id);
+          localStorage.setItem('atelier_deleted_custom_request_ids', JSON.stringify(deletedIds));
+        }
+      } catch (e) {}
+    }
   };
 
   // Handlers for Orders
@@ -1226,13 +1513,43 @@ export default function AdminDashboardPage() {
   };
 
   const handleSaveSettings = async () => {
+    const cleanPayload = {
+      siteName: (siteSettings.siteName || 'Atelier AI Haute Couture').trim(),
+      contactEmail: (siteSettings.contactEmail || 'info@fashion.com').trim(),
+      contactPhone: (siteSettings.contactPhone || '0300-1234567').trim(),
+      stripeEnabled: Boolean(siteSettings.stripeEnabled),
+      jazzCashEnabled: Boolean(siteSettings.jazzCashEnabled),
+      easyPaisaEnabled: Boolean(siteSettings.easyPaisaEnabled),
+      codEnabled: Boolean(siteSettings.codEnabled ?? true),
+    };
+
+    // Save locally immediately
     try {
-      await updateSettingsMutation(siteSettings).unwrap();
-      setSettingsSavedAlert(true);
-      setTimeout(() => setSettingsSavedAlert(false), 2500);
-    } catch (err) {
-      console.warn('Failed to save settings:', err);
+      localStorage.setItem('atelier_site_settings', JSON.stringify(cleanPayload));
+      localStorage.setItem('atelier_settings_sync', Date.now().toString());
+    } catch (e) {}
+
+    // Live broadcast across open storefront tabs
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('atelier_settings_change', { detail: cleanPayload }));
+      if ('BroadcastChannel' in window) {
+        try {
+          const bc = new BroadcastChannel('atelier_live_sync');
+          bc.postMessage({ type: 'SETTINGS_UPDATED', settings: cleanPayload });
+          bc.close();
+        } catch (e) {}
+      }
     }
+
+    try {
+      await updateSettingsMutation(cleanPayload).unwrap();
+      refetchSettings?.();
+    } catch (err) {
+      console.warn('Backend update settings notice (persisted locally & broadcasted):', err);
+    }
+
+    setSettingsSavedAlert(true);
+    setTimeout(() => setSettingsSavedAlert(false), 2500);
   };
 
   // Official Inquiries / Customer Emails State
@@ -1420,7 +1737,7 @@ export default function AdminDashboardPage() {
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <Link
                 to="/"
-                className="flex-1 py-3 bg-[#F1EFEA] hover:bg-[#1E293B] border border-[#DAD7D1] text-[#171717] text-xs font-bold uppercase tracking-wider rounded-xl transition flex items-center justify-center gap-2"
+                className="flex-1 py-3 bg-[#F1EFEA] hover:bg-[#E5E2DC] border border-[#DAD7D1] text-[#171717] text-xs font-bold uppercase tracking-wider rounded-xl transition flex items-center justify-center gap-2"
               >
                 <span>Return to Public Website</span>
                 <ArrowRight size={14} />
@@ -1558,7 +1875,6 @@ export default function AdminDashboardPage() {
     {
       title: 'OVERVIEW',
       items: [
-        { id: 'admin-login', label: 'Admin Login Portal', icon: LogIn, badge: 'Staff' },
         { id: 'admin-dash', label: 'Dashboard & Metrics', icon: LayoutDashboard },
       ],
     },
@@ -1586,13 +1902,13 @@ export default function AdminDashboardPage() {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 h-screen w-screen overflow-hidden bg-[#FAF9F6] text-[#171717] font-sans antialiased flex flex-col selection:bg-[#171717] selection:text-white">
+    <div className={`fixed inset-0 z-50 h-screen w-screen overflow-hidden ${th.pageBg} admin-theme-${adminTheme} font-sans antialiased flex flex-col selection:bg-amber-400 selection:text-slate-950 transition-colors duration-200`}>
       {/* ================= TOP COMMAND BAR ================= */}
-      <header className="h-14 bg-white border-b border-[#DAD7D1] px-4 sm:px-6 flex items-center justify-between shrink-0 z-30">
+      <header className={`h-14 ${th.headerBg} border-b px-4 sm:px-6 flex items-center justify-between shrink-0 z-30 transition-colors duration-200`}>
         <div className="flex items-center gap-3">
           <button
             onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
-            className="md:hidden p-1.5 text-[#77736E] hover:text-[#171717] hover:bg-[#1E293B] rounded-lg transition"
+            className="md:hidden p-1.5 text-[#77736E] hover:text-[#171717] hover:bg-[#F1EFEA] rounded-lg transition"
             aria-label="Toggle Navigation"
           >
             {mobileSidebarOpen ? <X size={20} /> : <Menu size={20} />}
@@ -1600,7 +1916,7 @@ export default function AdminDashboardPage() {
 
           <div className="flex items-center gap-2.5">
             <span className="relative flex h-2.5 w-2.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4D5543] opacity-75"></span><span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#4D5543]"></span></span>
-            <span className="font-mono text-xs uppercase tracking-wider font-editorial font-bold text-[#171717]">
+            <span className={`font-mono text-xs uppercase tracking-wider font-editorial font-bold ${th.headerTitle}`}>
               ATELIER OPERATIONS COMMAND
             </span>
             <span className="hidden lg:inline-flex items-center gap-1.5 text-[10px] px-2.5 py-0.5 rounded-full bg-[#DDE6CE] text-[#4D5543] font-sans border border-[#DAD7D1] font-semibold tracking-wider animate-glow">
@@ -1618,7 +1934,7 @@ export default function AdminDashboardPage() {
               placeholder="Quick search catalog or orders..."
               value={globalSearchQuery}
               onChange={(e) => setGlobalSearchQuery(e.target.value)}
-              className="w-full bg-[#FAF9F6] border border-[#DAD7D1] rounded-lg px-3 py-1.5 pl-9 text-xs text-[#171717] focus:outline-none focus:border-[#C5A880] focus:ring-2 focus:ring-[#C5A880]/20 placeholder:text-[#8C827A] transition-all duration-300"
+              className={`w-full rounded-lg px-3 py-1.5 pl-9 text-xs border transition-all duration-300 ${th.headerSearch}`}
             />
             {globalSearchQuery && (
               <button
@@ -1631,16 +1947,43 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Operator Profile and Actions */}
-        <div className="flex items-center gap-3">
+        {/* Operator Profile, Interactive Theme Switcher and Actions */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Interactive Theme Switcher */}
+          <div className="flex items-center gap-1 p-1 rounded-xl border border-[#DAD7D1] bg-[#F1EFEA] transition-colors shadow-xs">
+            {Object.values(THEMES).map((t) => {
+              const isSelected = adminTheme === t.id;
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => {
+                    setAdminTheme(t.id);
+                    try {
+                      localStorage.setItem('atelier_admin_theme', t.id);
+                    } catch (e) {}
+                  }}
+                  className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                    isSelected
+                      ? `${t.pillActive} shadow-sm scale-102 ring-1 ring-current/20`
+                      : `${t.pillInactive} hover:scale-102`
+                  }`}
+                  title={`Switch to ${t.name} Theme`}
+                >
+                  <span className="text-xs">{t.icon}</span>
+                  <span className="hidden xl:inline text-[11px]">{t.name}</span>
+                </button>
+              );
+            })}
+          </div>
+
           <Link
             to="/"
             target="_blank"
-            className="text-xs text-[#4D5543] hover:text-[#171717] flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1E293B]/60 border border-[#DAD7D1] hover:border-[#171717] transition"
+            className="text-xs text-[#171717] hover:text-black flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F1EFEA] hover:bg-[#E5E2DC] border border-[#DAD7D1] transition"
             title="Open customer website in new tab"
           >
             <Globe size={13} />
-            <span className="hidden sm:inline">Storefront</span>
+            <span className="hidden sm:inline font-medium">Storefront</span>
           </Link>
 
           <div className="flex items-center gap-2 pl-2 border-l border-[#DAD7D1]">
@@ -1648,7 +1991,7 @@ export default function AdminDashboardPage() {
               {adminAuth.firstName?.charAt(0) || 'A'}
             </div>
             <div className="hidden sm:block text-left">
-              <span className="block text-xs font-semibold text-[#171717] leading-tight">
+              <span className={`block text-xs font-semibold leading-tight ${th.headerTitle}`}>
                 {adminAuth.firstName} {adminAuth.lastName || ''}
               </span>
               <span className="block text-[10px] text-[#77736E] font-mono leading-tight">
@@ -1658,7 +2001,7 @@ export default function AdminDashboardPage() {
 
             <button
               onClick={handleAdminLogout}
-              className="ml-2 px-2.5 py-1.5 text-xs text-red-400 hover:text-red-300 hover:bg-red-950/40 border border-red-900/40 hover:border-red-500 rounded-lg flex items-center gap-1.5 transition"
+              className="ml-2 px-2.5 py-1.5 text-xs text-red-500 hover:text-red-600 hover:bg-red-50 border border-red-200 dark:border-red-900/40 rounded-lg flex items-center gap-1.5 transition font-semibold"
               title="Lock Console & Sign Out"
             >
               <LogOut size={13} />
@@ -1672,14 +2015,14 @@ export default function AdminDashboardPage() {
       <div className="flex-1 flex overflow-hidden relative">
         {/* ================= LEFT SIDEBAR (EXACT WIREFRAME DESIGN) ================= */}
         <aside
-          className={`fixed md:static inset-y-0 left-0 top-14 md:top-0 z-40 w-64 bg-white border-r border-[#DAD7D1] flex flex-col transition-transform duration-200 ease-in-out shrink-0 ${
+          className={`fixed md:static inset-y-0 left-0 top-14 md:top-0 z-40 w-64 ${th.sidebarBg} border-r flex flex-col transition-transform duration-200 ease-in-out shrink-0 ${
             mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
           }`}
         >
           <div className="flex-1 overflow-y-auto py-5 px-3 space-y-6">
             {navSections.map((sec) => (
               <div key={sec.title}>
-                <div className="px-3 mb-2 text-[10px] font-mono font-bold tracking-[0.16em] text-[#8C827A] uppercase">
+                <div className={`px-3 mb-2 text-[10px] font-mono font-bold tracking-[0.16em] uppercase ${th.sidebarSectionTitle}`}>
                   {sec.title}
                 </div>
                 <div className="space-y-1">
@@ -1696,15 +2039,15 @@ export default function AdminDashboardPage() {
                         }}
                         className={`w-full text-left px-3 py-2 rounded-lg text-xs flex items-center justify-between transition-all group ${
                           isActive
-                            ? 'bg-[#F1EFEA] text-[#171717] font-semibold border-l-4 border-[#C5A880] shadow-sm translate-x-1'
-                            : 'text-[#77736E] hover:text-[#171717] hover:bg-[#FAF9F6] hover:translate-x-1 duration-200'
+                            ? th.sidebarItemActive
+                            : th.sidebarItemInactive
                         }`}
                       >
                         <div className="flex items-center gap-2.5 min-w-0">
                           <IconComponent
                             size={15}
                             className={`shrink-0 transition-colors ${
-                              isActive ? 'text-[#4D5543]' : 'text-[#8C827A] group-hover:text-[#77736E]'
+                              isActive ? th.sidebarIconActive : th.sidebarIconInactive
                             }`}
                           />
                           <span className="truncate">{item.label}</span>
@@ -1712,10 +2055,10 @@ export default function AdminDashboardPage() {
 
                         {item.count !== undefined && (
                           <span
-                            className={`text-[10px] font-mono px-1.5 py-0.5 rounded-full ${
+                            className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full transition-all duration-200 ${
                               isActive
-                                ? 'bg-[#4D5543] text-[#171717] font-bold'
-                                : 'bg-[#1E293B] text-[#77736E]'
+                                ? th.sidebarCountActive
+                                : th.sidebarCountInactive
                             }`}
                           >
                             {item.count}
@@ -1723,7 +2066,11 @@ export default function AdminDashboardPage() {
                         )}
 
                         {item.badge && (
-                          <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#334155] text-[#353535]">
+                          <span
+                            className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded uppercase tracking-wider transition-all duration-200 ${
+                              item.badge.includes('New') ? th.sidebarAlertBadge : th.sidebarStaffBadge
+                            }`}
+                          >
                             {item.badge}
                           </span>
                         )}
@@ -1736,10 +2083,10 @@ export default function AdminDashboardPage() {
           </div>
 
           {/* Sidebar Status Footer */}
-          <div className="p-3 border-t border-[#DAD7D1] bg-[#FAF9F6] text-[11px] text-[#77736E] flex items-center justify-between">
+          <div className={`p-3 border-t ${th.sidebarFooter} text-[11px] flex items-center justify-between`}>
             <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#4D5543]"></span>
-              <span className="font-mono text-[10px] text-[#353535]">MERN Production</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span className="font-mono text-[10px] font-semibold text-[#171717] dark:text-white">MERN Production</span>
             </div>
             <button
               onClick={() => {
@@ -1748,12 +2095,13 @@ export default function AdminDashboardPage() {
                 refetchProducts();
               }}
               title="Sync with backend server"
-              className="text-[#8C827A] hover:text-[#4D5543] transition"
+              className="text-[#8C827A] hover:text-[#171717] dark:hover:text-white transition"
             >
               <RefreshCw size={12} />
             </button>
           </div>
         </aside>
+
 
         {/* Mobile Backdrop */}
         {mobileSidebarOpen && (
@@ -1767,71 +2115,7 @@ export default function AdminDashboardPage() {
         <main className="flex-1 overflow-y-auto bg-[#FAF9F6] p-4 sm:p-6 lg:p-8">
           <div key={activeTab} className="max-w-7xl mx-auto space-y-6 animate-admin-fade">
 
-            {/* 1. ADMIN LOGIN PORTAL (OVERVIEW) */}
-            {activeTab === 'admin-login' && (
-              <div className="animate-in fade-in duration-150 space-y-6">
-                <div className="flex items-center justify-between border-b border-[#DAD7D1] pb-4">
-                  <div>
-                    <h1 className="text-xl font-bold text-[#171717] flex items-center gap-2">
-                      <LogIn size={20} className="text-[#4D5543]" />
-                      Admin Login Portal
-                    </h1>
-                    <p className="text-xs text-[#77736E] mt-0.5">Active credentials and administrative clearance status</p>
-                  </div>
-                  <span className="px-2.5 py-1 rounded-full bg-[#4D5543]/20 border border-[#4D5543]/40 text-[#35664A] text-xs font-mono font-medium">
-                    Authenticated
-                  </span>
-                </div>
 
-                <div className="max-w-xl mx-auto bg-white border border-[#DAD7D1] rounded-2xl p-6 shadow-xl space-y-5">
-                  <div className="flex items-center gap-4 p-4 bg-[#FAF9F6] rounded-xl border border-[#DAD7D1]">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#10B981] to-[#38BDF8] flex items-center justify-center text-[#171717] font-bold text-xl">
-                      {adminAuth.firstName?.charAt(0) || 'A'}
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-bold text-[#171717]">
-                        {adminAuth.firstName} {adminAuth.lastName || ''}
-                      </h3>
-                      <p className="text-xs text-[#77736E] font-mono">{adminAuth.email}</p>
-                      <span className="inline-block mt-1 text-[10px] px-2 py-0.5 rounded bg-[#4D5543]/20 text-[#35664A] font-mono font-bold uppercase">
-                        Clearance: {adminAuth.role}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3 text-xs text-[#77736E]">
-                    <div className="flex justify-between py-2 border-b border-[#DAD7D1]">
-                      <span>Session Token:</span>
-                      <span className="font-mono text-[#171717]">Active (JWT Bearer Clearance)</span>
-                    </div>
-                    <div className="flex justify-between py-2 border-b border-[#DAD7D1]">
-                      <span>Role Permissions:</span>
-                      <span className="text-[#35664A] font-medium">Products, Orders, AI Studio, Settings</span>
-                    </div>
-                    <div className="flex justify-between py-2 border-b border-[#DAD7D1]">
-                      <span>Connected Database:</span>
-                      <span className="font-mono text-[#171717]">MongoDB Atlas (Live)</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 pt-2">
-                    <button
-                      onClick={() => setActiveTab('admin-dash')}
-                      className="flex-1 py-2.5 bg-[#4D5543] hover:bg-[#059669] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition flex items-center justify-center gap-2"
-                    >
-                      <LayoutDashboard size={15} />
-                      <span>Proceed to Dashboard</span>
-                    </button>
-                    <button
-                      onClick={handleAdminLogout}
-                      className="px-4 py-2.5 bg-red-950/40 hover:bg-red-900/60 border border-red-500/40 text-red-300 text-xs font-semibold rounded-xl transition"
-                    >
-                      Lock Console
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
 
             {/* 2. DASHBOARD & METRICS */}
             {activeTab === 'admin-dash' && (
@@ -1852,7 +2136,7 @@ export default function AdminDashboardPage() {
                         refetchProducts();
                         refetchDossiers();
                       }}
-                      className="px-3 py-1.5 bg-[#F1EFEA] hover:bg-[#1E293B] border border-[#DAD7D1] text-xs text-[#171717] rounded-lg flex items-center gap-1.5 transition"
+                      className="px-3 py-1.5 bg-[#F1EFEA] hover:bg-[#E5E2DC] border border-[#DAD7D1] text-xs text-[#171717] rounded-lg flex items-center gap-1.5 transition"
                     >
                       <RefreshCw size={13} />
                       <span>Sync Real-Time Data</span>
@@ -1868,8 +2152,10 @@ export default function AdminDashboardPage() {
                       <span>Total Sales</span>
                       <TrendingUp size={16} className="text-[#4D5543] group-hover:scale-110 transition-transform duration-300" />
                     </div>
-                    <div className="text-2xl sm:text-3xl font-bold text-[#171717] font-mono mt-2">Rs. 5.42L</div>
-                    <div className="text-[11px] text-[#4D5543] font-semibold mt-1">+18.4% vs last period</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-[#171717] font-mono mt-2">
+                      {realTotalRevenue >= 100000 ? `Rs. ${(realTotalRevenue / 100000).toFixed(2)}L` : `Rs. ${realTotalRevenue.toLocaleString()}`}
+                    </div>
+                    <div className="text-[11px] text-[#4D5543] font-semibold mt-1">Live Store Turnover</div>
                   </div>
 
                   <div className="admin-card-hover group relative overflow-hidden bg-white border border-[#DAD7D1] rounded-2xl p-5 shadow-sm">
@@ -1878,8 +2164,8 @@ export default function AdminDashboardPage() {
                       <span>Total Orders</span>
                       <ClipboardList size={16} className="text-[#4D5543] group-hover:scale-110 transition-transform duration-300" />
                     </div>
-                    <div className="text-2xl sm:text-3xl font-bold text-[#171717] font-mono mt-2">{localOrders.length * 31}</div>
-                    <div className="text-[11px] text-[#77736E] mt-1">{localOrders.length} fulfillment queue</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-[#171717] font-mono mt-2">{realTotalOrders}</div>
+                    <div className="text-[11px] text-[#77736E] mt-1">{realTotalOrders} Invoiced Orders</div>
                   </div>
 
                   <div className="admin-card-hover group relative overflow-hidden bg-white border border-[#DAD7D1] rounded-2xl p-5 shadow-sm">
@@ -1888,8 +2174,8 @@ export default function AdminDashboardPage() {
                       <span>Customers</span>
                       <Users size={16} className="text-purple-600 group-hover:scale-110 transition-transform duration-300" />
                     </div>
-                    <div className="text-2xl sm:text-3xl font-bold text-[#171717] font-mono mt-2">{localUsers.length * 94}</div>
-                    <div className="text-[11px] text-purple-400 font-semibold mt-1">468 Registered Accounts</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-[#171717] font-mono mt-2">{realTotalUsers}</div>
+                    <div className="text-[11px] text-purple-400 font-semibold mt-1">{realTotalUsers} Registered Accounts</div>
                   </div>
 
                   <div className="admin-card-hover group relative overflow-hidden bg-white border border-[#DAD7D1] rounded-2xl p-5 shadow-sm">
@@ -1898,7 +2184,7 @@ export default function AdminDashboardPage() {
                       <span>AI Requests</span>
                       <Sparkles size={16} className="text-amber-500 group-hover:rotate-12 transition-transform duration-300" />
                     </div>
-                    <div className="text-2xl sm:text-3xl font-bold text-[#171717] font-mono mt-2">{localCustomRequests.length * 6 + 1}</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-[#171717] font-mono mt-2">{localCustomRequests.length}</div>
                     <div className="text-[11px] text-amber-400 font-semibold mt-1">Pending Tailor Approval</div>
                   </div>
                 </div>
@@ -1922,15 +2208,7 @@ export default function AdminDashboardPage() {
                     {/* Horizontal Reference Line */}
                     <div className="absolute inset-x-0 top-1/2 border-t border-dashed border-[#DAD7D1] pointer-events-none"></div>
 
-                    {[
-                      { day: 'Mon', h: '45%', val: 'Rs. 45k' },
-                      { day: 'Tue', h: '62%', val: 'Rs. 62k' },
-                      { day: 'Wed', h: '38%', val: 'Rs. 38k' },
-                      { day: 'Thu', h: '85%', val: 'Rs. 85k' },
-                      { day: 'Fri', h: '70%', val: 'Rs. 70k' },
-                      { day: 'Sat', h: '95%', val: 'Rs. 95k' },
-                      { day: 'Sun', h: '78%', val: 'Rs. 78k' },
-                    ].map((bar) => (
+                    {weeklyDayBreakdown.map((bar) => (
                       <div key={bar.day} className="flex flex-col items-center gap-2 h-full justify-end group z-10">
                         <span className="text-[10px] text-[#4D5543] font-mono opacity-0 group-hover:opacity-100 transition-opacity">
                           {bar.val}
@@ -2046,7 +2324,7 @@ export default function AdminDashboardPage() {
                           className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
                             adminCategoryFilter === tab.id
                               ? 'bg-[#4D5543] text-white shadow-md shadow-md'
-                              : 'bg-[#F1EFEA] text-[#77736E] hover:text-white hover:bg-[#1E293B] border border-[#DAD7D1]'
+                              : 'bg-[#F1EFEA] text-[#77736E] hover:text-white hover:bg-[#E5E2DC] border border-[#DAD7D1]'
                           }`}
                         >
                           <span>{tab.label}</span>
@@ -2076,7 +2354,7 @@ export default function AdminDashboardPage() {
                           <th className="p-3.5 text-right">Actions</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#1E293B]">
+                      <tbody className="divide-y divide-[#DAD7D1]">
                         {filteredProducts.length === 0 ? (
                           <tr>
                             <td colSpan={7} className="p-12 text-center text-[#77736E]">
@@ -2155,7 +2433,7 @@ export default function AdminDashboardPage() {
                                     </button>
                                     <button
                                       onClick={() => setEditingProductId(null)}
-                                      className="px-2 py-1 bg-[#1E293B] text-[#171717] rounded-lg text-[11px]"
+                                      className="px-2 py-1 bg-[#F1EFEA] hover:bg-[#E5E2DC] text-[#171717] border border-[#DAD7D1] rounded-lg text-[11px] font-medium transition"
                                     >
                                       Cancel
                                     </button>
@@ -2164,7 +2442,7 @@ export default function AdminDashboardPage() {
                                   <div className="inline-flex items-center gap-1.5">
                                     <button
                                       onClick={() => setViewProductModal(p)}
-                                      className="px-2.5 py-1 bg-[#F1EFEA] hover:bg-[#1E293B] border border-[#DAD7D1] hover:border-[#D4AF37] text-[#D4AF37] rounded-lg text-[11px] font-medium transition flex items-center gap-1"
+                                      className="px-2.5 py-1 bg-[#F1EFEA] hover:bg-[#E5E2DC] border border-[#DAD7D1] hover:border-[#D4AF37] text-[#D4AF37] rounded-lg text-[11px] font-medium transition flex items-center gap-1"
                                       title="View complete garment specifications"
                                     >
                                       <Eye size={12} />
@@ -2172,14 +2450,14 @@ export default function AdminDashboardPage() {
                                     </button>
                                     <button
                                       onClick={() => handleOpenEditModal(p)}
-                                      className="px-2.5 py-1 bg-[#F1EFEA] hover:bg-[#1E293B] border border-[#DAD7D1] hover:border-[#4D5543] text-[#35664A] rounded-lg text-[11px] font-medium transition"
+                                      className="px-2.5 py-1 bg-[#F1EFEA] hover:bg-[#E5E2DC] border border-[#DAD7D1] hover:border-[#4D5543] text-[#35664A] rounded-lg text-[11px] font-medium transition"
                                       title="Edit all product specifications"
                                     >
                                       Edit Details
                                     </button>
                                     <button
                                       onClick={() => handleStartEdit(p)}
-                                      className="px-2.5 py-1 bg-[#F1EFEA] hover:bg-[#1E293B] border border-[#DAD7D1] hover:border-[#171717] text-[#4D5543] rounded-lg text-[11px] transition"
+                                      className="px-2.5 py-1 bg-[#F1EFEA] hover:bg-[#E5E2DC] border border-[#DAD7D1] hover:border-[#171717] text-[#4D5543] rounded-lg text-[11px] transition"
                                       title="Quick edit price and stock inline"
                                     >
                                       Quick Edit
@@ -2216,7 +2494,7 @@ export default function AdminDashboardPage() {
                         </div>
                         <button
                           onClick={() => setModalEditProduct(null)}
-                          className="text-[#8C827A] hover:text-[#171717] p-1 rounded-lg hover:bg-[#1E293B]"
+                          className="text-[#8C827A] hover:text-[#171717] p-1 rounded-lg hover:bg-[#E5E2DC]"
                         >
                           <X size={18} />
                         </button>
@@ -2351,7 +2629,7 @@ export default function AdminDashboardPage() {
                           <button
                             type="button"
                             onClick={() => setModalEditProduct(null)}
-                            className="px-4 py-2 bg-[#1E293B] hover:bg-[#334155] text-[#171717] text-xs font-semibold rounded-xl transition"
+                            className="px-4 py-2 bg-[#F1EFEA] hover:bg-[#E5E2DC] text-[#171717] border border-[#DAD7D1] text-xs font-semibold rounded-xl transition"
                           >
                             Cancel
                           </button>
@@ -2475,7 +2753,7 @@ export default function AdminDashboardPage() {
                           <button
                             type="button"
                             onClick={() => setViewProductModal(null)}
-                            className="px-4 py-2 bg-[#1E293B] hover:bg-[#334155] text-[#171717] text-xs rounded-xl transition"
+                            className="px-4 py-2 bg-[#F1EFEA] hover:bg-[#E5E2DC] text-[#171717] border border-[#DAD7D1] text-xs font-medium rounded-xl transition"
                           >
                             Close
                           </button>
@@ -2500,7 +2778,7 @@ export default function AdminDashboardPage() {
                   </div>
                   <button
                     onClick={() => setActiveTab('admin-products')}
-                    className="px-3.5 py-1.5 border border-[#DAD7D1] hover:bg-[#1E293B] text-xs text-[#171717] rounded-xl transition"
+                    className="px-3.5 py-1.5 border border-[#DAD7D1] hover:bg-[#E5E2DC] text-xs text-[#171717] rounded-xl transition"
                   >
                     ← Back to Products
                   </button>
@@ -2820,13 +3098,6 @@ export default function AdminDashboardPage() {
                         </div>
                       </div>
                     </div>
-
-                    <div className="p-3 bg-[#FAF9F6] rounded-xl border border-[#DAD7D1] text-[11px] text-[#77736E] space-y-1 font-mono">
-                      <div className="flex justify-between">
-                        <span>Database Target:</span>
-                        <span className="text-[#171717]">MongoDB Atlas (products)</span>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -2851,7 +3122,7 @@ export default function AdminDashboardPage() {
                         ['Order ID', 'Customer', 'Phone Number', 'Items Count', 'Total Amount', 'Status', 'City']
                       )
                     }
-                    className="px-4 py-2 border border-[#DAD7D1] hover:bg-[#1E293B] text-xs text-[#171717] rounded-xl flex items-center gap-1.5 transition"
+                    className="px-4 py-2 border border-[#DAD7D1] hover:bg-[#E5E2DC] text-xs text-[#171717] rounded-xl flex items-center gap-1.5 transition"
                   >
                     <Download size={14} />
                     <span>Export CSV</span>
@@ -2872,7 +3143,7 @@ export default function AdminDashboardPage() {
                           <th className="p-3.5 text-right">Actions</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#1E293B]">
+                      <tbody className="divide-y divide-[#DAD7D1]">
                         {localOrders.map((ord) => (
                           <tr key={ord.id} className="group hover:bg-[#FAF9F6] border-b border-[#E5E2DA] transition-colors duration-150">
                             <td className="p-3.5 font-mono font-bold text-[#4D5543]">{ord.id}</td>
@@ -2957,9 +3228,26 @@ export default function AdminDashboardPage() {
                     </h1>
                     <p className="text-xs text-[#77736E] mt-0.5">Review and manage AI custom bespoke garment submissions</p>
                   </div>
-                  <span className="px-3 py-1 rounded-full bg-[#F1EFEA] border border-[#DAD7D1] text-[#4D5543] text-xs font-mono font-medium">
-                    {localCustomRequests.length} Dossiers Pending
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {localCustomRequests.length > 0 && (
+                      <button
+                        onClick={() => {
+                          if (window.confirm('Remove all locally stored custom requests?')) {
+                            localStorage.removeItem('atelier_custom_dossiers');
+                            setLocalCustomRequests([]);
+                          }
+                        }}
+                        className="px-3 py-1 bg-[#F1EFEA] hover:bg-red-50 hover:text-red-600 border border-[#DAD7D1] text-xs text-[#171717] rounded-lg transition flex items-center gap-1.5"
+                        title="Clear locally stored custom requests"
+                      >
+                        <Trash2 size={12} />
+                        <span>Clear Local Requests</span>
+                      </button>
+                    )}
+                    <span className="px-3 py-1 rounded-full bg-[#F1EFEA] border border-[#DAD7D1] text-[#4D5543] text-xs font-mono font-medium">
+                      {localCustomRequests.length} Dossiers Pending
+                    </span>
+                  </div>
                 </div>
 
                 {localCustomRequests.length === 0 ? (
@@ -3045,11 +3333,11 @@ export default function AdminDashboardPage() {
                           )}
                         </div>
 
-                        {/* Action buttons with live Call and WhatsApp */}
+                        {/* Action buttons with live Call, WhatsApp and Delete */}
                         <div className="flex flex-wrap items-center gap-2 pt-1">
                           <a
                             href={`tel:${req.rawPhone}`}
-                            className="px-3.5 py-1.5 bg-[#F1EFEA] hover:bg-[#1E293B] border border-[#DAD7D1] text-xs font-semibold text-[#171717] rounded-lg flex items-center gap-1.5 transition"
+                            className="px-3.5 py-1.5 bg-[#F1EFEA] hover:bg-[#E5E2DC] border border-[#DAD7D1] text-xs font-semibold text-[#171717] rounded-lg flex items-center gap-1.5 transition"
                           >
                             <Phone size={13} className="text-[#4D5543]" />
                             <span>Call Patron</span>
@@ -3070,6 +3358,15 @@ export default function AdminDashboardPage() {
                             className="px-3 py-1.5 border border-[#DAD7D1] hover:border-[#171717] text-xs text-[#171717] rounded-lg transition ml-auto"
                           >
                             {isExpanded ? 'Hide Details' : 'View Details'}
+                          </button>
+
+                          <button
+                            onClick={() => handleDeleteCustomRequest(req.id)}
+                            className="px-2.5 py-1.5 border border-red-200 dark:border-red-900/40 hover:border-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 text-red-500 rounded-lg transition flex items-center gap-1"
+                            title="Permanently remove this custom request"
+                          >
+                            <Trash2 size={13} />
+                            <span className="text-[11px] font-medium">Delete</span>
                           </button>
                         </div>
 
@@ -3133,7 +3430,7 @@ export default function AdminDashboardPage() {
 
                     <button
                       onClick={() => refetchInquiries()}
-                      className="p-1.5 border border-[#DAD7D1] hover:bg-[#1E293B] text-xs text-[#77736E] hover:text-[#171717] rounded-lg transition"
+                      className="p-1.5 border border-[#DAD7D1] hover:bg-[#E5E2DC] text-xs text-[#77736E] hover:text-[#171717] rounded-lg transition"
                       title="Force Refresh Emails"
                     >
                       <RefreshCw size={14} />
@@ -3156,7 +3453,7 @@ export default function AdminDashboardPage() {
                           ['Inquiry ID', 'Sender Name', 'Email', 'Phone', 'Department', 'Subject', 'Status', 'Received Date']
                         )
                       }
-                      className="px-3 py-1.5 border border-[#DAD7D1] hover:bg-[#1E293B] text-xs text-[#171717] rounded-xl flex items-center gap-1.5 transition"
+                      className="px-3 py-1.5 border border-[#DAD7D1] hover:bg-[#E5E2DC] text-xs text-[#171717] rounded-xl flex items-center gap-1.5 transition"
                     >
                       <Download size={13} />
                       <span className="hidden sm:inline">Export CSV</span>
@@ -3186,7 +3483,7 @@ export default function AdminDashboardPage() {
                         <span>{tab.label}</span>
                         <span
                           className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                            emailStatusFilter === tab.key ? 'bg-black/20 text-white' : 'bg-[#1E293B] text-[#8C827A]'
+                            emailStatusFilter === tab.key ? 'bg-black/20 text-white' : 'bg-[#E7E5E4] text-[#1C1917] font-bold border border-[#D6D3D1]'
                           }`}
                         >
                           {tab.count}
@@ -3257,7 +3554,7 @@ export default function AdminDashboardPage() {
                                   className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
                                     item.status === 'unread'
                                       ? 'bg-gradient-to-tr from-[#10B981] to-[#38BDF8] text-white shadow-sm ring-2 ring-[#10B981]/30'
-                                      : 'bg-[#1E293B] text-[#77736E]'
+                                      : 'bg-[#E7E5E4] text-[#1C1917] font-bold border border-[#D6D3D1]'
                                   }`}
                                 >
                                   {item.senderName ? item.senderName.charAt(0).toUpperCase() : 'U'}
@@ -3274,8 +3571,8 @@ export default function AdminDashboardPage() {
                                     : item.status === 'replied'
                                     ? 'bg-[#171717]/20 border border-[#171717]/40 text-[#4D5543]'
                                     : item.status === 'archived'
-                                    ? 'bg-[#334155]/40 text-[#77736E]'
-                                    : 'bg-[#1E293B] text-[#353535]'
+                                    ? 'bg-[#E7E5E4] text-[#44403C] font-semibold border border-[#D6D3D1]'
+                                    : 'bg-[#E7E5E4] text-[#1C1917] font-bold border border-[#D6D3D1]'
                                 }`}
                               >
                                 {item.status}
@@ -3439,7 +3736,7 @@ export default function AdminDashboardPage() {
                                     selectedInquiry.status === 'replied' ? 'read' : 'replied'
                                   )
                                 }
-                                className="px-3.5 py-2 bg-[#F1EFEA] hover:bg-[#1E293B] border border-[#DAD7D1] text-xs text-[#171717] rounded-xl flex items-center gap-1.5 transition"
+                                className="px-3.5 py-2 bg-[#F1EFEA] hover:bg-[#E5E2DC] border border-[#DAD7D1] text-xs text-[#171717] rounded-xl flex items-center gap-1.5 transition"
                               >
                                 <CheckCircle size={13} className="text-[#4D5543]" />
                                 <span>
@@ -3502,7 +3799,7 @@ export default function AdminDashboardPage() {
                           <th className="p-3.5 text-right">Actions</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#1E293B]">
+                      <tbody className="divide-y divide-[#DAD7D1]">
                         {localUsers.map((u) => (
                           <tr key={u.id} className="group hover:bg-[#FAF9F6] border-b border-[#E5E2DA] transition-colors duration-150">
                             <td className="p-3.5 font-semibold text-[#171717] flex items-center gap-2.5">
@@ -3542,7 +3839,7 @@ export default function AdminDashboardPage() {
                               <div className="inline-flex items-center gap-1.5">
                                 <button
                                   onClick={() => setViewUserModal(u)}
-                                  className="px-2.5 py-1 bg-[#F1EFEA] hover:bg-[#1E293B] border border-[#DAD7D1] hover:border-[#171717] text-[#4D5543] rounded-lg text-[11px] font-medium transition flex items-center gap-1"
+                                  className="px-2.5 py-1 bg-[#F1EFEA] hover:bg-[#E5E2DC] border border-[#DAD7D1] hover:border-[#171717] text-[#4D5543] rounded-lg text-[11px] font-medium transition flex items-center gap-1"
                                   title="View full customer profile"
                                 >
                                   <Eye size={12} />
@@ -3644,7 +3941,7 @@ export default function AdminDashboardPage() {
                           <button
                             type="button"
                             onClick={() => setViewUserModal(null)}
-                            className="px-4 py-2 bg-[#1E293B] hover:bg-[#334155] text-[#171717] text-xs rounded-xl transition"
+                            className="px-4 py-2 bg-[#F1EFEA] hover:bg-[#E5E2DC] text-[#171717] border border-[#DAD7D1] text-xs font-medium rounded-xl transition"
                           >
                             Close
                           </button>
@@ -3707,7 +4004,7 @@ export default function AdminDashboardPage() {
                           <th className="p-3.5 text-right">Actions</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#1E293B]">
+                      <tbody className="divide-y divide-[#DAD7D1]">
                         {localCategories.map((c) => (
                           <tr key={c.id} className="group hover:bg-[#FAF9F6] border-b border-[#E5E2DA] transition-colors duration-150">
                             <td className="p-3.5 font-semibold text-[#171717]">{c.name}</td>
@@ -3800,7 +4097,7 @@ export default function AdminDashboardPage() {
                           <th className="p-3.5 text-right">Actions</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#1E293B]">
+                      <tbody className="divide-y divide-[#DAD7D1]">
                         {localCoupons.map((coup) => (
                           <tr key={coup.id} className="group hover:bg-[#FAF9F6] border-b border-[#E5E2DA] transition-colors duration-150">
                             <td className="p-3.5 font-mono font-bold text-[#171717]">{coup.code}</td>
@@ -3845,16 +4142,18 @@ export default function AdminDashboardPage() {
                       handleExportCSV(
                         'sales_report.csv',
                         [
-                          ['Gross Sales Turnover', 'Rs. 542,000'],
-                          ['Total Invoiced Orders', '124'],
-                          ['Active Customer Base', '468'],
-                          ['Products Sold', '35'],
-                          ['Average Order Value', 'Rs. 4,370'],
+                          ['Gross Sales Turnover', `Rs. ${realTotalRevenue.toLocaleString()}`],
+                          ['Total Invoiced Orders', `${realTotalOrders}`],
+                          ['Active Customer Base', `${realTotalUsers}`],
+                          ['Products Sold', `${realProductsSold}`],
+                          ['Average Order Value', `Rs. ${realAvgOrderValue.toLocaleString()}`],
+                          ['Ready-To-Wear Sales', `Rs. ${realRtwSales.toLocaleString()} (${realRtwPercent}%)`],
+                          ['AI Bespoke Studio Sales', `Rs. ${realBespokeSales.toLocaleString()} (${realBespokePercent}%)`],
                         ],
                         ['Metric', 'Value']
                       )
                     }
-                    className="px-4 py-2 border border-[#DAD7D1] hover:bg-[#1E293B] text-xs text-[#171717] rounded-xl flex items-center gap-1.5 transition"
+                    className="px-4 py-2 border border-[#DAD7D1] hover:bg-[#E5E2DC] text-xs text-[#171717] rounded-xl flex items-center gap-1.5 transition"
                   >
                     <Download size={14} />
                     <span>Export CSV</span>
@@ -3863,19 +4162,21 @@ export default function AdminDashboardPage() {
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="bg-white border border-[#DAD7D1] rounded-2xl p-5 text-center">
-                    <div className="text-2xl font-bold text-[#171717] font-mono">Rs. 5.42L</div>
+                    <div className="text-2xl font-bold text-[#171717] font-mono">
+                      {realTotalRevenue >= 100000 ? `Rs. ${(realTotalRevenue / 100000).toFixed(2)}L` : `Rs. ${realTotalRevenue.toLocaleString()}`}
+                    </div>
                     <div className="text-[11px] font-bold text-[#77736E] uppercase tracking-wider mt-1">Total Sales</div>
                   </div>
                   <div className="bg-white border border-[#DAD7D1] rounded-2xl p-5 text-center">
-                    <div className="text-2xl font-bold text-[#171717] font-mono">124</div>
+                    <div className="text-2xl font-bold text-[#171717] font-mono">{realTotalOrders}</div>
                     <div className="text-[11px] font-bold text-[#77736E] uppercase tracking-wider mt-1">Orders</div>
                   </div>
                   <div className="bg-white border border-[#DAD7D1] rounded-2xl p-5 text-center">
-                    <div className="text-2xl font-bold text-[#171717] font-mono">468</div>
+                    <div className="text-2xl font-bold text-[#171717] font-mono">{realTotalUsers}</div>
                     <div className="text-[11px] font-bold text-[#77736E] uppercase tracking-wider mt-1">Users</div>
                   </div>
                   <div className="bg-white border border-[#DAD7D1] rounded-2xl p-5 text-center">
-                    <div className="text-2xl font-bold text-[#171717] font-mono">35</div>
+                    <div className="text-2xl font-bold text-[#171717] font-mono">{realProductsSold}</div>
                     <div className="text-[11px] font-bold text-[#77736E] uppercase tracking-wider mt-1">Products Sold</div>
                   </div>
                 </div>
@@ -3886,19 +4187,29 @@ export default function AdminDashboardPage() {
                     <div>
                       <div className="flex justify-between text-[#77736E] mb-1.5">
                         <span className="text-[#171717] font-medium">Ready-To-Wear Catalog Collection</span>
-                        <span className="font-mono text-[#4D5543]">Rs. 3.45L (64%)</span>
+                        <span className="font-mono text-[#4D5543]">
+                          {realRtwSales >= 100000 ? `Rs. ${(realRtwSales / 100000).toFixed(2)}L` : `Rs. ${realRtwSales.toLocaleString()}`} ({realRtwPercent}%)
+                        </span>
                       </div>
                       <div className="h-2.5 bg-[#FAF9F6] rounded-full overflow-hidden border border-[#DAD7D1]">
-                        <div className="h-full bg-gradient-to-r from-[#38BDF8] to-[#0284C7]" style={{ width: '64%' }}></div>
+                        <div
+                          className="h-full bg-gradient-to-r from-[#38BDF8] to-[#0284C7] transition-all duration-500"
+                          style={{ width: `${realRtwPercent}%` }}
+                        ></div>
                       </div>
                     </div>
                     <div>
                       <div className="flex justify-between text-[#77736E] mb-1.5">
                         <span className="text-[#171717] font-medium">AI Custom Studio Bespoke Garments</span>
-                        <span className="font-mono text-[#4D5543]">Rs. 1.97L (36%)</span>
+                        <span className="font-mono text-[#4D5543]">
+                          {realBespokeSales >= 100000 ? `Rs. ${(realBespokeSales / 100000).toFixed(2)}L` : `Rs. ${realBespokeSales.toLocaleString()}`} ({realBespokePercent}%)
+                        </span>
                       </div>
                       <div className="h-2.5 bg-[#FAF9F6] rounded-full overflow-hidden border border-[#DAD7D1]">
-                        <div className="h-full bg-gradient-to-r from-[#10B981] to-[#059669]" style={{ width: '36%' }}></div>
+                        <div
+                          className="h-full bg-gradient-to-r from-[#10B981] to-[#059669] transition-all duration-500"
+                          style={{ width: `${realBespokePercent}%` }}
+                        ></div>
                       </div>
                     </div>
                   </div>
@@ -4017,7 +4328,8 @@ export default function AdminDashboardPage() {
                       <label className="flex items-center gap-3 text-xs text-[#171717] cursor-pointer select-none">
                         <input
                           type="checkbox"
-                          defaultChecked
+                          checked={siteSettings.codEnabled ?? true}
+                          onChange={(e) => setSiteSettings({ ...siteSettings, codEnabled: e.target.checked })}
                           className="w-4 h-4 rounded border-[#DAD7D1] bg-[#FAF9F6] text-[#4D5543] focus:ring-0"
                         />
                         <span>Enable Cash On Delivery (COD)</span>
@@ -4084,7 +4396,7 @@ export default function AdminDashboardPage() {
                 <button
                   type="button"
                   onClick={() => setSelectedInvoiceOrder(null)}
-                  className="p-1.5 text-[#77736E] hover:text-[#171717] hover:bg-[#1E293B] rounded-lg transition"
+                  className="p-1.5 text-[#77736E] hover:text-[#171717] hover:bg-[#E5E2DC] rounded-lg transition"
                 >
                   <X size={18} />
                 </button>

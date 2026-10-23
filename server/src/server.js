@@ -37,10 +37,10 @@ app.use(
   })
 );
 
-// Rate Limiting: General API limiter (300 requests per 15 mins)
+// Rate Limiting: General API limiter (development friendly, strict in production)
 const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 300,
+  max: process.env.NODE_ENV === 'production' ? 300 : 50000,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -50,10 +50,10 @@ const generalLimiter = rateLimit({
 });
 app.use('/api', generalLimiter);
 
-// Strict Rate Limiting: Authentication endpoints (20 attempts per 15 mins to prevent brute-force)
+// Strict Rate Limiting: Authentication endpoints
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 20,
+  max: process.env.NODE_ENV === 'production' ? 20 : 1000,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -70,6 +70,8 @@ app.use(cookieParser());
 // CORS configuration for React frontend
 const allowedOrigins = [
   process.env.CLIENT_URL,
+  'http://localhost:5173',
+  'http://localhost:5175',
 ].filter(Boolean);
 
 app.use(

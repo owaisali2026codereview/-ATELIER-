@@ -164,7 +164,16 @@ export default function ContactModal({ isOpen, onClose }) {
           </h2>
           <p className="text-xs text-white/75 mt-1">
             Dispatch correspondence directly to our official atelier inbox at{' '}
-            <strong className="text-[#DDE6CE] font-mono">info@fashion.com</strong>
+            <strong className="text-[#DDE6CE] font-mono">
+              {(() => {
+                try {
+                  const s = JSON.parse(localStorage.getItem('atelier_site_settings') || '{}');
+                  return s.contactEmail || 'info@fashion.com';
+                } catch (e) {
+                  return 'info@fashion.com';
+                }
+              })()}
+            </strong>
           </p>
         </div>
 

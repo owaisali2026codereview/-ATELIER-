@@ -161,7 +161,8 @@ export default function ProductListingPage() {
             (p) =>
               (p._id && p._id.toString() === lpid) ||
               (p.id && p.id.toString() === lpid) ||
-              (lpslug && p.slug === lpslug)
+              (lpslug && p.slug === lpslug) ||
+              (lp.name && p.name && p.name.trim().toLowerCase() === lp.name.trim().toLowerCase())
           );
 
           if (existingIdx !== -1) {
@@ -172,10 +173,12 @@ export default function ProductListingPage() {
               stockCount: lp.stock !== undefined ? Number(lp.stock) : baseList[existingIdx].stockCount,
               inStock: lp.stock !== undefined ? Number(lp.stock) > 0 : baseList[existingIdx].inStock,
               category: (lp.category || baseList[existingIdx].category || '').toLowerCase(),
-              images: lp.image ? [lp.image] : baseList[existingIdx].images,
+              department: lp.department || `${(lp.category || '').charAt(0).toUpperCase() + (lp.category || '').slice(1)}'s Collection`,
+              images: lp.image ? [lp.image] : (lp.images || baseList[existingIdx].images),
+              image: lp.image || baseList[existingIdx].image || baseList[existingIdx].images?.[0],
               fabric: lp.fabric || baseList[existingIdx].fabric,
               description: lp.description || baseList[existingIdx].description,
-              badge: lp.badge || baseList[existingIdx].badge,
+              badge: lp.badge !== undefined ? lp.badge : baseList[existingIdx].badge,
             };
           } else {
             baseList.unshift({
@@ -208,50 +211,61 @@ export default function ProductListingPage() {
     return baseList;
   }, [apiResponse, catalogTick]);
 
-  // Dynamic department list with live count from sourceProducts
-  const departmentTabs = React.useMemo(() => {
-    const defaultDepts = [
+  // Dynamic category list with live count from sourceProducts and catalog categories
+  const categoryTabs = React.useMemo(() => {
+    const list = [
       { id: 'all', label: 'All Collections' },
-      { id: 'men', label: "Men's Sartorial" },
-      { id: 'women', label: "Women's Couture" },
-      { id: 'kids', label: 'Miniature Archive' },
     ];
 
-    let combined = [...defaultDepts];
+    const seen = new Set(['all']);
 
-    // Add any database categories
+    // 1. Database categories (e.g. Men, Women, Kids, or any custom additions)
     if (Array.isArray(dbCategories)) {
       dbCategories.forEach((c) => {
-        const catId = (c.slug || c.name || '').toLowerCase();
-        if (!combined.some((d) => d.id === catId)) {
-          combined.push({
+        const catId = (c.slug || c.name || '').trim().toLowerCase();
+        if (catId && !seen.has(catId)) {
+          seen.add(catId);
+          list.push({
             id: catId,
-            label: c.name === 'Men' ? "Men's Sartorial" : c.name === 'Women' ? "Women's Couture" : c.name === 'Kids' ? 'Miniature Archive' : c.name,
+            label: c.name || (catId.charAt(0).toUpperCase() + catId.slice(1)),
           });
         }
       });
     }
 
-    // Add any unique categories from actual products
-    sourceProducts.forEach((p) => {
-      const pcat = (p.category || '').toLowerCase();
-      if (pcat && !combined.some((d) => d.id === pcat)) {
-        combined.push({
-          id: pcat,
-          label: pcat.charAt(0).toUpperCase() + pcat.slice(1),
+    // 2. Standard categories foundation if not yet registered
+    ['men', 'women', 'kids'].forEach((id) => {
+      if (!seen.has(id)) {
+        seen.add(id);
+        list.push({
+          id,
+          label: id.charAt(0).toUpperCase() + id.slice(1),
         });
       }
     });
 
-    // Populate live counts with strict matching
-    return combined.map((dept) => {
-      if (dept.id === 'all') {
-        return { ...dept, count: sourceProducts.length };
+    // 3. Dynamic categories found on actual active products
+    sourceProducts.forEach((p) => {
+      const pcat = (p.category || '').trim().toLowerCase();
+      if (pcat && !seen.has(pcat)) {
+        seen.add(pcat);
+        const rawName = (p.category || '').trim();
+        list.push({
+          id: pcat,
+          label: rawName.charAt(0).toUpperCase() + rawName.slice(1),
+        });
+      }
+    });
+
+    // Populate live counts with matching
+    return list.map((cat) => {
+      if (cat.id === 'all') {
+        return { ...cat, count: sourceProducts.length };
       }
       const matchingCount = sourceProducts.filter((p) =>
-        matchesCategory(p.category, dept.id)
+        matchesCategory(p.category, cat.id)
       ).length;
-      return { ...dept, count: matchingCount };
+      return { ...cat, count: matchingCount };
     });
   }, [dbCategories, sourceProducts]);
 
@@ -304,11 +318,13 @@ export default function ProductListingPage() {
             <div>
               <h1 className="font-editorial text-4xl sm:text-5xl text-[#171717] uppercase tracking-tight">
                 {department === 'men'
-                  ? "Men's Sartorial Series"
+                  ? "Men's Collection"
                   : department === 'women'
-                  ? "Women's Couture Archive"
+                  ? "Women's Collection"
                   : department === 'kids'
-                  ? 'Miniature Archive'
+                  ? "Kids' Collection"
+                  : department !== 'all'
+                  ? `${department.charAt(0).toUpperCase() + department.slice(1)} Collection`
                   : 'Curated Catalog & Artifacts'}
               </h1>
               <p className="text-xs text-[#77736E] mt-2 max-w-xl">
@@ -390,33 +406,33 @@ export default function ProductListingPage() {
               </button>
             </div>
 
-            {/* Department Filter */}
+            {/* Category Filter */}
             <div className="space-y-3">
               <span className="text-xs uppercase tracking-wider font-semibold text-[#171717] block">
-                Department
+                Category
               </span>
               <div className="flex flex-col space-y-2 text-xs">
-                {departmentTabs.map((dept) => (
+                {categoryTabs.map((cat) => (
                   <button
-                    key={dept.id}
+                    key={cat.id}
                     type="button"
-                    onClick={() => handleDepartmentChange(dept.id)}
+                    onClick={() => handleDepartmentChange(cat.id)}
                     className={`text-left py-1.5 px-2.5 rounded transition-all flex items-center justify-between ${
-                      department === dept.id
+                      department === cat.id
                         ? 'bg-[#171717] text-white font-semibold shadow-sm'
                         : 'text-[#4B5563] hover:bg-[#F1EFEA]'
                     }`}
                   >
-                    <span>{dept.label}</span>
-                    {dept.count !== undefined && (
+                    <span>{cat.label}</span>
+                    {cat.count !== undefined && (
                       <span
                         className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
-                          department === dept.id
+                          department === cat.id
                             ? 'bg-white/20 text-white'
                             : 'bg-[#E7E5E4] text-[#78716C]'
                         }`}
                       >
-                        {dept.count}
+                        {cat.count}
                       </span>
                     )}
                   </button>
@@ -546,7 +562,7 @@ export default function ProductListingPage() {
                   No Matching Garments Found
                 </h3>
                 <p className="text-xs text-[#77736E] max-w-sm mx-auto">
-                  No products currently match your filter criteria. Try adjusting your price threshold or selecting an alternative department.
+                  No products currently match your filter criteria. Try adjusting your price threshold or selecting an alternative category.
                 </p>
                 <button
                   type="button"

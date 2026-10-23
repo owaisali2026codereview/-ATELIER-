@@ -78,7 +78,8 @@ export default function HomePage() {
             (p) =>
               (p._id && p._id.toString() === lpid) ||
               (p.id && p.id.toString() === lpid) ||
-              (lpslug && p.slug === lpslug)
+              (lpslug && p.slug === lpslug) ||
+              (lp.name && p.name && p.name.trim().toLowerCase() === lp.name.trim().toLowerCase())
           );
 
           if (existingIdx !== -1) {
@@ -89,10 +90,12 @@ export default function HomePage() {
               stockCount: lp.stock !== undefined ? Number(lp.stock) : baseList[existingIdx].stockCount,
               inStock: lp.stock !== undefined ? Number(lp.stock) > 0 : baseList[existingIdx].inStock,
               category: (lp.category || baseList[existingIdx].category || '').toLowerCase(),
-              images: lp.image ? [lp.image] : baseList[existingIdx].images,
+              department: lp.department || `${(lp.category || '').charAt(0).toUpperCase() + (lp.category || '').slice(1)}'s Collection`,
+              images: lp.image ? [lp.image] : (lp.images || baseList[existingIdx].images),
+              image: lp.image || baseList[existingIdx].image || baseList[existingIdx].images?.[0],
               fabric: lp.fabric || baseList[existingIdx].fabric,
               description: lp.description || baseList[existingIdx].description,
-              badge: lp.badge || baseList[existingIdx].badge,
+              badge: lp.badge !== undefined ? lp.badge : baseList[existingIdx].badge,
             };
           } else {
             baseList.unshift({

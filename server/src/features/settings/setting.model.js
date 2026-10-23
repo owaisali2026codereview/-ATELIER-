@@ -29,6 +29,10 @@ const settingSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    codEnabled: {
+      type: Boolean,
+      default: true,
+    },
     currency: {
       type: String,
       default: 'PKR',
