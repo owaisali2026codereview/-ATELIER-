@@ -24,14 +24,14 @@ export default function SizeGuideModal({ isOpen, onClose }) {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#171717]/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-[#FAF9F6] border border-[#DAD7D1] rounded-lg max-w-2xl w-full p-6 md:p-8 shadow-2xl overflow-hidden relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-[#171717]/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-[#FAF9F6] border border-[#DAD7D1] rounded-xl max-w-2xl w-full p-4 sm:p-6 md:p-8 shadow-2xl overflow-y-auto max-h-[92vh] relative">
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-[#DAD7D1]">
+        <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-[#DAD7D1]">
           <div className="flex items-center gap-2">
-            <Ruler size={20} className="text-[#4D5543]" />
-            <h3 className="font-editorial text-2xl text-[#171717]">
-              Atelier Sartorial Sizing Calibration
+            <Ruler size={18} className="text-[#4D5543] shrink-0" />
+            <h3 className="font-editorial text-lg sm:text-2xl text-[#171717] leading-tight">
+              Atelier Sizing Calibration
             </h3>
           </div>
           <button

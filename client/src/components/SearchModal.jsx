@@ -43,22 +43,22 @@ export default function SearchModal({ isOpen, onClose }) {
   const filtered = query.trim() ? combined : [];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-[#171717]/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-[#FAF9F6] border border-[#DAD7D1] rounded-lg max-w-2xl w-full p-6 shadow-2xl overflow-hidden relative">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-8 sm:pt-20 px-2.5 sm:px-4 bg-[#171717]/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-[#FAF9F6] border border-[#DAD7D1] rounded-xl max-w-2xl w-full p-3.5 sm:p-6 shadow-2xl overflow-hidden relative">
         {/* Search Input Bar */}
-        <div className="flex items-center gap-3 pb-4 border-b border-[#DAD7D1]">
+        <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-[#DAD7D1]">
           {isFetching ? (
-            <Loader2 size={22} className="text-[#4D5543] animate-spin" />
+            <Loader2 size={20} className="text-[#4D5543] animate-spin shrink-0" />
           ) : (
-            <Search size={22} className="text-[#4D5543]" />
+            <Search size={20} className="text-[#4D5543] shrink-0" />
           )}
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search archival suits, silk lawn gowns, pashmina, fabrics..."
+            placeholder="Search archival suits, silk gowns, fabrics..."
             autoFocus
-            className="w-full bg-transparent text-base text-[#171717] placeholder:text-[#77736E] focus:outline-none font-medium"
+            className="w-full bg-transparent text-sm sm:text-base text-[#171717] placeholder:text-[#77736E] focus:outline-none font-medium"
           />
           {query && (
             <button

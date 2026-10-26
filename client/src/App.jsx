@@ -116,7 +116,7 @@ function AppContent({
 
   if (isAdminRoute) {
     return (
-      <div className="min-h-screen bg-[#07090E] text-[#E6EDF3] font-sans antialiased">
+      <div className="w-full max-w-full overflow-x-hidden min-h-screen bg-[#07090E] text-[#E6EDF3] font-sans antialiased">
         <main className="w-full min-h-screen">
           <Routes>
             <Route path="/admin" element={<AdminDashboardPage />} />
@@ -127,7 +127,7 @@ function AppContent({
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF9F6] text-[#171717] font-sans antialiased selection:bg-[#F1EFEA]">
+    <div className="w-full max-w-full overflow-x-hidden min-h-screen flex flex-col bg-[#FAF9F6] text-[#171717] font-sans antialiased selection:bg-[#F1EFEA]">
       {/* Admin Mode Floating Switcher (Only visible to authenticated administrators) */}
       {adminSession && (
         <div className="bg-[#090D14] text-white py-1.5 px-4 sm:px-8 text-xs flex items-center justify-between border-b border-[#1E293B] sticky top-0 z-50">

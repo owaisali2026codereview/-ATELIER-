@@ -81,11 +81,11 @@ export default function Footer({ onOpenSizeGuide, onOpenContact }) {
 
   return (
     <footer className="w-full bg-[#F1EFEA] border-t border-[#DAD7D1] mt-auto">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 pt-16 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 pt-10 sm:pt-16 pb-8 sm:pb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-12 mb-10 sm:mb-16">
           {/* Brand Manifesto & Newsletter */}
-          <div className="lg:col-span-2 pr-0 lg:pr-10">
-            <h3 className="font-editorial text-2xl uppercase tracking-[0.18em] text-[#171717] mb-4">
+          <div className="sm:col-span-2 lg:col-span-2 pr-0 lg:pr-10">
+            <h3 className="font-editorial text-xl sm:text-2xl uppercase tracking-[0.16em] sm:tracking-[0.18em] text-[#171717] mb-3 sm:mb-4">
               {siteSettings.siteName || 'ATELIER'}
             </h3>
             <p className="text-sm text-[#77736E] leading-relaxed mb-6 max-w-sm">
@@ -241,9 +241,9 @@ export default function Footer({ onOpenSizeGuide, onOpenContact }) {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-[#DAD7D1] flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-[#77736E]">
+        <div className="pt-6 sm:pt-8 border-t border-[#DAD7D1] flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4 text-[10px] sm:text-[11px] text-[#77736E] text-center md:text-left">
           <p>© 2026 {siteSettings.siteName || 'ATELIER'}. All rights reserved.</p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-6">
             <span className="hover:text-[#171717] cursor-pointer">Privacy Protocol</span>
             <span>•</span>
             <span className="hover:text-[#171717] cursor-pointer">Terms of Sartorial Service</span>

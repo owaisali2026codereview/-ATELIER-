@@ -644,22 +644,23 @@ export default function CheckoutPage({ onOpenAuth }) {
   }
 
   return (
-    <div className="w-full bg-[#FAF9F6] min-h-screen py-10 font-sans">
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+    <div className="w-full bg-[#FAF9F6] min-h-screen py-6 sm:py-10 font-sans">
+      <div className="max-w-[1280px] mx-auto px-3 sm:px-6 lg:px-12">
         {/* Checkout Header */}
-        <div className="pb-8 border-b border-[#DAD7D1] flex items-center justify-between">
-          <Link to="/" className="font-editorial text-2xl tracking-[0.16em] uppercase text-[#171717]">
+        <div className="pb-5 sm:pb-8 border-b border-[#DAD7D1] flex items-center justify-between">
+          <Link to="/" className="font-editorial text-xl sm:text-2xl tracking-[0.16em] uppercase text-[#171717]">
             ATELIER
           </Link>
-          <div className="flex items-center gap-2 text-xs text-[#77736E]">
+          <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-[#77736E]">
             <Lock size={14} className="text-[#4D5543]" />
-            <span>256-Bit Encrypted Bespoke Checkout</span>
+            <span className="hidden sm:inline">256-Bit Encrypted Bespoke Checkout</span>
+            <span className="sm:hidden font-mono text-[10px]">Encrypted</span>
           </div>
         </div>
 
         {/* Form Error Banner */}
         {submitError && (
-          <div className="mt-6 p-4 bg-red-50 border border-red-300 rounded-xl text-xs text-red-700 flex items-start gap-3 animate-in fade-in duration-200">
+          <div className="mt-4 sm:mt-6 p-3.5 sm:p-4 bg-red-50 border border-red-300 rounded-xl text-xs text-red-700 flex items-start gap-2.5 sm:gap-3 animate-in fade-in duration-200">
             <AlertCircle size={18} className="text-red-600 shrink-0 mt-0.5" />
             <div>
               <strong className="block font-semibold">Please Review Form Requirements:</strong>
@@ -669,17 +670,17 @@ export default function CheckoutPage({ onOpenAuth }) {
         )}
 
         {/* 2-Column Checkout Layout */}
-        <form onSubmit={handleCompleteOrder} noValidate className="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-8">
+        <form onSubmit={handleCompleteOrder} noValidate className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 pt-6 sm:pt-8">
           {/* Left Form: 4 Steps (7 cols) */}
-          <div className="lg:col-span-7 space-y-8">
+          <div className="lg:col-span-7 space-y-5 sm:space-y-8">
 
             {/* Step 1: Contact Details */}
-            <div className="bg-white border border-[#DAD7D1] rounded-xl p-6 space-y-4 shadow-sm">
+            <div className="bg-white border border-[#DAD7D1] rounded-xl p-3.5 sm:p-6 space-y-4 shadow-sm">
               <div className="flex items-center justify-between border-b border-[#DAD7D1] pb-3">
-                <h3 className="font-editorial text-lg text-[#171717]">
+                <h3 className="font-editorial text-base sm:text-lg text-[#171717]">
                   1. Contact Coordinates
                 </h3>
-                <span className="text-xs text-[#77736E] font-mono">Step 1 of 4</span>
+                <span className="text-[11px] sm:text-xs text-[#77736E] font-mono">Step 1 of 4</span>
               </div>
 
               {!currentUser ? (
@@ -801,12 +802,12 @@ export default function CheckoutPage({ onOpenAuth }) {
             </div>
 
             {/* Step 2: Shipping Destination */}
-            <div className="bg-white border border-[#DAD7D1] rounded-xl p-6 space-y-4 shadow-sm">
+            <div className="bg-white border border-[#DAD7D1] rounded-xl p-3.5 sm:p-6 space-y-4 shadow-sm">
               <div className="flex items-center justify-between border-b border-[#DAD7D1] pb-3">
-                <h3 className="font-editorial text-lg text-[#171717]">
+                <h3 className="font-editorial text-base sm:text-lg text-[#171717]">
                   2. Shipping Destination
                 </h3>
-                <span className="text-xs text-[#77736E] font-mono">Step 2 of 4</span>
+                <span className="text-[11px] sm:text-xs text-[#77736E] font-mono">Step 2 of 4</span>
               </div>
               <div className="space-y-4 text-xs">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -951,12 +952,12 @@ export default function CheckoutPage({ onOpenAuth }) {
             </div>
 
             {/* Step 3: Courier Method */}
-            <div className="bg-white border border-[#DAD7D1] rounded-xl p-6 space-y-4 shadow-sm">
+            <div className="bg-white border border-[#DAD7D1] rounded-xl p-3.5 sm:p-6 space-y-4 shadow-sm">
               <div className="flex items-center justify-between border-b border-[#DAD7D1] pb-3">
-                <h3 className="font-editorial text-lg text-[#171717]">
+                <h3 className="font-editorial text-base sm:text-lg text-[#171717]">
                   3. Courier Method
                 </h3>
-                <span className="text-xs text-[#77736E] font-mono">Step 3 of 4</span>
+                <span className="text-[11px] sm:text-xs text-[#77736E] font-mono">Step 3 of 4</span>
               </div>
               <div className="space-y-3 text-xs">
                 <label
@@ -1018,12 +1019,12 @@ export default function CheckoutPage({ onOpenAuth }) {
             </div>
 
             {/* Step 4: Payment Method */}
-            <div className="bg-white border border-[#DAD7D1] rounded-xl p-6 space-y-4 shadow-sm">
+            <div className="bg-white border border-[#DAD7D1] rounded-xl p-3.5 sm:p-6 space-y-4 shadow-sm">
               <div className="flex items-center justify-between border-b border-[#DAD7D1] pb-3">
-                <h3 className="font-editorial text-lg text-[#171717]">
+                <h3 className="font-editorial text-base sm:text-lg text-[#171717]">
                   4. Payment Authorization
                 </h3>
-                <span className="text-xs text-[#77736E] font-mono">Step 4 of 4</span>
+                <span className="text-[11px] sm:text-xs text-[#77736E] font-mono">Step 4 of 4</span>
               </div>
               <div className="space-y-4 text-xs">
                 {/* 1. International Credit / Debit Card (Stripe) */}
@@ -1324,8 +1325,8 @@ export default function CheckoutPage({ onOpenAuth }) {
 
           {/* Right Summary Panel (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-white border border-[#DAD7D1] rounded-xl p-6 space-y-6 sticky top-28 shadow-sm">
-              <h3 className="font-editorial text-xl text-[#171717] border-b border-[#DAD7D1] pb-3">
+            <div className="bg-white border border-[#DAD7D1] rounded-xl p-3.5 sm:p-6 space-y-4 sm:space-y-6 sticky top-28 shadow-sm">
+              <h3 className="font-editorial text-lg sm:text-xl text-[#171717] border-b border-[#DAD7D1] pb-3">
                 Order Summary
               </h3>
 

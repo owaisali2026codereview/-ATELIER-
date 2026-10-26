@@ -60,14 +60,14 @@ export default function JournalPage() {
   const essayData = selectedStory ? ESSAY_FULL_CONTENT[selectedStory.id] : null;
 
   return (
-    <div className="w-full bg-[#FAF9F6] min-h-screen py-10">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+    <div className="w-full bg-[#FAF9F6] min-h-screen py-6 sm:py-10">
+      <div className="max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-12">
         {/* Header */}
-        <div className="pb-8 border-b border-[#DAD7D1]">
+        <div className="pb-6 sm:pb-8 border-b border-[#DAD7D1]">
           <span className="text-[11px] uppercase tracking-[0.16em] text-[#4D5543] font-semibold">
             Maison Dispatches
           </span>
-          <h1 className="font-editorial text-4xl sm:text-5xl text-[#171717] mt-1 uppercase tracking-tight">
+          <h1 className="font-editorial text-3xl sm:text-5xl text-[#171717] mt-1 uppercase tracking-tight">
             The Atelier Journal
           </h1>
           <p className="text-xs text-[#77736E] mt-2 max-w-xl leading-relaxed">
@@ -76,7 +76,7 @@ export default function JournalPage() {
         </div>
 
         {/* Articles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8 pt-6 sm:pt-10">
           {JOURNAL_DISPATCHES.map((story) => (
             <article
               key={story.id}
@@ -93,7 +93,7 @@ export default function JournalPage() {
                   {story.volume}
                 </span>
               </div>
-              <div className="p-6 flex-1 flex flex-col justify-between">
+              <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between">
                 <div>
                   <span className="text-[11px] text-[#77736E]">{story.readTime}</span>
                   <h3 className="font-editorial text-xl text-[#171717] mt-2 group-hover:text-[#4D5543] transition-colors leading-snug">
@@ -118,10 +118,10 @@ export default function JournalPage() {
 
       {/* Editorial Reader Modal */}
       {selectedStory && essayData && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-[#171717]/70 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
-          <div className="bg-[#FAF9F6] border border-[#DAD7D1] rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-[#171717]/70 backdrop-blur-md flex items-center justify-center p-2.5 sm:p-6 animate-in fade-in duration-200">
+          <div className="bg-[#FAF9F6] border border-[#DAD7D1] rounded-2xl max-w-3xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative">
             {/* Modal Header Controls */}
-            <div className="sticky top-0 z-20 bg-[#FAF9F6]/95 backdrop-blur-sm border-b border-[#DAD7D1] px-6 py-4 flex items-center justify-between">
+            <div className="sticky top-0 z-20 bg-[#FAF9F6]/95 backdrop-blur-sm border-b border-[#DAD7D1] px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
               <span className="text-[10px] font-bold uppercase tracking-wider text-[#4D5543]">
                 {selectedStory.volume}
               </span>

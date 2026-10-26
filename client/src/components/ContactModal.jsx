@@ -144,10 +144,10 @@ export default function ContactModal({ isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="bg-[#FFFFFF] border border-[#DAD7D1] rounded-2xl w-full max-w-xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200">
         {/* Header */}
-        <div className="bg-[#171717] text-white p-6 relative shrink-0">
+        <div className="bg-[#171717] text-white p-4 sm:p-6 relative shrink-0">
           <button
             onClick={handleReset}
             className="absolute top-5 right-5 text-white/70 hover:text-white p-1 rounded-full hover:bg-white/10 transition"

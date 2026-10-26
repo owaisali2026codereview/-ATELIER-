@@ -26,6 +26,9 @@
   html, body {
     margin: 0;
     padding: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
     background-color: var(--color-atelier-canvas, #FAF9F6);
     color: var(--color-atelier-black, #171717);
     font-family: var(--font-sans, 'Inter', sans-serif);
@@ -36,6 +39,9 @@
 
   #root {
     min-height: 100vh;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
   }

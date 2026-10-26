@@ -102,9 +102,9 @@ export default function OrderConfirmationPage() {
   };
 
   return (
-    <div className="w-full bg-[#FAF9F6] min-h-screen py-12 sm:py-16 font-sans">
-      <div className="max-w-[980px] mx-auto px-4 sm:px-6">
-        <div className="bg-white border border-[#DAD7D1] rounded-2xl p-6 sm:p-12 shadow-xl space-y-10">
+    <div className="w-full bg-[#FAF9F6] min-h-screen py-6 sm:py-12 md:py-16 font-sans">
+      <div className="max-w-[980px] mx-auto px-3 sm:px-6">
+        <div className="bg-white border border-[#DAD7D1] rounded-2xl p-4 sm:p-8 md:p-12 shadow-xl space-y-8 sm:space-y-10">
 
           {/* 1. Header */}
           <div className="text-center space-y-4">

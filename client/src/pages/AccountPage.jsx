@@ -449,8 +449,8 @@ export default function AccountPage({ onOpenAuth }) {
   // ================= RENDER UNAUTHENTICATED STATE =================
   if (!isLoggedIn && activeTab !== 'wishlist') {
     return (
-      <div className="w-full bg-[#FAF9F6] min-h-screen py-12 px-6">
-        <div className="max-w-md mx-auto bg-white border border-[#DAD7D1] rounded-xl shadow-lg p-8">
+      <div className="w-full bg-[#FAF9F6] min-h-screen py-8 sm:py-12 px-3 sm:px-6">
+        <div className="max-w-md mx-auto bg-white border border-[#DAD7D1] rounded-xl shadow-lg p-4 sm:p-8">
           <div className="text-center mb-6">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-full border border-[#171717] mb-3 bg-[#FAF9F6] shadow-sm font-editorial text-2xl font-bold text-[#171717]">
               A
@@ -782,14 +782,14 @@ export default function AccountPage({ onOpenAuth }) {
 
   // ================= RENDER AUTHENTICATED DASHBOARD =================
   return (
-    <div className="w-full bg-[#FAF9F6] min-h-screen py-10">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+    <div className="w-full bg-[#FAF9F6] min-h-screen py-6 sm:py-10">
+      <div className="max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-12">
         {/* Profile Banner / Guest Wishlist Header */}
         {!isLoggedIn ? (
-          <div className="bg-white border border-[#DAD7D1] rounded-lg p-6 sm:p-8 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8">
-            <div className="flex items-center gap-5">
-              <div className="w-16 h-16 rounded-full bg-[#171717] text-white flex items-center justify-center font-editorial text-2xl font-bold shadow-sm">
-                <Heart size={26} className="text-[#C5A880]" />
+          <div className="bg-white border border-[#DAD7D1] rounded-lg p-4 sm:p-8 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 mb-6 sm:mb-8">
+            <div className="flex items-center gap-4 sm:gap-5">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#171717] text-white flex items-center justify-center font-editorial text-xl sm:text-2xl font-bold shadow-sm shrink-0">
+                <Heart size={24} className="text-[#C5A880]" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
@@ -813,20 +813,20 @@ export default function AccountPage({ onOpenAuth }) {
                   if (onOpenAuth) onOpenAuth('login', '/account?tab=wishlist');
                   else setAuthMode('login');
                 }}
-                className="px-5 py-2.5 bg-[#171717] hover:bg-[#353535] text-white rounded text-xs font-semibold uppercase tracking-wider transition shadow-sm"
+                className="w-full sm:w-auto px-5 py-2.5 bg-[#171717] hover:bg-[#353535] text-white rounded text-xs font-semibold uppercase tracking-wider transition shadow-sm text-center"
               >
                 Sign In to Sync
               </button>
             </div>
           </div>
         ) : (
-          <div className="bg-white border border-[#DAD7D1] rounded-lg p-6 sm:p-8 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8">
-            <div className="flex items-center gap-5">
-              <div className="w-16 h-16 rounded-full bg-[#171717] text-white flex items-center justify-center font-editorial text-2xl font-bold shadow-sm">
+          <div className="bg-white border border-[#DAD7D1] rounded-lg p-4 sm:p-8 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 mb-6 sm:mb-8">
+            <div className="flex items-center gap-4 sm:gap-5">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#171717] text-white flex items-center justify-center font-editorial text-xl sm:text-2xl font-bold shadow-sm shrink-0">
                 {userFullName.charAt(0)}
               </div>
               <div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <h1 className="font-editorial text-2xl sm:text-3xl text-[#171717]">
                     {userFullName}
                   </h1>
@@ -840,19 +840,19 @@ export default function AccountPage({ onOpenAuth }) {
               </div>
             </div>
 
-            <div className="flex items-center gap-4 text-xs">
-              <div className="bg-[#FAF9F6] border border-[#DAD7D1] px-4 py-2.5 rounded text-center">
+            <div className="flex items-center gap-2 sm:gap-4 text-xs flex-wrap sm:flex-nowrap">
+              <div className="bg-[#FAF9F6] border border-[#DAD7D1] px-2.5 sm:px-4 py-2 sm:py-2.5 rounded text-center flex-1 sm:flex-none">
                 <span className="text-[10px] uppercase text-[#77736E] block font-semibold">Active Orders</span>
                 <strong className="text-sm text-[#171717]">{activeOrdersCount} Total</strong>
               </div>
-              <div className="bg-[#FAF9F6] border border-[#DAD7D1] px-4 py-2.5 rounded text-center">
+              <div className="bg-[#FAF9F6] border border-[#DAD7D1] px-2.5 sm:px-4 py-2 sm:py-2.5 rounded text-center flex-1 sm:flex-none">
                 <span className="text-[10px] uppercase text-[#77736E] block font-semibold">AI Quotations</span>
                 <strong className="text-sm text-[#4D5543]">{activeDossiersCount} Active</strong>
               </div>
               {unreadCount > 0 && (
                 <div
                   onClick={() => handleTabChange('notifications')}
-                  className="bg-[#4D5543] text-white px-3 py-2.5 rounded text-center cursor-pointer hover:bg-[#171717] transition-colors"
+                  className="bg-[#4D5543] text-white px-2.5 sm:px-3 py-2 sm:py-2.5 rounded text-center cursor-pointer hover:bg-[#171717] transition-colors flex-1 sm:flex-none"
                 >
                   <span className="text-[9px] uppercase tracking-wider block font-bold">Advisories</span>
                   <span className="text-xs font-bold flex items-center justify-center gap-1">
@@ -863,7 +863,7 @@ export default function AccountPage({ onOpenAuth }) {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="p-2.5 border border-red-200 text-red-600 hover:bg-red-50 rounded transition-colors flex items-center gap-1.5 font-semibold text-xs"
+                className="p-2 sm:p-2.5 border border-red-200 text-red-600 hover:bg-red-50 rounded transition-colors flex items-center gap-1.5 font-semibold text-xs shrink-0"
                 title="Sign Out of Maison"
               >
                 <LogOut size={14} />
@@ -874,7 +874,7 @@ export default function AccountPage({ onOpenAuth }) {
         )}
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-[#DAD7D1] mb-8 overflow-x-auto gap-8 text-xs font-semibold uppercase tracking-wider">
+        <div className="flex border-b border-[#DAD7D1] mb-6 sm:mb-8 overflow-x-auto scrollbar-none gap-4 sm:gap-8 text-xs font-semibold uppercase tracking-wider">
           {[
             { id: 'orders', label: `Ready-to-Wear Orders (${activeOrdersCount})`, icon: Package, protected: true },
             { id: 'quotations', label: `AI Custom Studio Dossiers (${activeDossiersCount})`, icon: Sparkles, protected: true },
