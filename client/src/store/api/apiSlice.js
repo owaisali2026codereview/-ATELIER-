@@ -1,9 +1,17 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+const getApiBaseUrl = () => {
+  const envUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL;
+  if (envUrl && typeof envUrl === 'string') {
+    return `${envUrl.replace(/\/+$/, '')}/api/v1`;
+  }
+  return '/api/v1';
+};
+
 export const apiSlice = createApi({
   reducerPath: 'atelierApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/v1',
+    baseUrl: getApiBaseUrl(),
     credentials: 'include',
     prepareHeaders: (headers) => {
       const token =

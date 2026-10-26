@@ -273,7 +273,7 @@ export const generatePasswordResetTokenService = async (email) => {
     user.resetPasswordExpire = expire;
   }
 
-  const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+  const clientUrl = process.env.CLIENT_URL;
   const resetUrl = `${clientUrl}/account?resetToken=${resetToken}&email=${encodeURIComponent(normalizedEmail)}`;
 
   return {

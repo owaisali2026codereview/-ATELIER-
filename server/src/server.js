@@ -69,9 +69,7 @@ app.use(cookieParser());
 
 // CORS configuration for React frontend
 const allowedOrigins = [
-  process.env.CLIENT_URL,
-  'http://localhost:5173',
-  'http://localhost:5175',
+  process.env.CLIENT_URL
 ].filter(Boolean);
 
 app.use(
