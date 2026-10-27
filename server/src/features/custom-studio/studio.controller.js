@@ -20,13 +20,15 @@ export const uploadSketch = async (req, res, next) => {
       });
     }
 
-    const fileUrl = `/uploads/${req.file.filename}`;
+    const fileUrl = req.file.filename
+      ? `/uploads/${req.file.filename}`
+      : (req.file.buffer ? `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}` : '');
 
     res.status(200).json({
       success: true,
       message: 'Reference sketch uploaded to atelier vault.',
       data: {
-        filename: req.file.filename,
+        filename: req.file.filename || req.file.originalname,
         originalName: req.file.originalname,
         fileUrl,
         size: req.file.size,

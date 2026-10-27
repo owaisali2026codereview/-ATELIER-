@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import path from 'path';
+import fs from 'fs';
+import os from 'os';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 
@@ -94,7 +96,22 @@ app.use(
 );
 
 // Serve static uploads directory for reference sketches & garment images
-const uploadPath = path.resolve(process.cwd(), process.env.UPLOAD_DIR || 'uploads');
+const isServerless = Boolean(
+  process.env.VERCEL ||
+  process.env.AWS_LAMBDA_FUNCTION_NAME ||
+  (process.env.NODE_ENV === 'production' && process.cwd().startsWith('/var/task'))
+);
+const uploadPath = isServerless
+  ? path.join(os.tmpdir(), 'uploads')
+  : path.resolve(process.cwd(), process.env.UPLOAD_DIR || 'uploads');
+
+try {
+  if (!fs.existsSync(uploadPath)) {
+    fs.mkdirSync(uploadPath, { recursive: true });
+  }
+} catch {
+  // Ignored in read-only serverless filesystems
+}
 app.use('/uploads', express.static(uploadPath));
 
 // Health check endpoint
