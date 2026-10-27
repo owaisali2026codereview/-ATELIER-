@@ -3,8 +3,6 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import path from 'path';
-import fs from 'fs';
-import os from 'os';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 

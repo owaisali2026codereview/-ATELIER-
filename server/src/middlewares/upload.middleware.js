@@ -15,7 +15,6 @@ export const uploadDir = isServerless
   ? path.join(os.tmpdir(), 'uploads')
   : path.resolve(process.cwd(), process.env.UPLOAD_DIR || 'uploads');
 
-// Safely ensure directory exists without throwing unhandled EROFS on read-only environments
 try {
   if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
