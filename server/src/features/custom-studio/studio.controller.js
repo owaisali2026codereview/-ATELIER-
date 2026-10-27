@@ -5,9 +5,8 @@ import {
   getUserDossiers,
 } from './studio.service.js';
 import {
-  consultDesignAssistant,
   refineConceptsWithAI,
-} from './geminiAssistant.service.js';
+} from './';
 import { dispatchNotification } from '../notifications/notification.service.js';
 import { CustomRequest } from './customRequest.model.js';
 
@@ -64,15 +63,15 @@ export const consultAssistant = async (req, res, next) => {
       });
     }
 
-    const consultation = await consultDesignAssistant({
-      message,
-      history,
-      currentDesignState,
-    });
+    // const consultation = await consultDesignAssistant({
+    //   message,
+    //   history,
+    //   currentDesignState,
+    // });
 
     res.status(200).json({
       success: true,
-      data: consultation,
+      data: "",
     });
   } catch (error) {
     next(error);
