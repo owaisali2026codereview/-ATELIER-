@@ -14,13 +14,13 @@ export const apiSlice = createApi({
     baseUrl: getApiBaseUrl(),
     credentials: 'include',
     prepareHeaders: (headers) => {
-      const token =
-        localStorage.getItem('atelier_token') ||
-        localStorage.getItem('fashion_admin_token');
+      const adminSession = localStorage.getItem('fashion_admin_session');
+      const token = adminSession
+        ? (localStorage.getItem('fashion_admin_token') || localStorage.getItem('atelier_token'))
+        : (localStorage.getItem('atelier_token') || localStorage.getItem('fashion_admin_token'));
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
-      const adminSession = localStorage.getItem('fashion_admin_session');
       if (adminSession) {
         headers.set('x-admin-dev', 'true');
       }

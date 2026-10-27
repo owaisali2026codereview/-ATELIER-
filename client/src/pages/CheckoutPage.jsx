@@ -39,7 +39,7 @@ export default function CheckoutPage({ onOpenAuth }) {
     return {
       siteName: 'Atelier AI Haute Couture',
       contactEmail: 'info@fashion.com',
-      contactPhone: '0300-1234567',
+      contactPhone: '03000000000',
       stripeEnabled: true,
       jazzCashEnabled: true,
       easyPaisaEnabled: true,
@@ -58,7 +58,7 @@ export default function CheckoutPage({ onOpenAuth }) {
       setSiteSettings({
         siteName: settingsData.data.siteName || 'Atelier AI Haute Couture',
         contactEmail: settingsData.data.contactEmail || 'info@fashion.com',
-        contactPhone: settingsData.data.contactPhone || '0300-1234567',
+        contactPhone: settingsData.data.contactPhone || '03000000000',
         stripeEnabled: settingsData.data.stripeEnabled ?? true,
         jazzCashEnabled: settingsData.data.jazzCashEnabled ?? true,
         easyPaisaEnabled: settingsData.data.easyPaisaEnabled ?? true,
@@ -205,14 +205,16 @@ export default function CheckoutPage({ onOpenAuth }) {
       if (!phone) {
         return 'Telephone number is required for courier dispatch.';
       }
-      if (!/^\d+$/.test(phone)) {
+      const digitsOnly = phone.replace(/[\s+-]/g, '');
+      if (!/^\d+$/.test(digitsOnly)) {
         return 'Telephone must contain numbers only.';
       }
-      if (!phone.startsWith('03')) {
-        return 'Pakistan mobile number must start with 03 (e.g. 03001234567).';
-      }
-      if (phone.length !== 11) {
-        return `Pakistan mobile number must be exactly 11 digits (e.g. 03001234567). Currently ${phone.length} of 11.`;
+      if (digitsOnly.startsWith('03')) {
+        if (digitsOnly.length !== 11) {
+          return `Pakistan mobile number must be exactly 11 digits (e.g. 0300000000). Currently ${digitsOnly.length} of 11.`;
+        }
+      } else if (digitsOnly.length > 11) {
+        return 'Please enter a valid telephone number (8 to 11 digits).';
       }
       return null;
     }
@@ -255,8 +257,8 @@ export default function CheckoutPage({ onOpenAuth }) {
   };
 
   const handlePhoneChange = (e) => {
-    // Restrict strictly to numeric digits only, maximum 11 digits
-    const digitsOnly = e.target.value.replace(/\D/g, '').slice(0, 11);
+    // Allow up to 15 digits for international numbers or 11 for local
+    const digitsOnly = e.target.value.replace(/[^\d+]/g, '').slice(0, 11);
     setFormData((prev) => ({ ...prev, phone: digitsOnly }));
     if (errors.phone) {
       setErrors((prev) => {
@@ -399,6 +401,10 @@ export default function CheckoutPage({ onOpenAuth }) {
     try {
       const orderPayload = {
         items: items.map((item) => ({
+          product: item.rawId || item._id || item.id,
+          id: item.rawId || item._id || item.id,
+          rawId: item.rawId || item._id || item.id,
+          slug: item.slug,
           name: item.name,
           price: item.price,
           size: item.size,
@@ -422,6 +428,7 @@ export default function CheckoutPage({ onOpenAuth }) {
         subtotal,
         totalAmount: total,
         paymentMethod,
+        couponCode: appliedPromo?.code || null,
       };
 
       const result = await createOrder(orderPayload).unwrap();
@@ -479,7 +486,7 @@ export default function CheckoutPage({ onOpenAuth }) {
             id: `usr-${Date.now()}`,
             name: `${formData.firstName || ''} ${formData.lastName || ''}`.trim() || 'Store Patron',
             email: customerEmail,
-            phone: formData.phone?.trim() || '0300-1234567',
+            phone: formData.phone?.trim() || '03000000000',
             orders: 1,
             status: 'Active',
             tier: 'Standard',
@@ -573,7 +580,7 @@ export default function CheckoutPage({ onOpenAuth }) {
             id: `usr-${Date.now()}`,
             name: `${formData.firstName || ''} ${formData.lastName || ''}`.trim() || 'Store Patron',
             email: customerEmail,
-            phone: formData.phone?.trim() || '0300-1234567',
+            phone: formData.phone?.trim() || '03000000000',
             orders: 1,
             status: 'Active',
             tier: 'Standard',

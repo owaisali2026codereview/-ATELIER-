@@ -38,10 +38,10 @@ export const createOrder = async (req, res, next) => {
     }
 
     const cleanPhone = shippingAddress.phone.trim().replace(/\D/g, '');
-    if (!/^03\d{9}$/.test(cleanPhone)) {
+    if (!/^(03\d{9}|\d{8,15})$/.test(cleanPhone)) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide a valid Pakistan telephone number (11 digits starting with 03).',
+        message: 'Please provide a valid contact telephone number (11 digits).',
       });
     }
 

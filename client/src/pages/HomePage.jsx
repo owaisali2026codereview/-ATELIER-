@@ -43,13 +43,16 @@ export default function HomePage() {
     };
   }, []);
 
-  const { data: productsRes, isLoading, refetch: refetchProducts } = useGetProductsQuery({}, { pollingInterval: 3000 });
+  const { data: productsRes, isLoading, refetch: refetchProducts } = useGetProductsQuery(undefined);
+
+  const refetchProductsRef = React.useRef(refetchProducts);
+  refetchProductsRef.current = refetchProducts;
 
   React.useEffect(() => {
     if (catalogTick > 0) {
-      refetchProducts?.();
+      refetchProductsRef.current?.();
     }
-  }, [catalogTick, refetchProducts]);
+  }, [catalogTick]);
 
   const allProducts = React.useMemo(() => {
     let baseList = productsRes?.data && Array.isArray(productsRes.data) ? [...productsRes.data] : [];

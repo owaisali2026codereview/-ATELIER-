@@ -96,6 +96,8 @@ export default function ProductCard({ product }) {
     dispatch(
       addToCart({
         id: productId,
+        rawId: product.rawId || product._id || product.id,
+        slug: product.slug,
         name: product.name,
         price: product.price,
         size,

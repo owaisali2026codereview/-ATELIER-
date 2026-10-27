@@ -72,20 +72,20 @@ export default function ProductDetailPage({ onOpenSizeGuide }) {
   }, []);
 
   const { data: apiResponse, isLoading, isError, refetch: refetchProduct } = useGetProductByIdQuery(id, {
-    pollingInterval: 3000,
     skip: !id || id === 'undefined',
   });
 
-  const { data: allProductsRes, refetch: refetchAllProducts } = useGetProductsQuery({}, {
-    pollingInterval: 4000,
-  });
+  const { data: allProductsRes, refetch: refetchAllProducts } = useGetProductsQuery(undefined);
+
+  const refetchDetailRef = React.useRef({ refetchProduct, refetchAllProducts });
+  refetchDetailRef.current = { refetchProduct, refetchAllProducts };
 
   useEffect(() => {
     if (catalogTick > 0) {
-      refetchProduct?.();
-      refetchAllProducts?.();
+      refetchDetailRef.current.refetchProduct?.();
+      refetchDetailRef.current.refetchAllProducts?.();
     }
-  }, [catalogTick, refetchProduct, refetchAllProducts]);
+  }, [catalogTick]);
 
   // Check if product was deleted by admin
   const isDeleted = useMemo(() => {
@@ -389,6 +389,8 @@ export default function ProductDetailPage({ onOpenSizeGuide }) {
     dispatch(
       addToCart({
         id: product._id || product.slug || product.id,
+        rawId: product.rawId || product._id || product.id,
+        slug: product.slug,
         name: product.name,
         price: product.price,
         size: selectedSize || sizes[0] || 'M',

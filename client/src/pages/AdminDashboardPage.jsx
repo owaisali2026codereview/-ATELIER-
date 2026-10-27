@@ -209,7 +209,7 @@ export default function AdminDashboardPage() {
   const { data: metricsData, refetch: refetchMetrics } = useGetDashboardMetricsQuery(undefined, { skip: !adminAuth, pollingInterval: 5000 });
   const { data: dossiersData, refetch: refetchDossiers } = useGetAdminDossiersQuery(undefined, { skip: !adminAuth, pollingInterval: 5000 });
   const { data: ordersData, refetch: refetchOrders } = useGetAdminOrdersQuery(undefined, { skip: !adminAuth, pollingInterval: 5000 });
-  const { data: productsData, refetch: refetchProducts } = useGetProductsQuery({}, { skip: !adminAuth, pollingInterval: 5000 });
+  const { data: productsData, refetch: refetchProducts } = useGetProductsQuery(undefined, { skip: !adminAuth, pollingInterval: 5000 });
   const { data: patronsData, refetch: refetchPatrons } = useGetPatronsQuery(undefined, { skip: !adminAuth, pollingInterval: 5000 });
   const { data: inquiriesData, refetch: refetchInquiries } = useGetInquiriesQuery(undefined, {
     skip: !adminAuth,
@@ -494,6 +494,28 @@ export default function AdminDashboardPage() {
     }
   }, [ordersData]);
 
+  // Stable ref holding latest refetch callbacks to prevent listener re-attachment loops
+  const adminRefetchesRef = React.useRef({
+    refetchMetrics,
+    refetchDossiers,
+    refetchOrders,
+    refetchProducts,
+    refetchPatrons,
+    refetchInquiries,
+    refetchCategories,
+    refetchCoupons,
+  });
+  adminRefetchesRef.current = {
+    refetchMetrics,
+    refetchDossiers,
+    refetchOrders,
+    refetchProducts,
+    refetchPatrons,
+    refetchInquiries,
+    refetchCategories,
+    refetchCoupons,
+  };
+
   // Real-time automatic synchronization with storefront actions across browser tabs
   useEffect(() => {
     let bc = null;
@@ -502,14 +524,14 @@ export default function AdminDashboardPage() {
         bc = new BroadcastChannel('atelier_live_sync');
         bc.onmessage = (event) => {
           if (event.data?.type) {
-            refetchMetrics?.();
-            refetchDossiers?.();
-            refetchOrders?.();
-            refetchProducts?.();
-            refetchPatrons?.();
-            refetchInquiries?.();
-            refetchCategories?.();
-            refetchCoupons?.();
+            adminRefetchesRef.current.refetchMetrics?.();
+            adminRefetchesRef.current.refetchDossiers?.();
+            adminRefetchesRef.current.refetchOrders?.();
+            adminRefetchesRef.current.refetchProducts?.();
+            adminRefetchesRef.current.refetchPatrons?.();
+            adminRefetchesRef.current.refetchInquiries?.();
+            adminRefetchesRef.current.refetchCategories?.();
+            adminRefetchesRef.current.refetchCoupons?.();
             if (event.data?.type === 'ORDER_CREATED' && event.data?.order) {
               setLocalOrders((prev) => {
                 const num = event.data.order.orderNumber || event.data.order.id;
@@ -535,12 +557,12 @@ export default function AdminDashboardPage() {
         e.key === 'atelier_all_orders' ||
         e.key === 'atelier_user_orders'
       ) {
-        refetchMetrics?.();
-        refetchDossiers?.();
-        refetchOrders?.();
-        refetchProducts?.();
-        refetchPatrons?.();
-        refetchCategories?.();
+        adminRefetchesRef.current.refetchMetrics?.();
+        adminRefetchesRef.current.refetchDossiers?.();
+        adminRefetchesRef.current.refetchOrders?.();
+        adminRefetchesRef.current.refetchProducts?.();
+        adminRefetchesRef.current.refetchPatrons?.();
+        adminRefetchesRef.current.refetchCategories?.();
         try {
           const stored = localStorage.getItem('atelier_all_orders');
           if (stored) {
@@ -567,7 +589,7 @@ export default function AdminDashboardPage() {
       if (bc) bc.close();
       window.removeEventListener('storage', handleStorage);
     };
-  }, [refetchMetrics, refetchDossiers, refetchOrders, refetchProducts, refetchPatrons, refetchInquiries, refetchCategories, refetchCoupons]);
+  }, []);
 
   // Users State (dynamic from MongoDB + live patron registrations)
   const [localUsers, setLocalUsers] = useState(() => {
@@ -912,7 +934,12 @@ export default function AdminDashboardPage() {
       const user = res?.data || res?.user || res;
       if (user?.role === 'admin' || user?.role === 'super_admin' || user?.role === 'tailor_admin') {
         localStorage.setItem('fashion_admin_session', JSON.stringify(user));
-        if (res.token) localStorage.setItem('atelier_token', res.token);
+        if (res.token) {
+          localStorage.setItem('fashion_admin_token', res.token);
+          if (!localStorage.getItem('fashion_patron_session')) {
+            localStorage.setItem('atelier_token', res.token);
+          }
+        }
         setAdminAuth(user);
         setIsAuthenticating(false);
         return;
@@ -932,7 +959,10 @@ export default function AdminDashboardPage() {
 
   const handleAdminLogout = () => {
     localStorage.removeItem('fashion_admin_session');
-    localStorage.removeItem('atelier_token');
+    localStorage.removeItem('fashion_admin_token');
+    if (!localStorage.getItem('fashion_patron_session')) {
+      localStorage.removeItem('atelier_token');
+    }
     setAdminAuth(null);
     setLoginEmail('');
     setLoginPassword('');
@@ -1766,103 +1796,177 @@ export default function AdminDashboardPage() {
   // The user CANNOT see the dashboard or any data until valid credentials are submitted.
   if (!adminAuth) {
     return (
-      <div className="fixed inset-0 z-50 min-h-screen w-screen bg-[#FAF9F6] flex flex-col items-center justify-center p-4 sm:p-6 overflow-y-auto font-sans antialiased selection:bg-[#171717] selection:text-white">
+      <div className="fixed inset-0 z-50 min-h-screen w-screen bg-[#FAF9F6] flex items-center justify-center p-4 sm:p-6 lg:p-12 overflow-y-auto font-sans antialiased selection:bg-[#171717] selection:text-white">
         {/* Subtle background ambient mesh */}
-        <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#10B981]/30 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#10B981]/25 via-transparent to-transparent"></div>
 
-        <div className="w-full max-w-md relative z-10 animate-in fade-in zoom-in-95 duration-200">
-          {/* Header Brand Badge */}
-          <div className="text-center mb-6 space-y-2">
-            <div className="w-14 h-14 rounded-2xl bg-[#171717] flex items-center justify-center mx-auto shadow-lg shadow-md text-white mb-3">
-              <Shield size={28} className="drop-shadow" />
-            </div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F1EFEA] border border-[#DAD7D1] text-[#4D5543] text-[11px] font-mono font-bold tracking-wider uppercase">
-              <span className="w-2 h-2 rounded-full bg-[#4D5543] animate-ping"></span>
-              Restricted Operations Gateway
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-editorial font-bold text-[#171717] tracking-tight">
-              Admin Command Portal
-            </h1>
-            <p className="text-xs text-[#77736E] max-w-sm mx-auto">
-              Authorized store managers and administrators only. Authentication clearance required to view dashboard, metrics, and customer orders.
-            </p>
-          </div>
-
-          {/* Form Card */}
-          <div className="bg-white border border-[#DAD7D1] rounded-2xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl space-y-5">
-            {/* Error Banner */}
-            {loginError && (
-              <div className="p-3.5 bg-red-950/50 border border-red-500/50 rounded-xl text-xs text-red-300 flex items-start gap-2.5 animate-in shake duration-200">
-                <AlertCircle size={16} className="text-red-400 shrink-0 mt-0.5" />
-                <span className="leading-relaxed font-medium">{loginError}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleAdminLogin} className="space-y-4">
-              <div>
-                <label className="text-[11px] font-bold text-[#77736E] uppercase tracking-wider block mb-1.5">
-                  Admin Operational Email
-                </label>
-                <div className="relative">
-                  <input
-                    type="email"
-                    required
-                    value={loginEmail}
-                    onChange={(e) => setLoginEmail(e.target.value)}
-                    placeholder="admin@example.com"
-                    className="w-full bg-[#FAF9F6] border border-[#DAD7D1] rounded-xl px-4 py-3 pl-10 text-xs text-[#171717] focus:outline-none focus:border-[#4D5543] focus:ring-1 focus:ring-[#10B981] transition"
-                  />
-                  <KeyRound size={16} className="absolute left-3.5 top-3.5 text-[#8C827A]" />
+        <div className="w-full max-w-6xl relative z-10 my-auto py-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+            
+            {/* DESKTOP LEFT: Admin Command Portal Form */}
+            <div className="lg:col-span-6 xl:col-span-5 w-full max-w-md mx-auto lg:mx-0 animate-in fade-in zoom-in-95 duration-200">
+              {/* Header Brand Badge */}
+              <div className="text-center lg:text-left mb-6 space-y-2">
+                <div className="w-14 h-14 rounded-2xl bg-[#171717] flex items-center justify-center mx-auto lg:mx-0 shadow-lg shadow-md text-white mb-3">
+                  <Shield size={28} className="drop-shadow" />
                 </div>
-              </div>
-
-              <div>
-                <label className="text-[11px] font-bold text-[#77736E] uppercase tracking-wider block mb-1.5">
-                  Security Passphrase
-                </label>
-                <div className="relative">
-                  <input
-                    type="password"
-                    required
-                    value={loginPassword}
-                    onChange={(e) => setLoginPassword(e.target.value)}
-                    placeholder="••••••••••••"
-                    className="w-full bg-[#FAF9F6] border border-[#DAD7D1] rounded-xl px-4 py-3 pl-10 text-xs text-[#171717] focus:outline-none focus:border-[#4D5543] focus:ring-1 focus:ring-[#10B981] transition"
-                  />
-                  <Lock size={16} className="absolute left-3.5 top-3.5 text-[#8C827A]" />
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F1EFEA] border border-[#DAD7D1] text-[#4D5543] text-[11px] font-mono font-bold tracking-wider uppercase">
+                  <span className="w-2 h-2 rounded-full bg-[#4D5543] animate-ping"></span>
+                  Restricted Operations Gateway
                 </div>
+                <h1 className="text-2xl sm:text-3xl font-editorial font-bold text-[#171717] tracking-tight">
+                  Admin Command Portal
+                </h1>
+                <p className="text-xs text-[#77736E] max-w-sm mx-auto lg:mx-0">
+                  Authorized store managers and administrators only. Authentication clearance required to view dashboard, metrics, and customer orders.
+                </p>
               </div>
 
-              <button
-                type="submit"
-                disabled={isAuthenticating}
-                className="w-full py-3.5 bg-[#171717] hover:bg-[#353535] text-white active:scale-[0.98] transition-all duration-200 text-xs font-bold uppercase tracking-wider rounded-xl transition shadow-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
-              >
-                {isAuthenticating ? (
-                  <>
-                    <RefreshCw size={15} className="animate-spin" />
-                    <span>Verifying Clearance...</span>
-                  </>
-                ) : (
-                  <>
-                    <UserCheck size={16} />
-                    <span>Authorize &amp; Access Dashboard</span>
-                  </>
+              {/* Form Card */}
+              <div className="bg-white border border-[#DAD7D1] rounded-2xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl space-y-5">
+                {/* Error Banner */}
+                {loginError && (
+                  <div className="p-3.5 bg-red-950/50 border border-red-500/50 rounded-xl text-xs text-red-300 flex items-start gap-2.5 animate-in shake duration-200">
+                    <AlertCircle size={16} className="text-red-400 shrink-0 mt-0.5" />
+                    <span className="leading-relaxed font-medium">{loginError}</span>
+                  </div>
                 )}
-              </button>
-            </form>
 
+                <form onSubmit={handleAdminLogin} className="space-y-4">
+                  <div>
+                    <label className="text-[11px] font-bold text-[#77736E] uppercase tracking-wider block mb-1.5">
+                      Admin Operational Email
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="email"
+                        required
+                        value={loginEmail}
+                        onChange={(e) => setLoginEmail(e.target.value)}
+                        placeholder="admin@example.com"
+                        className="w-full bg-[#FAF9F6] border border-[#DAD7D1] rounded-xl px-4 py-3 pl-10 text-xs text-[#171717] focus:outline-none focus:border-[#4D5543] focus:ring-1 focus:ring-[#10B981] transition"
+                      />
+                      <KeyRound size={16} className="absolute left-3.5 top-3.5 text-[#8C827A]" />
+                    </div>
+                  </div>
 
+                  <div>
+                    <label className="text-[11px] font-bold text-[#77736E] uppercase tracking-wider block mb-1.5">
+                      Security Passphrase
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="password"
+                        required
+                        value={loginPassword}
+                        onChange={(e) => setLoginPassword(e.target.value)}
+                        placeholder="••••••••••••"
+                        className="w-full bg-[#FAF9F6] border border-[#DAD7D1] rounded-xl px-4 py-3 pl-10 text-xs text-[#171717] focus:outline-none focus:border-[#4D5543] focus:ring-1 focus:ring-[#10B981] transition"
+                      />
+                      <Lock size={16} className="absolute left-3.5 top-3.5 text-[#8C827A]" />
+                    </div>
+                  </div>
 
-            {/* Link back to storefront */}
-            <div className="text-center pt-2">
-              <Link
-                to="/"
-                className="text-xs text-[#8C827A] hover:text-[#77736E] flex items-center justify-center gap-1.5 transition"
-              >
-                <span>← Return to Public Fashion Store</span>
-              </Link>
+                  <button
+                    type="submit"
+                    disabled={isAuthenticating}
+                    className="w-full py-3.5 bg-[#171717] hover:bg-[#353535] text-white active:scale-[0.98] transition-all duration-200 text-xs font-bold uppercase tracking-wider rounded-xl transition shadow-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
+                  >
+                    {isAuthenticating ? (
+                      <>
+                        <RefreshCw size={15} className="animate-spin" />
+                        <span>Verifying Clearance...</span>
+                      </>
+                    ) : (
+                      <>
+                        <UserCheck size={16} />
+                        <span>Authorize &amp; Access Dashboard</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+
+                {/* Link back to storefront */}
+                <div className="text-center pt-2">
+                  <Link
+                    to="/"
+                    className="text-xs text-[#8C827A] hover:text-[#77736E] flex items-center justify-center gap-1.5 transition"
+                  >
+                    <span>← Return to Public Fashion Store</span>
+                  </Link>
+                </div>
+              </div>
             </div>
+
+            {/* THE OTHER SIDE (DESKTOP RIGHT): Company Name & Atelier Brand Showcase */}
+            <div className="lg:col-span-6 xl:col-span-7 w-full flex flex-col justify-center space-y-6 pt-4 lg:pt-0 lg:pl-6 border-t lg:border-t-0 lg:border-l border-[#DAD7D1]/80 animate-in fade-in duration-300">
+              <div className="space-y-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 border border-[#DAD7D1] text-[#77736E] text-[10px] font-mono uppercase tracking-widest">
+                  <Sparkles size={12} className="text-[#C5A880]" />
+                  <span>Maison Enterprise Infrastructure • Est. 2026</span>
+                </div>
+
+                {/* Company Name */}
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-editorial font-bold tracking-tight text-[#171717] uppercase">
+                  {siteSettings?.siteName || 'ATELIER'}
+                </h2>
+
+                <div className="w-20 h-0.5 bg-[#C5A880]"></div>
+
+                <p className="text-base sm:text-lg text-[#44403C] font-serif italic">
+                  Haute Couture Precision &amp; Digital Commerce Headquarters
+                </p>
+
+                <p className="text-xs sm:text-sm text-[#77736E] leading-relaxed max-w-lg">
+                  Welcome to the unified operations gateway for {siteSettings?.siteName || 'ATELIER'}. Orchestrating bespoke couture commissions, inventory catalogs, artisan tailor feasibility dossiers, and synchronized client fulfillment.
+                </p>
+              </div>
+
+              {/* 3 Luxury System Pillar Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
+                <div className="bg-white/80 border border-[#DAD7D1] rounded-xl p-4 shadow-sm hover:border-[#171717]/30 transition">
+                  <div className="w-8 h-8 rounded-lg bg-[#FAF9F6] border border-[#DAD7D1] flex items-center justify-center text-[#171717] mb-2.5">
+                    <Sparkles size={16} className="text-[#C5A880]" />
+                  </div>
+                  <h3 className="text-xs font-bold text-[#171717] mb-1">AI Bespoke Studio</h3>
+                  <p className="text-[11px] text-[#77736E] leading-snug">
+                    Automated couture prompts, fabric analysis &amp; quote approvals.
+                  </p>
+                </div>
+
+                <div className="bg-white/80 border border-[#DAD7D1] rounded-xl p-4 shadow-sm hover:border-[#171717]/30 transition">
+                  <div className="w-8 h-8 rounded-lg bg-[#FAF9F6] border border-[#DAD7D1] flex items-center justify-center text-[#171717] mb-2.5">
+                    <Globe size={16} className="text-[#4D5543]" />
+                  </div>
+                  <h3 className="text-xs font-bold text-[#171717] mb-1">Live Storefront Sync</h3>
+                  <p className="text-[11px] text-[#77736E] leading-snug">
+                    Omnichannel orders, real-time stock, and instant client updates.
+                  </p>
+                </div>
+
+                <div className="bg-white/80 border border-[#DAD7D1] rounded-xl p-4 shadow-sm hover:border-[#171717]/30 transition">
+                  <div className="w-8 h-8 rounded-lg bg-[#FAF9F6] border border-[#DAD7D1] flex items-center justify-center text-[#171717] mb-2.5">
+                    <CheckCircle size={16} className="text-emerald-600" />
+                  </div>
+                  <h3 className="text-xs font-bold text-[#171717] mb-1">Privileged Access</h3>
+                  <p className="text-[11px] text-[#77736E] leading-snug">
+                    Secure 256-bit tokenized sessions with full audit compliance.
+                  </p>
+                </div>
+              </div>
+
+              {/* Status and Support footer */}
+              <div className="pt-2 flex flex-wrap items-center justify-between gap-3 text-[11px] text-[#8C827A] border-t border-[#DAD7D1]/60">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span className="font-mono uppercase tracking-wider text-[#4D5543] font-semibold">Gateway Operational</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span>Support: <strong className="text-[#171717]">{siteSettings?.contactEmail || 'info@fashion.com'}</strong></span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

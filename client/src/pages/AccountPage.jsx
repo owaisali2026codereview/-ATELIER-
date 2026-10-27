@@ -269,13 +269,13 @@ export default function AccountPage({ onOpenAuth }) {
         return;
       }
 
-      if (!cleanPhone.startsWith('03')) {
-        setAuthError('Pakistani mobile number must start with 03 (e.g., 03001234567).');
-        return;
-      }
-
-      if (cleanPhone.length !== 11) {
-        setAuthError(`Pakistani mobile number must be exactly 11 digits (e.g., 03001234567). Currently ${cleanPhone.length} of 11.`);
+      if (cleanPhone.startsWith('03')) {
+        if (cleanPhone.length !== 11) {
+          setAuthError(`Pakistani mobile number must be exactly 11 digits (e.g., 03000000000). Currently ${cleanPhone.length} of 11.`);
+          return;
+        }
+      } else if (cleanPhone.length < 8 || cleanPhone.length > 11) {
+        setAuthError(`Please enter a valid telephone number (8 to 11digits). Currently ${cleanPhone.length} digits.`);
         return;
       }
 

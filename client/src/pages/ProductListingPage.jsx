@@ -116,22 +116,20 @@ export default function ProductListingPage() {
     };
   }, []);
 
-  const { data: categoriesRes, refetch: refetchCategories } = useGetCategoriesQuery(undefined, {
-    pollingInterval: 3000,
-  });
+  const { data: categoriesRes, refetch: refetchCategories } = useGetCategoriesQuery(undefined);
   const dbCategories = categoriesRes?.data || [];
 
-  const { data: apiResponse, isLoading, isFetching, refetch: refetchProducts } = useGetProductsQuery(
-    {},
-    { pollingInterval: 3000 }
-  );
+  const { data: apiResponse, isLoading, isFetching, refetch: refetchProducts } = useGetProductsQuery(undefined);
+
+  const refetchSyncRef = React.useRef({ refetchProducts, refetchCategories });
+  refetchSyncRef.current = { refetchProducts, refetchCategories };
 
   useEffect(() => {
     if (catalogTick > 0) {
-      refetchProducts?.();
-      refetchCategories?.();
+      refetchSyncRef.current.refetchProducts?.();
+      refetchSyncRef.current.refetchCategories?.();
     }
-  }, [catalogTick, refetchProducts, refetchCategories]);
+  }, [catalogTick]);
 
   // Compute live effective products: exclude deleted items & merge admin modifications/creations
   const sourceProducts = React.useMemo(() => {

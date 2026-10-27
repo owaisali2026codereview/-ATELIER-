@@ -88,13 +88,13 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', onSu
         return;
       }
 
-      if (!cleanPhone.startsWith('03')) {
-        setErrorMessage('Pakistani mobile number must start with 03 (e.g., 03001234567).');
-        return;
-      }
-
-      if (cleanPhone.length !== 11) {
-        setErrorMessage(`Pakistani mobile number must be exactly 11 digits (e.g., 03001234567). Currently ${cleanPhone.length} of 11.`);
+      if (cleanPhone.startsWith('03')) {
+        if (cleanPhone.length !== 11) {
+          setErrorMessage(`Pakistani mobile number must be exactly 11 digits (e.g., 03000000000). Currently ${cleanPhone.length} of 11.`);
+          return;
+        }
+      } else if (cleanPhone.length < 8 || cleanPhone.length > 11) {
+        setErrorMessage(`Please enter a valid telephone number (8 to 11 digits). Currently ${cleanPhone.length} digits.`);
         return;
       }
 
@@ -120,7 +120,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', onSu
               id: user._id || user.id || `usr-${Date.now()}`,
               name: `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Store Patron',
               email: user.email,
-              phone: user.phone || cleanPhone || '0300-1234567',
+              phone: user.phone || cleanPhone || '0300-0000000',
               orders: 0,
               status: 'Active',
               tier: 'Standard',

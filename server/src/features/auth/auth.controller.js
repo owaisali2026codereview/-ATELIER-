@@ -37,17 +37,17 @@ export const register = async (req, res, next) => {
       });
     }
 
-    if (!cleanPhone.startsWith('03')) {
+    if (cleanPhone.startsWith('03')) {
+      if (cleanPhone.length !== 11) {
+        return res.status(400).json({
+          success: false,
+          message: `Pakistani mobile number must be exactly 11 digits (e.g. 03000000000). Received ${cleanPhone.length} digits.`,
+        });
+      }
+    } else if (cleanPhone.length < 8 || cleanPhone.length > 15) {
       return res.status(400).json({
         success: false,
-        message: 'Pakistani mobile number must start with 03 (e.g. 03001234567).',
-      });
-    }
-
-    if (cleanPhone.length !== 11) {
-      return res.status(400).json({
-        success: false,
-        message: `Pakistani mobile number must be exactly 11 digits. Received ${cleanPhone.length} digits.`,
+        message: `Telephone number must be between 8 and 11digits. Received ${cleanPhone.length} digits.`,
       });
     }
 

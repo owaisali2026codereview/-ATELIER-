@@ -69,14 +69,22 @@ app.use(cookieParser());
 
 // CORS configuration for React frontend
 const allowedOrigins = [
-  process.env.CLIENT_URL
-].filter(Boolean);
+  process.env.CLIENT_URL,
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:5175',
+  'http://localhost:3000',
+  'https://aurachothing.vercel.app',
+  'https://atelier-1xag-gilt.vercel.app',
+].filter(Boolean).map((u) => u.replace(/\/+$/, ''));
 
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow requests with no origin (e.g. mobile apps, curl, Postman)
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin) return callback(null, true);
+      const normalizedOrigin = origin.replace(/\/+$/, '');
+      if (allowedOrigins.includes(normalizedOrigin) || allowedOrigins.includes('*')) {
         return callback(null, true);
       }
       return callback(new Error(`CORS policy blocked access from origin: ${origin}`));

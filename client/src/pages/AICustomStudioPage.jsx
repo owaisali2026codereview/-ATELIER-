@@ -280,12 +280,13 @@ export default function AICustomStudioPage({ onOpenAuth }) {
       setPhoneError('Contact telephone is required so the master tailor can confirm your measurements.');
       return;
     }
-    if (!cleanPhone.startsWith('03')) {
-      setPhoneError('Pakistan telephone number must start with 03 (e.g. 03001234567).');
-      return;
-    }
-    if (cleanPhone.length !== 11) {
-      setPhoneError(`Pakistan telephone number must be exactly 11 digits (currently ${cleanPhone.length} of 11).`);
+    if (cleanPhone.startsWith('03')) {
+      if (cleanPhone.length !== 11) {
+        setPhoneError(`Pakistan telephone number must be exactly 11 digits (e.g. 03001234567). Currently ${cleanPhone.length} of 11.`);
+        return;
+      }
+    } else if (cleanPhone.length < 8 || cleanPhone.length > 11) {
+      setPhoneError(`Telephone number must be between 8 and 11 digits. Currently ${cleanPhone.length} digits.`);
       return;
     }
 
