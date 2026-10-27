@@ -31,6 +31,9 @@ connectDB();
 
 const app = express();
 
+// Trust reverse proxy (Vercel, AWS Lambda, Cloudflare) for accurate client IP and rate-limiting
+app.set('trust proxy', 1);
+
 // Security Hardening: Disable banner leakage and configure Helmet
 app.disable('x-powered-by');
 app.use(
@@ -45,6 +48,10 @@ const generalLimiter = rateLimit({
   max: process.env.NODE_ENV === 'production' ? 300 : 50000,
   standardHeaders: true,
   legacyHeaders: false,
+  validate: {
+    forwardedHeader: false,
+    xForwardedForHeader: false,
+  },
   message: {
     success: false,
     message: 'Too many requests from this IP address. Please try again after 15 minutes.',
@@ -58,6 +65,10 @@ const authLimiter = rateLimit({
   max: process.env.NODE_ENV === 'production' ? 20 : 1000,
   standardHeaders: true,
   legacyHeaders: false,
+  validate: {
+    forwardedHeader: false,
+    xForwardedForHeader: false,
+  },
   message: {
     success: false,
     message: 'Excessive authentication attempts detected. Security cooldown active for 15 minutes.',
@@ -78,6 +89,7 @@ const allowedOrigins = [
   'http://localhost:3000',
   'https://aurachothing.vercel.app',
   'https://atelier-1xag-gilt.vercel.app',
+  'https://atelier-9sd2.vercel.app',
 ].filter(Boolean).map((u) => u.replace(/\/+$/, ''));
 
 app.use(
@@ -86,12 +98,25 @@ app.use(
       // Allow requests with no origin (e.g. mobile apps, curl, Postman)
       if (!origin) return callback(null, true);
       const normalizedOrigin = origin.replace(/\/+$/, '');
-      if (allowedOrigins.includes(normalizedOrigin) || allowedOrigins.includes('*')) {
+      let isVercelDomain = false;
+      try {
+        const hostname = new URL(origin).hostname;
+        isVercelDomain = hostname.endsWith('.vercel.app');
+      } catch {
+        isVercelDomain = false;
+      }
+      if (
+        allowedOrigins.includes(normalizedOrigin) ||
+        allowedOrigins.includes('*') ||
+        isVercelDomain
+      ) {
         return callback(null, true);
       }
       return callback(new Error(`CORS policy blocked access from origin: ${origin}`));
     },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-dev', 'X-Requested-With', 'Accept'],
   })
 );
 
